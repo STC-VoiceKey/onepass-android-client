@@ -1,0 +1,34 @@
+//
+
+ext.lib = [
+        core           : project(':core'),
+        gson           : 'com.squareup.retrofit2:converter-gson:2.0.+',
+        jackson        : 'com.squareup.retrofit2:converter-jackson:2.0.+',
+        retrofit       : 'com.squareup.retrofit2:retrofit:2.0.+',
+        okhttp         : 'com.squareup.okhttp:logging-interceptor:2.6.0',
+        guava          : 'com.google.guava:guava:19.0-rc3',
+        junit          : 'junit:junit:4.12',
+        playServices   : 'com.google.android.gms:play-services:7.8.+'
+]
+
+buildscript {
+    repositories {
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
+        maven { url "https://repo.spring.io/milestone" }// spring-rest
+    }
+    dependencies {
+        println System.properties['gradlePlugin']
+        classpath System.properties['gradlePlugin']
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
+        maven { url "https://repo.spring.io/milestone" }// spring-rest
+    }
+}

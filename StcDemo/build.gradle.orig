@@ -1,0 +1,95 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+project.ext {
+    //Android
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 19
+    androidTargetSdkVersion = 19
+    androidCompileSdkVersion = 23
+
+    androidApplicationId = 'com.speechpro.onepass.framework'
+    androidVersionCode = 1
+    androidVersionName = "0.0.1"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId = 'com.speechpro.onepass.framework.test'
+
+    //Libraries
+    daggerVersion = '2.0.2'
+    butterKnifeVersion = '7.0.1'
+    recyclerViewVersion = '21.0.3'
+    appcompat = '23.1.1'
+    rxJavaVersion = '1.0.14'
+    rxAndroidVersion = '1.0.1'
+    javaxAnnotationVersion = '1.0'
+    gsonVersion = '2.3'
+    okHttpVersion = '2.5.0'
+    coreVersion = '0.0.2.+'
+    restVersion = '0.0.2.+'
+    detectorVersion = '0.0.2.+'
+    gifDrawableVersion = '1.1.+'
+    cwacCameraVersion = '0.7.+'
+    jacksonVerxion = '2.0.+'
+    retrofitVersion = '2.0.+'
+    guavaVersion = '19.0-rc3'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+
+    frameworkDependencies = [
+            daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger         : "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            appcompat      : "com.android.support:appcompat-v7:${appcompat}",
+            rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid      : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            core           : "com.speechpro.onepass:core:${coreVersion}@aar",
+            rest           : "com.speechpro.onepass:rest:${restVersion}@aar",
+            detector       : "com.speechpro.onepass:detector:${detectorVersion}@aar",
+            gifDrawable    : "pl.droidsonroids.gif:android-gif-drawable:${gifDrawableVersion}",
+            cwacCamera     : "com.commonsware.cwac:camera:${cwacCameraVersion}",
+            jackson        : "com.squareup.retrofit2:converter-jackson:${jacksonVerxion}",
+            retrofit       : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            guava          : "com.google.guava:guava:${guavaVersion}"
+    ]
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs '/Users/volart/Documents/Projects/Android/WellsFargoDemo/libs'
+        }
+        maven {
+            url "https://s3.amazonaws.com/repo.commonsware.com"
+        }
+       // maven { url "http://pulse-server.stc:8081/nexus/content/repositories/releases" } //Local nexus releases
+       // maven { url "http://pulse-server.stc:8081/nexus/content/repositories/snapshots" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+

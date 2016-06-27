@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel_button">Отмена</string>
+    <string name="start_button">Старт</string>
+    <string name="again_button">Ещё раз</string>
+    <string name="stop_button">Стоп</string>
+
+    <string name="failure">Провал</string>
+    <string name="success">Успех</string>
+
+    <string name="enroll_failure_description">Пожалуйста, повторите попытку регистрации</string>
+    <string name="enroll_success_description">Отлично, теперь Вы можете пройти верификацию</string>
+    <string name="verify_failure_description">Ох, это не Вы! Попробуйте еще раз</string>
+    <string name="verify_success_description">Отлично, теперь мы знаем, что это точно Вы</string>
+
+    <string name="voice_header">Запишите Ваш голос</string>
+    <string name="voice_hint_intro_enroll">Необходимо произнести числовую последовательность</string>
+    <string name="voice_hint_intro_verify">Необходимо произнести числовую последовательность</string>
+    <string name="voice_header_error">Ошибка записи</string>
+    <string name="enroll_voice_hint_error">Ошибка во время записи.</string>
+    <string name="verify_voice_hint_error">Ошибка проверки голоса.</string>
+
+    <string name="face_header">Расположите Ваше лицо</string>
+    <string name="face_hint_ears">Расположите лицо так, чтобы Ваши уши касались краев рамки</string>
+    <string name="face_failed_header">Пожалуйста, попробуйте еще раз</string>
+    <string name="face_failed_hint_ears">Ваше предыдущее изображение лица было повреждено, попробуйте еще раз тщательно</string>
+    <string name="face_error">Ошибка обработки изображения. </string>
+</resources>

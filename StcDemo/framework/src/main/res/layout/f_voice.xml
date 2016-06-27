@@ -1,0 +1,198 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/voice_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_horizontal|center_vertical"
+              android:layout_centerInParent="true"
+              android:clickable="true"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+        <ImageView android:layout_width="32dp"
+                   android:layout_height="27dp"
+                   android:src="@drawable/logo"
+                   android:layout_marginTop="30dp"
+                   android:layout_gravity="center_horizontal"/>
+
+        <TextView
+                android:id="@+id/text_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/episode1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="80dp"/>
+
+        <TextView
+                android:id="@+id/text_header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/voice_text1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"/>
+        <TextView
+                android:id="@+id/text_header2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/voice_text2"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"/>
+
+        <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"/>
+
+        <TextView
+                android:id="@+id/text_enroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enroll_phrases_1"
+                style="@style/EnrollText"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:textIsSelectable="false"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="false"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:layout_marginTop="40dp"/>
+
+        <Button
+                android:id="@+id/voice_button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:text="@string/start_button"
+                android:background="@drawable/circle_button"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/yellow"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="75dp"
+                android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/processing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="150dp"
+                android:alpha="1"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/analyzing_recording"
+                  android:textColor="@color/yellow_light"
+                  android:alpha="100"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_marginTop="30dp"
+                  android:textSize="15dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/recording_failed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:text="@string/option_title_rec"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="25dp"
+                  android:textColor="@color/yellow_light"
+                  android:layout_marginRight="25dp"
+                  android:layout_marginTop="70dp"
+                  android:layout_gravity="center_horizontal"
+                  android:textSize="25dp"/>
+
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_gravity="center_horizontal"
+                      android:layout_marginTop="30dp">
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:layout_gravity="center_vertical">
+
+                <ImageView android:layout_width="32dp"
+                           android:layout_height="27dp"
+                           android:src="@drawable/volume_mute_2x"
+                           android:layout_gravity="center_horizontal"
+                           android:alpha="1"/>
+
+                <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:text="@string/option_rec1"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="25dp"
+                          android:textColor="@color/white"
+                          android:layout_marginRight="25dp"
+                          android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginTop="5dp">
+
+                <ImageView android:layout_width="32dp"
+                           android:layout_height="27dp"
+                           android:src="@drawable/poor_quality_2x"
+                           android:layout_gravity="center_horizontal"
+                           android:alpha="1"/>
+
+                <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:text="@string/option_rec2"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="25dp"
+                          android:textColor="@color/white"
+                          android:layout_marginRight="25dp"
+                          android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/retake_button"
+                android:layout_width="339dp"
+                android:layout_height="wrap_content"
+                android:text="@string/retake_rec"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="240dp"/>
+    </LinearLayout>
+
+</LinearLayout>

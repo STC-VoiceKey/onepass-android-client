@@ -1,0 +1,41 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+
+    <RelativeLayout android:id="@+id/granted"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/green"
+                    android:visibility="visible">
+
+        <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/access_granted"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/denied"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/red"
+                    android:visibility="gone">
+
+        <ImageView android:layout_width="300dp"
+                   android:layout_height="300dp"
+                   android:src="@drawable/access_denied"
+                   android:layout_centerVertical="true"
+                   android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

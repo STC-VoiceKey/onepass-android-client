@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name" translatable="false">ONEPASS</string>
+    <string name="app_version" translatable="false">0.1.1.12</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+
+    <string name="button_ok" translatable="false">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_delete">Delete</string>
+    <string name="text_user_hint">Enter user id</string>
+    <string name="text_url_hint">Enter server url</string>
+    <string name="text_email_hint">Email</string>
+    <string name="user_id_invalid">User id is not correct</string>
+    <string name="url_invalid">URL is not correct</string>
+
+    <string name="button_enroll">Sing In</string>
+    <string name="button_verify">Verify</string>
+    <string name="button_agree">Agree and continue</string>
+    <string name="button_disagree">Disagree</string>
+
+    <string name="user_id_pref" translatable="false">com.speechpro.stcdemo.USER_ID</string>
+    <string name="email_pref" translatable="false">com.speechpro.stcdemo.EMAIL</string>
+    <string name="url_pref" translatable="false">com.speechpro.stcdemo.URL</string>
+
+    <string name="url" translatable="false">http://79.134.214.10:80/vkonepass/rest/v4/</string>
+    <string name="user" translatable="false">User</string>
+    <string name="logo">Logo</string>
+    <string name="email_warning">This field is required</string>
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="question">Don\'t have an account?</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="logoDescription">Logo</string>
+    <string name="lightDescription">Light</string>
+    <string name="poorDescription">Poor quality</string>
+    <string name="sunglassesDescription">Sunglasses</string>
+    <string name="restingDescription">Resting face</string>
+
+    <string name="title_info1">By proceeding you agree </string>
+    <string name="title_info2">to process your biometric data</string>
+
+    <string name="text_info1">We will take a photo and record three</string>
+    <string name="text_info2">samples of your voice.</string>
+
+    <string name="option_info1">Find a well lit place</string>
+    <string name="option_info2">Make sure it\'s quiet</string>
+    <string name="option_info3">Take off sunglasses</string>
+    <string name="option_info4">Make your ordinary face</string>
+
+</resources>

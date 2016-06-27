@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Настройки</string>
+    <string name="action_about">О программе</string>
+
+
+    <string name="button_cancel">Отменить</string>
+    <string name="button_delete">Удалить</string>
+    <string name="text_user_hint">Введите идентификатор пользователя</string>
+    <string name="text_url_hint">Введите URL</string>
+    <string name="user_id_invalid">Идентификатор пользователя не корректен</string>
+    <string name="url_invalid">URL не корректен</string>
+
+    <string name="button_enroll">Регистрация</string>
+    <string name="button_verify">Верификация</string>
+</resources>

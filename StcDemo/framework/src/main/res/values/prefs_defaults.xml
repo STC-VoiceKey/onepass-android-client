@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="endpoint" translatable="false">http://79.134.214.2:8080/vkonepass/rest/v4</string>
+    <string name="username" translatable="false">User</string>
+    <string name="staticThreshold" translatable="false">70</string>
+    <string name="dynamicThreshold" translatable="false">70</string>
+    <string name="faceThreshold" translatable="false">50</string>
+    <string name="dmldThreshold" translatable="false">0.008</string>
+    <string name="tdldThreshold" translatable="false">0.0</string>
+    <string name="fusedThreshold" translatable="false">80</string>
+    <string name="pronThreshold" translatable="false">1</string>
+    <string name="snrThreshold" translatable="false">7</string>
+    <string name="rotation" translatable="false">0</string>
+    <string name="successActivity" translatable="false">stub</string>
+    <string name="lastUpdateTime" translatable="false">0</string>
+
+    <bool name="showRegistrationIntro" translatable="false">true</bool>
+    <bool name="showVerificationIntro" translatable="false">true</bool>
+    <bool name="resultAllowed" translatable="false">true</bool>
+    <bool name="resultCollapsed" translatable="false">true</bool>
+
+    <bool name="forceDummy" translatable="false">false</bool>
+    <bool name="checkLd" translatable="false">true</bool>
+    <bool name="checkSnr" translatable="false">true</bool>
+    <bool name="exposureLock" translatable="false">false</bool>
+    <bool name="whiteBalanceLock" translatable="false">false</bool>
+    <string name="resolution" translatable="false">1024x768</string>
+    <string name="fpsRange" translatable="false" tools:ignore="TypographyDashes">30000-30000</string>
+    <string name="frameRate" translatable="false">30</string>
+
+</resources>

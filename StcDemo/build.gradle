@@ -1,0 +1,81 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+project.ext {
+    //Android
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 19
+    androidTargetSdkVersion = 19
+    androidCompileSdkVersion = 23
+
+    androidApplicationId = 'com.speechpro.onepass.framework'
+    androidVersionCode = 1
+    androidVersionName = "0.0.1"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId = 'com.speechpro.onepass.framework.test'
+
+    //Libraries
+    daggerVersion = '2.0.2'
+    recyclerViewVersion = '21.0.3'
+    appcompat = '23.1.1'
+    javaxAnnotationVersion = '1.0'
+    okHttpVersion = '2.5.0'
+    coreVersion = '0.0.3.+'
+    restVersion = '0.0.3.3'
+    gifDrawableVersion = '1.1.+'
+    jacksonVerxion = '2.0.+'
+    retrofitVersion = '2.0.+'
+    guavaVersion = '19.0-rc3'
+    playServicesVersion = '7.8.+'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+
+    dep = [
+            daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger         : "com.google.dagger:dagger:${daggerVersion}",
+            appcompat      : "com.android.support:appcompat-v7:${appcompat}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            core           : "com.speechpro.onepass:core:${coreVersion}@aar",
+            rest           : "com.speechpro.onepass:rest:${restVersion}@aar",
+            gifDrawable    : "pl.droidsonroids.gif:android-gif-drawable:${gifDrawableVersion}",
+            jackson        : "com.squareup.retrofit2:converter-jackson:${jacksonVerxion}",
+            retrofit       : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            guava          : "com.google.guava:guava:${guavaVersion}",
+            playServices   : "com.google.android.gms:play-services:${playServicesVersion}"
+    ]
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+

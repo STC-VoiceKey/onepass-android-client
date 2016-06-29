@@ -22,7 +22,7 @@
     <string name="email_pref" translatable="false">com.speechpro.stcdemo.EMAIL</string>
     <string name="url_pref" translatable="false">com.speechpro.stcdemo.URL</string>
 
-    <string name="url" translatable="false">http://79.134.214.10:80/vkonepass/rest/v4/</string>
+    <string name="url" translatable="false">http://onepass.tech/vkonepass/rest/v4/</string>
     <string name="user" translatable="false">User</string>
     <string name="logo">Logo</string>
     <string name="email_warning">This field is required</string>

@@ -1,13 +1,20 @@
 package com.speechpro.onepass.framework.view.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.speechpro.onepass.framework.Framework;
 import com.speechpro.onepass.framework.R;
+import com.speechpro.onepass.framework.view.activity.BaseActivity;
 import com.speechpro.onepass.framework.view.activity.EnrollmentActivity;
+
+import static android.app.Activity.RESULT_OK;
+import static com.speechpro.onepass.framework.util.Constants.ACTIVITY_RESULT;
+import static com.speechpro.onepass.framework.util.Constants.SUCCES;
 
 /**
  * @author volobuev
@@ -29,6 +36,9 @@ public class RegResultFragment extends BaseFragment {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(ACTIVITY_RESULT, SUCCES);
+                activity.setResult(RESULT_OK, intent);
                 activity.finish();
             }
         });

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/voice_layout"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -49,14 +50,27 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"/>
 
-        <ProgressBar
+        <com.github.lzyzsd.circleprogress.DonutProgress
                 android:id="@+id/progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:layout_gravity="center_horizontal"
                 android:visibility="visible"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                app:donut_inner_bottom_text_color="@color/colorPrimary"
+                app:donut_text_size="0dp"
+                app:donut_finished_color="@color/colorProgress"
+                app:donut_unfinished_color="@color/gray"/>
+
+        <!--       <ProgressBar
+                       android:id="@+id/progress"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:indeterminate="true"
+                       android:layout_gravity="center_horizontal"
+                       android:visibility="visible"
+                       android:layout_marginTop="10dp"/>-->
 
         <TextView
                 android:id="@+id/text_enroll"
@@ -140,7 +154,8 @@
                       android:layout_gravity="center_horizontal"
                       android:layout_marginTop="30dp">
 
-            <LinearLayout android:layout_width="wrap_content"
+            <LinearLayout android:id="@+id/record_quality_layout"
+                          android:layout_width="wrap_content"
                           android:layout_height="match_parent"
                           android:layout_gravity="center_vertical">
 
@@ -151,7 +166,7 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_rec1"
+                          android:text="@string/option_record_quality"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"
@@ -161,7 +176,8 @@
 
             </LinearLayout>
 
-            <LinearLayout android:layout_width="wrap_content"
+            <LinearLayout android:id="@+id/pronunciation_layout"
+                          android:layout_width="wrap_content"
                           android:layout_height="match_parent"
                           android:layout_gravity="center_vertical"
                           android:layout_marginTop="5dp">
@@ -173,7 +189,30 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_rec2"
+                          android:text="@string/option_pronunciation"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="25dp"
+                          android:textColor="@color/white"
+                          android:layout_marginRight="25dp"
+                          android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/short_layout"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginTop="5dp">
+
+                <ImageView android:layout_width="32dp"
+                           android:layout_height="27dp"
+                           android:src="@drawable/poor_quality_2x"
+                           android:layout_gravity="center_horizontal"
+                           android:alpha="1"/>
+
+                <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:text="@string/option_short"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"

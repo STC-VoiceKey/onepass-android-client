@@ -20,11 +20,11 @@ project.ext {
     appcompat = '23.1.1'
     javaxAnnotationVersion = '1.0'
     okHttpVersion = '2.5.0'
-    coreVersion = '0.0.3.+'
-    restVersion = '0.0.3.3'
+    coreVersion = '0.0.3.5'
+    restVersion = '0.0.3.7'
     gifDrawableVersion = '1.1.+'
     jacksonVerxion = '2.0.+'
-    retrofitVersion = '2.0.+'
+    retrofitVersion = '2.1.+'
     guavaVersion = '19.0-rc3'
     playServicesVersion = '7.8.+'
 
@@ -57,7 +57,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -68,7 +68,7 @@ allprojects {
     repositories {
         jcenter()
         flatDir {
-            dirs 'libs'
+            dirs '/Users/volart/Documents/Projects/onepass-android-client/StcDemo/libs'
         }
     }
 }
@@ -76,6 +76,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-
-

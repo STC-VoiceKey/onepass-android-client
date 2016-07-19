@@ -8,7 +8,7 @@ package com.speechpro.onepass.core.exception;
  * @since 24.09.2015.
  */
 public class InternalServerException extends RestException {
-    public InternalServerException(final String message) {
-        super(message);
+    public InternalServerException(final String message, final String reason) {
+        super(message, reason);
     }
 }

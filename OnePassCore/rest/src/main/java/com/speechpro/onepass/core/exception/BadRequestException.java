@@ -8,8 +8,8 @@ package com.speechpro.onepass.core.exception;
  */
 public class BadRequestException extends RestException {
 
-    public BadRequestException(String message) {
-        super(message);
+    public BadRequestException(String message, String reason) {
+        super(message, reason);
     }
 
 }

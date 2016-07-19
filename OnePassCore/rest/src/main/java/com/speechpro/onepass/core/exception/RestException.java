@@ -9,7 +9,11 @@ package com.speechpro.onepass.core.exception;
  */
 public class RestException extends CoreException {
 
-    protected RestException(final String message) {
+    public String reason;
+
+    protected RestException(final String message, final String reason) {
         super(message);
+        this.reason = reason;
     }
+
 }

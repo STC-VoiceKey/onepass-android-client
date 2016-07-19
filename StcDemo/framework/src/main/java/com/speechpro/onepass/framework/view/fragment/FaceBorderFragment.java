@@ -7,18 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.speechpro.onepass.core.exception.CoreException;
+import com.speechpro.onepass.core.exception.RestException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.camera.PreviewCallback;
 import com.speechpro.onepass.framework.injection.components.UIComponent;
 import com.speechpro.onepass.framework.presenter.EnrollmentPresenter;
 import com.speechpro.onepass.framework.view.BorderView;
-import com.speechpro.onepass.framework.view.activity.BaseActivity;
 import com.speechpro.onepass.framework.view.activity.EnrollmentActivity;
-import pl.droidsonroids.gif.GifImageView;
 
-import static com.speechpro.onepass.framework.R.drawable.border_green;
-import static com.speechpro.onepass.framework.R.drawable.border;
-import static com.speechpro.onepass.framework.R.drawable.border_red;
 import static com.speechpro.onepass.framework.util.Constants.SUCCESS_FACES;
 
 import javax.inject.Inject;
@@ -38,10 +35,16 @@ public class FaceBorderFragment extends Fragment implements BorderView {
     private LinearLayout analyzingLayout;
     private LinearLayout failedLayout;
 
-    private ImageButton takeButton;
-    private Button      retakeButton;
+    private LinearLayout closedEyesLayout;
+    private LinearLayout manyFacesLayout;
+    private LinearLayout sunglassesLayout;
+    private LinearLayout poorQualityLayout;
+    private LinearLayout faceNotFoundLayout;
 
-    private FragmentShower     shower;
+    private ImageButton takeButton;
+    private Button retakeButton;
+
+    private FragmentShower shower;
     private EnrollmentActivity activity;
 
     @Override
@@ -51,7 +54,13 @@ public class FaceBorderFragment extends Fragment implements BorderView {
 
         photoLayout = (LinearLayout) view.findViewById(R.id.photo);
         analyzingLayout = (LinearLayout) view.findViewById(R.id.analyzing);
+
         failedLayout = (LinearLayout) view.findViewById(R.id.failed);
+        closedEyesLayout = (LinearLayout) view.findViewById(R.id.closed_eyes_layout);
+        manyFacesLayout = (LinearLayout) view.findViewById(R.id.many_faces_layout);
+        sunglassesLayout = (LinearLayout) view.findViewById(R.id.sunglasses_layout);
+        poorQualityLayout = (LinearLayout) view.findViewById(R.id.poor_quality_layout);
+        faceNotFoundLayout = (LinearLayout) view.findViewById(R.id.face_not_found_layout);
 
         photoLayout.setVisibility(View.VISIBLE);
         analyzingLayout.setVisibility(View.GONE);
@@ -143,13 +152,16 @@ public class FaceBorderFragment extends Fragment implements BorderView {
         analyzingLayout.setVisibility(View.VISIBLE);
         failedLayout.setVisibility(View.GONE);
 
-        if (((EnrollmentPresenter) activity.getPresenter()).processPhoto()) {
+        try {
+            ((EnrollmentPresenter) activity.getPresenter()).processPhoto();
             previewCallback.onDetach();
             activity.nextEpisode();
-        } else {
+        } catch (CoreException ex) {
+            RestException restException = (RestException) ex;
             photoLayout.setVisibility(View.GONE);
             analyzingLayout.setVisibility(View.GONE);
             failedLayout.setVisibility(View.VISIBLE);
+            parseReason(restException.reason);
         }
     }
 
@@ -157,6 +169,24 @@ public class FaceBorderFragment extends Fragment implements BorderView {
         photoLayout.setVisibility(View.VISIBLE);
         analyzingLayout.setVisibility(View.GONE);
         failedLayout.setVisibility(View.GONE);
+    }
+
+    private void parseReason(String reason) {
+        if (reason.contains("face not found in image")) {
+            closedEyesLayout.setVisibility(View.GONE);
+            manyFacesLayout.setVisibility(View.GONE);
+            sunglassesLayout.setVisibility(View.GONE);
+            poorQualityLayout.setVisibility(View.GONE);
+            faceNotFoundLayout.setVisibility(View.VISIBLE);
+        } else if (reason.contains("multiple faces found in image")) {
+            closedEyesLayout.setVisibility(View.GONE);
+            manyFacesLayout.setVisibility(View.VISIBLE);
+            sunglassesLayout.setVisibility(View.GONE);
+            poorQualityLayout.setVisibility(View.GONE);
+            faceNotFoundLayout.setVisibility(View.GONE);
+        } else {
+
+        }
     }
 
 }

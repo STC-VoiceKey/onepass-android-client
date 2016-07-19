@@ -7,7 +7,7 @@ package com.speechpro.onepass.core.exception;
  * @since 24.09.2015.
  */
 public class NotFoundException extends RestException {
-    public NotFoundException(final String message) {
-        super(message);
+    public NotFoundException(final String message, final String reason) {
+        super(message, reason);
     }
 }

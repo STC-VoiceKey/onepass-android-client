@@ -157,7 +157,7 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_selfie1"
+                          android:text="@string/option_eyes_closed"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"
@@ -179,7 +179,7 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_selfie2"
+                          android:text="@string/option_more"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"
@@ -245,7 +245,7 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_selfie5"
+                          android:text="@string/option_no_face"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"
@@ -267,7 +267,7 @@
                            android:alpha="1"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:text="@string/option_rec2"
+                          android:text="@string/option_pronunciation"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="25dp"

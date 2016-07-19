@@ -73,7 +73,7 @@
                     android:text="@string/question"
                     android:id="@+id/ask_text"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="60dp"
+                    android:layout_marginLeft="50dp"
                     android:layout_marginRight="5dp"/>
 
             <TextView
@@ -82,7 +82,7 @@
                     android:text="@string/signup"
                     android:id="@+id/singup"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="60dp"
+                    android:layout_marginRight="50dp"
             />
 
         </LinearLayout>

@@ -5,7 +5,7 @@ package com.speechpro.onepass.core.exception;
  * @since 20.04.16
  */
 public class ForbiddenException extends RestException {
-    public ForbiddenException(String message) {
-        super(message);
+    public ForbiddenException(String message, String reason) {
+        super(message, reason);
     }
 }

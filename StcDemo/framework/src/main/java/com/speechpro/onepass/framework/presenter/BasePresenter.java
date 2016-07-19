@@ -22,7 +22,7 @@ public abstract class BasePresenter {
 
     private static final String TAG = "BasePresenter";
 
-    private static boolean isRecording = false;
+    public boolean isRecording = false;
     protected final PreviewCallback previewCallback;
     protected final Context         context;
     private final   IModel          model;
@@ -106,7 +106,7 @@ public abstract class BasePresenter {
 
     public abstract boolean getResult();
 
-    protected abstract long getRecordingTimeout();
+    public abstract int getRecordingTimeout();
 
     protected abstract void addVoiceSample(byte[] pcm, String passphrase) throws CoreException;
 

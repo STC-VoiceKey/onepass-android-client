@@ -1,0 +1,41 @@
+<resources>
+    <string name="action_settings">Configurações</string>
+    <string name="action_about">Sobre</string>
+
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_delete">Apagar</string>
+    <string name="text_user_hint">Digite ID de usuário</string>
+    <string name="text_url_hint">Enter URL do servidor</string>
+    <string name="text_email_hint">E-mail</string>
+    <string name="user_id_invalid">ID de usuário não correto</string>
+    <string name="url_invalid">URL não correto</string>
+
+    <string name="button_enroll">Entrar</string>
+    <string name="button_verify">Verificar</string>
+    <string name="button_agree">Concordar e continuar</string>
+    <string name="button_disagree">Discordar</string>
+
+    <string name="logo">Logo</string>
+    <string name="email_warning">Este campo é obrigatório</string>
+    <string name="email_not_valid">E-mail não é valido</string>
+    <string name="question">Não tem uma conta?</string>
+    <string name="signup">Registrar-se</string>
+
+    <string name="logoDescription">Logo</string>
+    <string name="lightDescription">Light</string>
+    <string name="poorDescription">Poor quality</string>
+    <string name="sunglassesDescription">Sunglasses</string>
+    <string name="restingDescription">Resting face</string>
+
+    <string name="title_info1">Ao prosseguir, você concorda</string>
+    <string name="title_info2">em processar seus dados biométricos.</string>
+
+    <string name="text_info1">Vamos tirar uma foto e gravar três</string>
+    <string name="text_info2">amostras da sua voz.</string>
+
+    <string name="option_info1">Encontre um local bem iluminado</string>
+    <string name="option_info2">Certifique-se que seja silencioso</string>
+    <string name="option_info3">Retire óculos escuros</string>
+    <string name="option_info4">Mantenha seu semblante natural</string>
+
+</resources>

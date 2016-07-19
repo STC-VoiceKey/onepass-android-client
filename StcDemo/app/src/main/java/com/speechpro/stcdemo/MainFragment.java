@@ -90,13 +90,13 @@ public class MainFragment extends BaseFragment {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                singup();
+                signup();
             }
         });
 
 
         url = pref.getString(getString(R.string.url_pref), getString(R.string.url));
-        activity.framework = new Framework(url);
+        activity.framework = Framework.getFramework(url);
 
         onTouchListener(fragment);
         return fragment;
@@ -113,11 +113,11 @@ public class MainFragment extends BaseFragment {
         checkPermission();
     }
 
-    protected void signin() {
+    private void signin() {
         sing(false, R.string.not_enrolled);
     }
 
-    protected void singup() {
+    private void signup() {
         sing(true, R.string.enrolled);
     }
 

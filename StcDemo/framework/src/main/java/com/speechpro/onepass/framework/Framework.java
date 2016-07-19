@@ -5,9 +5,11 @@ import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.Model;
-import com.speechpro.onepass.framework.util.Constants;
 import com.speechpro.onepass.framework.view.activity.EnrollmentActivity;
 import com.speechpro.onepass.framework.view.activity.VerificationActivity;
+
+import static com.speechpro.onepass.framework.util.Constants.ENROLL_REQUEST_CODE;
+import static com.speechpro.onepass.framework.util.Constants.VERIFY_REQUEST_CODE;
 
 /**
  * @author volobuev
@@ -16,19 +18,32 @@ import com.speechpro.onepass.framework.view.activity.VerificationActivity;
 public final class Framework {
 
     private IModel model;
-    private static String url;
 
-    public Framework(String url) {
+    private String url;
+    private static Framework instance;
+
+    private Framework(String url) {
         this.url = url;
         this.model = new Model(url);
     }
 
-    public void startEnrollment(Activity activity, String userId){
-        activity.startActivity(EnrollmentActivity.getCallingIntent(activity, userId, url));
+    public static Framework getFramework(String url){
+        if (instance == null || !instance.url.equals(url)){
+            instance = new Framework(url);
+        }
+        return instance;
     }
 
-    public static void startVerification(Activity activity, String userId){
-        activity.startActivity(VerificationActivity.getCallingIntent(activity, userId, url));
+    public static Framework getInstance() {
+        return instance;
+    }
+
+    public void startEnrollment(Activity activity, String userId){
+        activity.startActivityForResult(EnrollmentActivity.getCallingIntent(activity, userId, url), ENROLL_REQUEST_CODE);
+    }
+
+    public void startVerification(Activity activity, String userId){
+        activity.startActivityForResult(VerificationActivity.getCallingIntent(activity, userId, url), VERIFY_REQUEST_CODE);
     }
 
     public boolean isEnrolled(String userId) throws Exception {

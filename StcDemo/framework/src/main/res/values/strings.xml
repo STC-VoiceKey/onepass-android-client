@@ -45,17 +45,19 @@
 
     <string name="analyzing_selfie">Analyzing your selfie…</string>
     <string name="option_title_selfie">Give it another shot</string>
-    <string name="option_selfie1">Eyes closed</string>
-    <string name="option_selfie2">Other faces detection</string>
+    <string name="option_eyes_closed">Eyes closed. Look straight to the camera and give it another shot</string>
+    <string name="option_more">More than one face detected. Make sure you are the only one in the camera and give it another shot</string>
     <string name="option_selfie3">Eyes not found</string>
     <string name="option_selfie4">Poor image quality</string>
-    <string name="option_selfie5">No face detected</string>
+    <string name="option_no_face">No face detected</string>
+    <string name="option_pose">Pose not frontal. Look straight to the camera and give it another shot</string>
     <string name="retake_selfie">Retake the photo</string>
 
     <string name="analyzing_recording">Analyzing your recording…</string>
     <string name="option_title_rec">Give it another recording</string>
-    <string name="option_rec1">Too noisy</string>
-    <string name="option_rec2">Incorrect pronunciation</string>
+    <string name="option_record_quality">Poor record quality. Find a quiet place and try again.</string>
+    <string name="option_pronunciation">Wrong digits pronunciation. Try again to pronounce the digits on your screen</string>
+    <string name="option_short">The record is too short. Try again to pronounce the digits on your screen</string>
     <string name="retake_rec">Retake the recording</string>
 
     <string name="reg_complete_title">Registration complete</string>

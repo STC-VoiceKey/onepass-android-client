@@ -82,7 +82,7 @@ public class VerificationPresenter extends BasePresenter {
     }
 
     @Override
-    protected long getRecordingTimeout() {
+    public int getRecordingTimeout() {
         return VERIFICATION_TIMEOUT;
     }
 

@@ -5,7 +5,7 @@ package com.speechpro.onepass.core.exception;
  * @since 16.05.16
  */
 public class ServiceUnavailableException extends RestException {
-    public ServiceUnavailableException(String message) {
-        super(message);
+    public ServiceUnavailableException(String message, String reason) {
+        super(message, reason);
     }
 }

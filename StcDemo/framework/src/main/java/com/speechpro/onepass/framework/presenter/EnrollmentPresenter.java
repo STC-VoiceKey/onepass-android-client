@@ -6,6 +6,7 @@ import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.InternalServerException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.camera.PreviewCallback;
+import com.speechpro.onepass.framework.exceptions.RecorderException;
 import com.speechpro.onepass.framework.injection.PerActivity;
 import com.speechpro.onepass.framework.media.AudioRecorder;
 import com.speechpro.onepass.framework.model.IModel;
@@ -42,7 +43,7 @@ public class EnrollmentPresenter extends BasePresenter {
 
     @Override
     public void onStartRecording() {
-        if(recorder == null){
+        if (recorder == null) {
             recorder = new AudioRecorder();
         }
         super.onStartRecording();
@@ -66,7 +67,7 @@ public class EnrollmentPresenter extends BasePresenter {
 
     @Override
     public String getPassphrase() {
-        if(currentEpisode != null){
+        if (currentEpisode != null) {
             return currentEpisode.getPhraseDynamic();
         }
         return null;
@@ -89,38 +90,22 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     @Override
-    protected long getRecordingTimeout() {
+    public int getRecordingTimeout() {
         return ENROLLMENT_TIMEOUT;
     }
 
-    public boolean processAudio() {
-        int msgResource = 0;
+    public void processAudio() throws CoreException {
         try {
             byte[] pcmBytes = recorder.getMedia();
             Util.logPcm(pcmBytes);
             addVoiceSample(pcmBytes, getPassphrase());
-        } catch (BadRequestException e) {
-            msgResource = R.string.toast_incorrect_pronunciation;
-        } catch (InternalServerException e) {
-            msgResource = R.string.toast_server_error;
-        } catch (Throwable e) {
-            msgResource = R.string.toast_unknown_error;
+        } catch (RecorderException ex) {
+            toast(R.string.toast_unknown_error);
         }
-        if (msgResource != 0) {
-            toast(msgResource);
-        } else {
-            return true;
-        }
-        return false;
     }
 
-    public boolean processPhoto() {
-        try {
-            addFaceSample(previewCallback.getImage());
-        } catch (CoreException e) {
-            return false;
-        }
-        return true;
+    public void processPhoto() throws CoreException {
+        addFaceSample(previewCallback.getImage());
     }
 
     private void initialize(String userId) {

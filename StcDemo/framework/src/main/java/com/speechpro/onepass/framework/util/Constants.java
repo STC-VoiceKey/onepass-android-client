@@ -41,4 +41,11 @@ public final class Constants {
     public static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE = 3;
     public static final int PERMISSIONS_READ_EXTERNAL_STORAGE  = 4;
     public static final int PERMISSIONS                        = 5;
+
+    public static final String ACTIVITY_RESULT = "result";
+    public static final String SUCCES = "succes";
+    public static final String FAIL = "fail";
+
+    public static final int ENROLL_REQUEST_CODE = 1;
+    public static final int VERIFY_REQUEST_CODE = 2;
 }

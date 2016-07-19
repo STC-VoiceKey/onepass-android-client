@@ -39,7 +39,7 @@ public class VerificationResult {
         } else if (result.trim().equalsIgnoreCase("failure")) {
             return false;
         } else {
-            throw new NotFoundException("Failed to parse message {status:" + result + ", message:" + message + "}.");
+            throw new NotFoundException("Failed to parse message {status:" + result + ", message:" + message + "}.", null);
         }
 
     }

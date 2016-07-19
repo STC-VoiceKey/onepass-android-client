@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toast_server_error">Algo deu errado</string>
+    <string name="toast_unknown_error">Erro desconhecido, tente mais tarde</string>
+    <string name="toast_incorrect_pronunciation">Pronunciação incorreta</string>
+
+    <string name="network_error">A ligação falhou, tente novamente mais tarde</string>
+    <string name="not_enrolled">Usuário não registrado</string>
+    <string name="enrolled">Usuário já está registrado</string>
+    <string name="delete_user">Usuário foi excluído</string>
+</resources>

@@ -15,10 +15,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('/StcDemo/keystore/stcdemo.jks')
-            storePassword '123456As'
-            keyAlias 'stcdemo'
-            keyPassword '123456As'
+            storeFile file('/Users/volart/Documents/Projects/onepass-android-client/StcDemo/keystore/stcdemo.jks')
+            storePassword '12345678'
+            keyAlias 'StcDemo'
+            keyPassword '12345678'
         }
     }
     buildTypes {

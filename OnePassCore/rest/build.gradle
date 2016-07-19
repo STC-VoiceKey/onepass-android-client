@@ -63,6 +63,7 @@ task copyLibs(type: Copy) {
 dependencies {
     compile lib.guava
     testCompile lib.junit
+    testCompile lib.mockito
     compile lib.core
     compile lib.retrofit
     compile lib.jackson

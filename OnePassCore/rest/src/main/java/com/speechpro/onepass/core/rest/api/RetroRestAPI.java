@@ -7,6 +7,7 @@ import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.VerificationSession;
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.core.utils.Converter;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -26,8 +27,8 @@ public class RetroRestAPI implements ITransport {
     public RetroRestAPI(String url) {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
-                                                  .addConverterFactory(JacksonConverterFactory.create())
-                                                  .build();
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
 
         service = retrofit.create(OnePassService.class);
 
@@ -71,9 +72,9 @@ public class RetroRestAPI implements ITransport {
                                String passphrase,
                                int samplingRate) throws CoreException {
         processResponse(service.addVoiceSample(personId,
-                                               new VoiceSample(voiceSample,
-                                                               passphrase,
-                                                               samplingRate)));
+                new VoiceSample(voiceSample,
+                        passphrase,
+                        samplingRate)));
     }
 
     @Override
@@ -83,10 +84,10 @@ public class RetroRestAPI implements ITransport {
                                int gender,
                                int samplingRate) throws CoreException {
         processResponse(service.addVoiceSample(personId,
-                                               new VoiceSample(voiceSample,
-                                                               passphrase,
-                                                               gender,
-                                                               samplingRate)));
+                new VoiceSample(voiceSample,
+                        passphrase,
+                        gender,
+                        samplingRate)));
     }
 
     @Override
@@ -132,18 +133,18 @@ public class RetroRestAPI implements ITransport {
                                            byte[] voiceSample,
                                            int gender,
                                            int samplingRate) throws CoreException {
-        String sessionId  = session.getUuid();
+        String sessionId = session.getUuid();
         String passphrase = session.getPassphrase();
         processResponse(service.addVerificationVoiceSample(sessionId,
-                                                           new VoiceSample(voiceSample,
-                                                                           passphrase,
-                                                                           gender)));
+                new VoiceSample(voiceSample,
+                        passphrase,
+                        gender)));
     }
 
     @Override
     public void addVerificationVoiceFeature(VerificationSession session,
                                             byte[] voiceFeature) throws CoreException {
-        processResponse(service.addVerificationVoiceFeature(session.getUuid(),new Data(voiceFeature)));
+        processResponse(service.addVerificationVoiceFeature(session.getUuid(), new Data(voiceFeature)));
     }
 
     @Override
@@ -194,19 +195,29 @@ public class RetroRestAPI implements ITransport {
 
     private void processCode(Response response) throws CoreException {
         if (response == null) {
-            throw new ServiceUnavailableException("OnePass service is unavailable");
+            throw new ServiceUnavailableException("OnePass service is unavailable", null);
         }
-        int    code    = response.code();
+        int code = response.code();
         String message = response.raw().message();
+        String reason = null;
+        try {
+            ResponseBody error = response.errorBody();
+            if (error != null) {
+                reason = error.string();
+            }
+        } catch (IOException e) {
+        }
         switch (code) {
             case 400:
-                throw new BadRequestException(message);
+                throw new BadRequestException(message, reason);
             case 403:
-                throw new ForbiddenException(message);
+                throw new ForbiddenException(message, reason);
             case 404:
-                throw new NotFoundException(message);
+                throw new NotFoundException(message, reason);
             case 500:
-                throw new InternalServerException(message);
+                throw new InternalServerException(message, reason);
+            case 503:
+                throw new ServiceUnavailableException(message, reason);
         }
     }
 

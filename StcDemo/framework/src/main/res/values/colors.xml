@@ -19,4 +19,6 @@
     <color name="dark_grey">#323232</color>
     <color name="red">#550021</color>
     <color name="green">#124c20</color>
+
+    <color name="colorProgress">#58e8ff</color>
 </resources>

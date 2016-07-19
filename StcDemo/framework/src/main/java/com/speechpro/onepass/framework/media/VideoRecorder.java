@@ -70,7 +70,7 @@ public class VideoRecorder extends Recorder {
 
     private boolean prepare() {
 
-        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_CIF);
+        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
         profile.videoFrameWidth = 320;
         profile.videoFrameHeight = 240;
         profile.fileFormat = THREE_GPP;

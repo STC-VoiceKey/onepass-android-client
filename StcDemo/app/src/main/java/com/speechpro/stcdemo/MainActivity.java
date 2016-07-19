@@ -2,6 +2,7 @@ package com.speechpro.stcdemo;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
     Framework framework;
 
     boolean isEnrollment;
-    String  email;
+    String email;
 
-    private MainFragment      mainFragment;
-    private SettingsFragment  settingsFragment;
-    private AboutFragment     aboutFragment;
+    private MainFragment mainFragment;
+    private SettingsFragment settingsFragment;
+    private AboutFragment aboutFragment;
     private SharedPreferences sharedPref;
 
     @Override
@@ -66,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if ((requestCode == PERMISSIONS_RECORD_AUDIO ||
-             requestCode == PERMISSIONS_CAMERA ||
-             requestCode == PERMISSIONS_WRITE_EXTERNAL_STORAGE ||
-             requestCode == PERMISSIONS_READ_EXTERNAL_STORAGE) &&
-            grantResults.length > 0 &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestCode == PERMISSIONS_CAMERA ||
+                requestCode == PERMISSIONS_WRITE_EXTERNAL_STORAGE ||
+                requestCode == PERMISSIONS_READ_EXTERNAL_STORAGE) &&
+                grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         }
     }
 
@@ -92,5 +93,18 @@ public class MainActivity extends AppCompatActivity {
 
     protected void actionSnackbar(View view, int resId) {
         Snackbar.make(view, getString(resId), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ENROLL_REQUEST_CODE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                String res = data.getStringExtra(ACTIVITY_RESULT);
+                if (res.equals(SUCCES)) {
+                    framework.startVerification(this, this.email);
+                }
+            }
+        }
     }
 }

@@ -110,6 +110,10 @@ public abstract class BaseActivity extends Activity implements HasComponent<UICo
         fragmentTransaction.commit();
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     protected abstract void removerBorder();
 
     protected void addFragmentToQueue(Pair<Integer, Fragment> pair) {

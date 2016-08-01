@@ -42,20 +42,21 @@
     <string name="voice_text1">Pressione o botão "REC" e pronuncie</string>
     <string name="voice_text2">os seguintes digitos</string>
 
-
     <string name="analyzing_selfie">Analizando sua selfie…</string>
     <string name="option_title_selfie">Refaça a foto</string>
-    <string name="option_eyes_closed">Olhos fechados</string>
-    <string name="option_more">Foram detectadas outras faces</string>
+    <string name="option_eyes_closed">Olhos fechados. Por favor, olhe diretamente para a câmera e tente novamente</string>
+    <string name="option_more">Mais de um rosto foi detectado. Certifique-se de que somente você esta na câmera e tente novamente</string>
     <string name="option_selfie3">Não foram encontrados os olhos</string>
     <string name="option_selfie4">Imagem com baixa qualidade</string>
     <string name="option_no_face">Não foi identificada uma face</string>
+    <string name="option_pose">O seu posicionamento não está frontal. Por favor, olhe diretamente para a câmera e tente novamente</string>
     <string name="retake_selfie">Refaça a foto</string>
 
     <string name="analyzing_recording">Analizando a gravação…</string>
     <string name="option_title_rec">Refaça a gravação</string>
-    <string name="option_record_quality">Muito barulho</string>
-    <string name="option_pronunciation">Pronunciação incorreta</string>
+    <string name="option_record_quality">Gravação com qualidade insuficiente. Por favor, procure um lugar mais silencioso e repita</string>
+    <string name="option_pronunciation">Pronuncia dos números inconsistente. Por favor, tente novamente</string>
+    <string name="option_short">A gravação está curta demais. Por favor, repita pronunciando os números da tela mais pausadamente</string>
     <string name="retake_rec">Refaça a gravação</string>
 
     <string name="reg_complete_title">Registro completo</string>

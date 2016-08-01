@@ -28,7 +28,7 @@ public class VideoRecorder extends Recorder {
 
     private MediaRecorder recorder;
     private boolean isRecording = false;
-    private boolean isPrepared  = false;
+    private boolean isPrepared = false;
 
     private final Camera camera;
 
@@ -79,6 +79,7 @@ public class VideoRecorder extends Recorder {
         profile.audioSampleRate = 11025;
         profile.audioChannels = 1;
         profile.videoFrameRate = 30;
+        profile.videoBitRate = 10000;
 
         camera.unlock();
 
@@ -106,9 +107,9 @@ public class VideoRecorder extends Recorder {
 
     private byte[] getVideo() throws RecorderException {
         if (!isRecording) {
-            File            file  = new File(videoPath);
+            File file = new File(videoPath);
             FileInputStream fileInputStream;
-            byte[]          video = new byte[(int) file.length()];
+            byte[] video = new byte[(int) file.length()];
             try {
                 fileInputStream = new FileInputStream(file);
                 fileInputStream.read(video);

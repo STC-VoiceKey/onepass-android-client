@@ -1,8 +1,7 @@
 package com.speechpro.onepass.framework.view.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.speechpro.onepass.framework.view.MediaView;
 import com.speechpro.onepass.framework.view.activity.BaseActivity;
 
 import static com.speechpro.onepass.framework.util.Constants.ENROLLMENT_TIMEOUT;
+import static com.speechpro.onepass.framework.util.Constants.RECORD_TICK;
 
 /**
  * @author volobuev
@@ -48,11 +48,10 @@ public class VoiceFragment extends BaseFragment implements MediaView {
 
     private Episode episode;
 
-    private volatile int count = 0;
+    private int progressValue;
     private boolean isRecording = false;
-    private long curStart;
 
-    Handler progressHandler;
+    private CountDownTimer recordTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,11 +99,38 @@ public class VoiceFragment extends BaseFragment implements MediaView {
 
         progress.setMax(ENROLLMENT_TIMEOUT);
         progress.setProgress(0);
-        progressHandler = new Handler();
         updateCancelHandler();
 
-        new RecorderTask().execute();
-        new ProgressTask().execute();
+        progressValue = 0;
+        progress.setProgress(progressValue);
+        if (recordTimer != null) {
+            recordTimer.cancel();
+        }
+        recordTimer = new CountDownTimer(ENROLLMENT_TIMEOUT, RECORD_TICK) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (isRecording) {
+                    countProgress();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (isRecording) {
+                    countProgress();
+                    presenter.onStopRecordingByButton();
+                    stop();
+                }
+            }
+
+            void countProgress(){
+                progressValue += RECORD_TICK;
+                progress.setProgress(progressValue);
+            }
+        };
+        Log.d(TAG, "Audio recording is starting");
+        presenter.onStartRecording();
+        recordTimer.start();
         voiceButton.setText(getString(R.string.stop_button));
 
     }
@@ -112,16 +138,19 @@ public class VoiceFragment extends BaseFragment implements MediaView {
     @Override
     public void stop() {
         isRecording = false;
+        if (recordTimer != null){
+            recordTimer.cancel();
+        }
         if (isVisible()) {
             recLayout.setVisibility(View.GONE);
             processingLayout.setVisibility(View.VISIBLE);
             progress.setVisibility(View.INVISIBLE);
 
             voiceButton.setEnabled(false);
-            try{
+            try {
                 presenter.processAudio();
                 activity.nextEpisode();
-            } catch (CoreException ex){
+            } catch (CoreException ex) {
                 RestException restException = (RestException) ex;
                 processingLayout.setVisibility(View.GONE);
                 failedLayout.setVisibility(View.VISIBLE);
@@ -182,49 +211,19 @@ public class VoiceFragment extends BaseFragment implements MediaView {
         progress.setVisibility(View.INVISIBLE);
     }
 
-    Runnable updateProgress = new Runnable() {
-        public void run() {
-            //HACK, bcoz ProgressBas has bug
-            progress.setProgress(0);
-            progress.setProgress(count);
-        }
-    };
-
-    class RecorderTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            presenter.onStartRecording();
-            return null;
-        }
-
-    }
-
-    class ProgressTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            count = 0;
-            curStart = System.currentTimeMillis();
-            while (ENROLLMENT_TIMEOUT > count) {
-                count = (int) (System.currentTimeMillis() - curStart);
-                progressHandler.post(updateProgress);
-                Log.d(TAG, "Progress is " + count);
-                if (!isRecording) {
-                    break;
-                }
-            }
-            return null;
-        }
-    }
-
     private void parseReason(String reason) {
-        if (reason.contains("voice sound is corrupted")) {
-            qualityLayout.setVisibility(View.VISIBLE);
+        if (reason.contains("Can't create segmentation")) {
+            shortLayout.setVisibility(View.GONE);
             pronunciationLayout.setVisibility(View.GONE);
+            qualityLayout.setVisibility(View.VISIBLE);
         } else if (reason.contains("poor password pronunciation")) {
             qualityLayout.setVisibility(View.GONE);
+            shortLayout.setVisibility(View.GONE);
             pronunciationLayout.setVisibility(View.VISIBLE);
+        } else if (reason.contains("too short")) {
+            qualityLayout.setVisibility(View.GONE);
+            pronunciationLayout.setVisibility(View.GONE);
+            shortLayout.setVisibility(View.VISIBLE);
         }
     }
 

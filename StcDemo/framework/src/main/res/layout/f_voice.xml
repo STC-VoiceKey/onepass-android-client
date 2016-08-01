@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
         <ImageView android:layout_width="32dp"
                    android:layout_height="27dp"
@@ -58,6 +58,7 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="visible"
                 android:layout_marginTop="10dp"
+                android:rotation="270"
                 app:donut_inner_bottom_text_color="@color/colorPrimary"
                 app:donut_text_size="0dp"
                 app:donut_finished_color="@color/colorProgress"
@@ -134,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
         <TextView android:textAppearance="?android:attr/textAppearanceLarge"
                   android:text="@string/option_title_rec"
@@ -163,16 +164,16 @@
                            android:layout_height="27dp"
                            android:src="@drawable/volume_mute_2x"
                            android:layout_gravity="center_horizontal"
-                           android:alpha="1"/>
+                           android:alpha="1" android:layout_marginLeft="60dp"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text="@string/option_record_quality"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginLeft="25dp"
+                          android:layout_marginLeft="20dp"
                           android:textColor="@color/white"
-                          android:layout_marginRight="25dp"
-                          android:layout_marginTop="5dp"/>
+                          android:layout_marginRight="45dp"
+                          android:layout_marginTop="0dp"/>
 
             </LinearLayout>
 
@@ -186,16 +187,16 @@
                            android:layout_height="27dp"
                            android:src="@drawable/poor_quality_2x"
                            android:layout_gravity="center_horizontal"
-                           android:alpha="1"/>
+                           android:alpha="1" android:layout_marginLeft="60dp"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text="@string/option_pronunciation"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginLeft="25dp"
+                          android:layout_marginLeft="20dp"
                           android:textColor="@color/white"
-                          android:layout_marginRight="25dp"
-                          android:layout_marginTop="5dp"/>
+                          android:layout_marginRight="45dp"
+                          android:layout_marginTop="0dp"/>
 
             </LinearLayout>
 
@@ -209,16 +210,16 @@
                            android:layout_height="27dp"
                            android:src="@drawable/poor_quality_2x"
                            android:layout_gravity="center_horizontal"
-                           android:alpha="1"/>
+                           android:alpha="1" android:layout_marginLeft="60dp"/>
 
                 <TextView android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text="@string/option_short"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginLeft="25dp"
+                          android:layout_marginLeft="20dp"
                           android:textColor="@color/white"
-                          android:layout_marginRight="25dp"
-                          android:layout_marginTop="5dp"/>
+                          android:layout_marginRight="45dp"
+                          android:layout_marginTop="0dp"/>
 
             </LinearLayout>
 

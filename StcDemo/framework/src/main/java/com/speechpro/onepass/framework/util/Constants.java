@@ -29,12 +29,9 @@ public final class Constants {
     public static final int ENROLLMENT_TIMEOUT         = 9000;
     public static final int VERIFICATION_TIMEOUT       = 7000;
     public static final int RESULT_DELAY               = 3000;
+    public static final int RECORD_TICK                = 100;
 
-    public static final int    CANCEL_TIMEOUT = 180000;
-    public static final String phraseDynamic1 = "zero one two three four five six seven eight nine";
-    public static final String phraseDynamic2 = "nine eight seven six five four three two one zero";
-    public static final String phraseDynamic3 = "one seven four zero nine three eight two five six";
-
+    public static final int CANCEL_TIMEOUT = 180000;
 
     public static final int PERMISSIONS_RECORD_AUDIO           = 1;
     public static final int PERMISSIONS_CAMERA                 = 2;

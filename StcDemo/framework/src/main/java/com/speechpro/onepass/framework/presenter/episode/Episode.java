@@ -7,9 +7,9 @@ package com.speechpro.onepass.framework.presenter.episode;
 public class Episode {
     private final int stage;
     private final int enrollPhrases;
-    private final String phraseDynamic;
+    private final int phraseDynamic;
 
-    public Episode(int stage, int enrollPhrases, String phraseDynamic) {
+    public Episode(int stage, int enrollPhrases, int phraseDynamic) {
         this.stage = stage;
         this.enrollPhrases = enrollPhrases;
         this.phraseDynamic = phraseDynamic;
@@ -23,7 +23,7 @@ public class Episode {
         return enrollPhrases;
     }
 
-    public String getPhraseDynamic() {
+    public int getPhraseDynamic() {
         return phraseDynamic;
     }
 }

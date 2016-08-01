@@ -36,9 +36,9 @@ public class EnrollmentPresenter extends BasePresenter {
         super(model, previewCallback, context);
         initialize(userId);
         episodes = new LinkedList<>();
-        episodes.add(new Episode(R.string.episode1, R.string.enroll_phrases_1, Constants.phraseDynamic1));
-        episodes.add(new Episode(R.string.episode2, R.string.enroll_phrases_2, Constants.phraseDynamic2));
-        episodes.add(new Episode(R.string.episode3, R.string.enroll_phrases_3, Constants.phraseDynamic3));
+        episodes.add(new Episode(R.string.episode1, R.string.enroll_phrases_1, R.string.phrase_dynamic_1));
+        episodes.add(new Episode(R.string.episode2, R.string.enroll_phrases_2, R.string.phrase_dynamic_1));
+        episodes.add(new Episode(R.string.episode3, R.string.enroll_phrases_3, R.string.phrase_dynamic_1));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class EnrollmentPresenter extends BasePresenter {
     @Override
     public String getPassphrase() {
         if (currentEpisode != null) {
-            return currentEpisode.getPhraseDynamic();
+            return context.getString(currentEpisode.getPhraseDynamic());
         }
         return null;
     }

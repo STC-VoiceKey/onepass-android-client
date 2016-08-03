@@ -79,7 +79,7 @@ public class VideoRecorder extends Recorder {
         profile.audioSampleRate = 11025;
         profile.audioChannels = 1;
         profile.videoFrameRate = 30;
-        profile.videoBitRate = 10000;
+        profile.videoBitRate = 500000;
 
         camera.unlock();
 

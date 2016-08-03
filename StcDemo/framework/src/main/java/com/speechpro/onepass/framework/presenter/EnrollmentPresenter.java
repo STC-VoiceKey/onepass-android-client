@@ -37,8 +37,8 @@ public class EnrollmentPresenter extends BasePresenter {
         initialize(userId);
         episodes = new LinkedList<>();
         episodes.add(new Episode(R.string.episode1, R.string.enroll_phrases_1, R.string.phrase_dynamic_1));
-        episodes.add(new Episode(R.string.episode2, R.string.enroll_phrases_2, R.string.phrase_dynamic_1));
-        episodes.add(new Episode(R.string.episode3, R.string.enroll_phrases_3, R.string.phrase_dynamic_1));
+        episodes.add(new Episode(R.string.episode2, R.string.enroll_phrases_2, R.string.phrase_dynamic_2));
+        episodes.add(new Episode(R.string.episode3, R.string.enroll_phrases_3, R.string.phrase_dynamic_3));
     }
 
     @Override

@@ -22,6 +22,15 @@ public final class NumberMapper {
         numbers.put("seven", 7);
         numbers.put("eight", 8);
         numbers.put("nine", 9);
+        numbers.put("um", 1);
+        numbers.put("dois", 2);
+        numbers.put("três", 3);
+        numbers.put("quatro", 4);
+        numbers.put("cinco", 5);
+        numbers.put("seis", 6);
+        numbers.put("sete", 7);
+        numbers.put("oito", 8);
+        numbers.put("nove", 9);
     }
 
     public static String convert(String in) {

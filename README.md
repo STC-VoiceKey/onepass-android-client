@@ -12,4 +12,4 @@ _(Coming soon)_
 _(Coming soon)_
 
 ## License
-Copyright (c) 2016 STC. Licensed under the FreeBSD License.
+Copyright (c) 2016 STC. Licensed under the FreeBSD <a href="https://onepass.tech/license-agreement.html">License</a>.

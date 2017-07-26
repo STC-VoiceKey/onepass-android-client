@@ -1,18 +1,14 @@
 package com.speechpro.onepass.framework.presenter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.framework.camera.PreviewCallback;
-import com.speechpro.onepass.framework.media.Recorder;
+import com.speechpro.onepass.framework.media.AudioHelper;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.presenter.episode.Episode;
-import com.speechpro.onepass.framework.view.BorderView;
-import com.speechpro.onepass.framework.view.MediaView;
-import com.speechpro.onepass.framework.view.VisionView;
-
+import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 
 /**
  * @author volobuev
@@ -21,92 +17,57 @@ import com.speechpro.onepass.framework.view.VisionView;
 public abstract class BasePresenter {
 
     private static final String TAG = "BasePresenter";
+    protected final BaseActivity mBaseActivity;
 
-    public boolean isRecording = false;
-    protected final PreviewCallback previewCallback;
-    protected final Context         context;
-    private final   IModel          model;
-    protected       Recorder        recorder;
-    protected       VisionView      visionView;
-    private         MediaView       mediaView;
-    private         BorderView      borderView;
+    private final IModel model;
+    private final AudioHelper mAudioHelper;
 
-    private final Handler recordingHandler = new Handler() {
 
-        @Override
-        public void handleMessage(final Message msg) {
-            if (isRecording) {
-                onStopRecording();
-                mediaView.stop();
-            }
-        }
-    };
-
-    public BasePresenter(IModel model, PreviewCallback previewCallback, Context context) {
+    public BasePresenter(IModel model, BaseActivity mBaseActivity) {
         this.model = model;
-        this.previewCallback = previewCallback;
-        this.context = context;
+        this.mBaseActivity = mBaseActivity;
+        this.mAudioHelper = new AudioHelper(mBaseActivity);
     }
 
-    public void onStopRecordingByButton() {
-        recordingHandler.removeMessages(0);
-        onStopRecording();
+    public void pauseOtherActivePlayer() {
+        mAudioHelper.pauseOtherActivePlayer();
     }
 
-    public void setMediaView(MediaView mediaView) {
-        this.mediaView = mediaView;
-    }
-
-    public void setVisionView(VisionView visionView) {
-        this.visionView = visionView;
-    }
-
-    public void setBorderView(BorderView borderView){
-        this.borderView = borderView;
-    }
-
-    public BorderView getBorderView() {
-        return borderView;
-    }
-
-    public void onStartRecording() {
-        Log.i(TAG, "Recording is started...");
-        isRecording = true;
-        recorder.startRecording();
-        recordingHandler.sendEmptyMessageDelayed(0, getRecordingTimeout());
-    }
-
-    public void onStopRecording() {
-        Log.i(TAG, "Recording is stopped...");
-        isRecording = false;
-        recorder.stopRecording();
-    }
-
-    public synchronized void stopAtAllRecording() {
-        Log.d(TAG, "Stop all recording");
-        if (isRecording) {
-            isRecording = false;
-            recorder.stopRecording();
-            recordingHandler.removeCallbacksAndMessages(null);
-        }
-    }
-
-    protected void toast(int resId) {
-        mediaView.toast(resId);
-        stopAtAllRecording();
+    public void playOtherActivePlayer() {
+        mAudioHelper.playOtherActivePlayer();
     }
 
     protected IModel getModel() {
+        onConnectionFailed();
         return model;
     }
 
+    private void onConnectionFailed() {
+        if (!isNetworkOnline()) {
+            mBaseActivity.finish();
+        }
+    }
+
+    private boolean isNetworkOnline() {
+        ConnectivityManager connMgr     = (ConnectivityManager) mBaseActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo         networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * Return session passphrase or current
+     *
+     * @return passphrase
+     */
     public abstract String getPassphrase();
 
     public abstract Episode getEpisode();
 
-    public abstract boolean getResult();
+    public abstract boolean getResult() throws CoreException;
 
     public abstract int getRecordingTimeout();
+
+    public abstract void restartSession();
 
     protected abstract void addVoiceSample(byte[] pcm, String passphrase) throws CoreException;
 

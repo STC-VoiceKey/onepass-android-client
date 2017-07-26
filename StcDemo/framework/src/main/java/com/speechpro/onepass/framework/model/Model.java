@@ -146,13 +146,19 @@ public class Model implements IModel {
 
 
     @Override
-    public Boolean getVerificationResult() {
+    public Boolean getVerificationResult() throws CoreException {
+        VerificationResultTask task = new VerificationResultTask(verificationSession);
+        Boolean res = false;
         try {
-            return new VerificationResultTask(verificationSession).execute().get();
+            res = task.execute().get();
+            checkNetwork(task);
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
+            if (e instanceof ServiceUnavailableException) {
+                throw (CoreException) e;
+            }
         }
-        return false;
+        return res;
     }
 
     @Override

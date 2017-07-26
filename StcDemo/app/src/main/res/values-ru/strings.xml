@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">О приложении</string>
+    <string name="action_settings">Настройки</string>
+    <string name="button_agree">Согласен</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="button_continue">Продолжить</string>
+    <string name="button_disagree">Не согласен</string>
+    <string name="button_login">ВОЙТИ</string>
+    <string name="button_signup">РЕГИСТРАЦИЯ</string>
+    <string name="delete_user">Удалить пользователя</string>
+    <string name="option_info1">Найдите освещенное место</string>
+    <string name="option_info3">Снимите очки</string>
+    <string name="option_info4">Сделайте нейтральное выражение лица</string>
+    <string name="text_access_info1">Необходимо разрешить доступ к камере и микрофону, чтобы получить снимок, голос и видео.</string>
+    <string name="text_access_info2">На следующем шаге нажмите \"Разрешить\", когда появится соответствующий запрос.</string>
+    <string name="text_account_exists">Аккаунт уже существует</string>
+    <string name="text_agreement_info1">Будет сделана Ваша фотография и записаны три образца Вашего голоса</string>
+    <string name="text_email_hint">Почтовый адрес</string>
+    <string name="text_invalid_email">Некорректный почтовый адрес</string>
+    <string name="text_no_account">Нет учетной записи с этим адресом электронной почты</string>
+    <string name="text_user_removed">Пользователь был успешно удален</string>
+    <string name="title_access1">Доступ к камере и микрофону</string>
+    <string name="title_agreement1">В процессе регистрации будут обрабатываться Ваши биометрические данные</string>
+    <string name="title_signup">Регистрация</string>
+    <string name="option_info2">Убедитесь, что вокруг тихо</string>
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="remove_current_user">УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ</string>
+    <string name="remove_user">Удаление пользователя</string>
+    <string name="are_you_sure_you_want_to_remove_user">Вы действительно хотите удалить пользователя %s?</string>
+    <string name="remove">Удалить</string>
+    <string name="cancel">Отмена</string>
+</resources>

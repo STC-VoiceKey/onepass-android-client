@@ -1,16 +1,22 @@
-//
-
 ext.lib = [
-        core        : project(':core'),
-        gson        : 'com.squareup.retrofit2:converter-gson:2.0.+',
-        jackson     : 'com.squareup.retrofit2:converter-jackson:2.0.+',
-        retrofit    : 'com.squareup.retrofit2:retrofit:2.1.+',
-        okhttp      : 'com.squareup.okhttp:logging-interceptor:2.6.0',
-        guava       : 'com.google.guava:guava:19.0-rc3',
-        playServices: 'com.google.android.gms:play-services:7.8.+',
+        core           : project(':core'),
+        gson           : 'com.squareup.retrofit2:converter-gson:2.0.+',
+        jackson        : 'com.squareup.retrofit2:converter-jackson:2.0.+',
+        retrofit       : 'com.squareup.retrofit2:retrofit:2.0.+',
+        okhttp         : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
+        guava          : 'com.google.guava:guava:19.0-rc3',
+        junit          : 'junit:junit:4.12',
+        playServices   : 'com.google.android.gms:play-services:7.8.+',
 
-        junit       : 'junit:junit:4.12',
-        mockito     : 'org.mockito:mockito-core:1.10.19'
+        //face sdk and data
+        sdkFacesdk     : 'com.speechpro.biometry.android:lib_sdk_facesdk:1.5.8.6.6@jar',
+        dataFacesdk    : 'com.speechpro.biometry.android:lib_sdk_facesdk_data:1.5.8.6.13@aar',
+        //voice sdk and data
+        sdkVoicekey    : 'com.speechpro.biometry.android:lib_sdk_voicekey:2.1.7',
+        dataVoicekey   : 'com.speechpro.biometry.android:lib_sdk_voicekey_data:2.1.7@aar',
+        //cognitec sdk and data
+        sdkCognitec    : 'com.speechpro.biometry.android:lib_sdk_cognitec:9.0.0.0@aar',
+        dataCognitec   : 'com.speechpro.biometry.android:lib_sdk_cognitec_data_portrait:9.0.0.0@aar'
 ]
 
 buildscript {
@@ -18,7 +24,6 @@ buildscript {
         jcenter {
             url "http://jcenter.bintray.com/"
         }
-        maven { url "https://repo.spring.io/milestone" }// spring-rest
     }
     dependencies {
         println System.properties['gradlePlugin']
@@ -32,5 +37,8 @@ allprojects {
             url "http://jcenter.bintray.com/"
         }
         maven { url "https://repo.spring.io/milestone" }// spring-rest
+        maven { url "http://pulse-server.stc:8081/nexus/content/repositories/releases" } //Local nexus releases
+        maven { url "http://pulse-server.stc:8081/nexus/content/repositories/snapshots" } //Local nexus snapshots
     }
 }
+

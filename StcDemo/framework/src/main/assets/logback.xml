@@ -1,0 +1,73 @@
+<configuration>
+    <property name="LOG_DIR" value="/storage/emulated/0/stc_demo/logs" />
+
+    <!-- Create a logcat appender -->
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Create a file appender for TRACE-level messages -->
+    <appender name="TraceLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${LOG_DIR}/trace.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Create a file appender for DEBUG-level messages -->
+    <appender name="DebugLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${LOG_DIR}/debug.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Create a file appender for ERROR-level messages -->
+    <appender name="ErrorLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${LOG_DIR}/error.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- Write INFO (and higher-level) messages to logcat -->
+    <root level="INFO">
+        <appender-ref ref="logcat" />
+    </root>
+
+    <root level="DEBUG">
+        <appender-ref ref="DebugLog" />
+    </root>
+
+    <root level="ERROR">
+        <appender-ref ref="ErrorLog" />
+    </root>
+
+    <root level="TRACE">
+        <appender-ref ref="TraceLog" />
+    </root>
+</configuration>

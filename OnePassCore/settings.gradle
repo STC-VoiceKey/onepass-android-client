@@ -1,1 +1,1 @@
-include   ':core', ':detector', ":rest"
+include   ':core', ':detector', ":rest", ":sdk"

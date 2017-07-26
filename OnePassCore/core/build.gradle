@@ -11,9 +11,13 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-
 apply plugin: 'android-apt'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
+def buildVersion ="$System.env.CORE_VERSION"
+version = buildVersion
+group = 'com.speechpro.onepass'
 
 
 android {
@@ -42,22 +46,31 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    def buildVersion ="$System.env.ANDROID_VERSION"
     android.libraryVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                def fileName = outputFile.name.replace('-debug.aar', "-${versionName}${buildVersion}.aar")
-                output.outputFile = new File(outputFile.parent, fileName)
+            def fileName
+            if (outputFile != null && (fileName = outputFile.name).endsWith('.aar')) {
+                if (fileName.contains('-debug.aar')) {
+                    fileName = outputFile.name.replace('-debug.aar', "_debug-${buildVersion}.aar")
+                    output.outputFile = new File(outputFile.parent, fileName)
+                } else if(fileName.contains('-release.aar')){
+                    fileName = outputFile.name.replace('-release.aar', "-${buildVersion}.aar")
+                    output.outputFile = new File(outputFile.parent, fileName)
+                }
             }
         }
     }
-
 }
 
-task copyLibs(type: Copy) {
-    from configurations.compile
-    into 'libs'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom.packaging = 'aar'
+
+            artifact "build/outputs/aar/core-${buildVersion}.aar"
+        }
+    }
 }
 
 apt {

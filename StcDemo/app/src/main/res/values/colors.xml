@@ -1,7 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#419ead</color>
-    <color name="colorAccent">#ff7b7f</color>
-    <color name="indigo">#663e8c</color>
-    <color name="pink">#ab52a2</color>
+    <color name="main">#419ead</color>
+    <color name="accent">#ffd032</color>
+
+    <!--Text colors-->
+    <color name="text_accent">#ffd032</color>
+    <color name="text_normal">#ffffff</color>
+    <color name="text_secondary">#b3ffffff</color>
+    <color name="text_disabled">#7fffffff</color>
+
+    <!--Button colors-->
+    <color name="button_normal">#eccb11</color>
+    <color name="button_text_normal">#dd000000</color>
+    <color name="button_disabled">#19333333</color>
+    <color name="button_pressed">#19ffffff</color>
 </resources>

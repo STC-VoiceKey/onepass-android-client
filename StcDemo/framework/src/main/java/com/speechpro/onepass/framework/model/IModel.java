@@ -33,7 +33,7 @@ public interface IModel {
 
     void addVerificationVideo(Video video) throws CoreException;
 
-    Boolean getVerificationResult();
+    Boolean getVerificationResult() throws CoreException;
 
     void deleteVerificationSession();
 

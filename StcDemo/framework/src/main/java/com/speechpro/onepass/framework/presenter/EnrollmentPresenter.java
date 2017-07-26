@@ -1,18 +1,18 @@
 package com.speechpro.onepass.framework.presenter;
 
-import android.content.Context;
-import com.speechpro.onepass.core.exception.BadRequestException;
+import android.util.Log;
+import android.util.Pair;
+
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.exception.InternalServerException;
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.camera.PreviewCallback;
-import com.speechpro.onepass.framework.exceptions.RecorderException;
-import com.speechpro.onepass.framework.injection.PerActivity;
+import com.speechpro.onepass.framework.media.AudioListener;
 import com.speechpro.onepass.framework.media.AudioRecorder;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 import com.speechpro.onepass.framework.presenter.episode.Episode;
+import com.speechpro.onepass.framework.ui.activity.BaseActivity;
+import com.speechpro.onepass.framework.util.BitmapUtil;
 import com.speechpro.onepass.framework.util.Constants;
 import com.speechpro.onepass.framework.util.Util;
 
@@ -25,28 +25,44 @@ import static com.speechpro.onepass.framework.util.Constants.ENROLLMENT_TIMEOUT;
  * @author volobuev
  * @since 18.02.2016
  */
-@PerActivity
 public class EnrollmentPresenter extends BasePresenter {
 
-    private Queue<Episode> episodes;
-    private Episode currentEpisode;
-    private String userId;
+    private static final String TAG = EnrollmentPresenter.class.getName();
 
-    public EnrollmentPresenter(IModel model, PreviewCallback previewCallback, Context context, String userId) {
-        super(model, previewCallback, context);
+    private Queue<Episode> mEpisodes;
+    private Episode        mCurrentEpisode;
+    private String         mUserId;
+    private AudioRecorder  mAudioRecorder;
+
+    public EnrollmentPresenter(IModel model, BaseActivity activity, String userId) {
+        super(model, activity);
         initialize(userId);
-        episodes = new LinkedList<>();
-        episodes.add(new Episode(R.string.episode1, R.string.enroll_phrases_1, R.string.phrase_dynamic_1));
-        episodes.add(new Episode(R.string.episode2, R.string.enroll_phrases_2, R.string.phrase_dynamic_2));
-        episodes.add(new Episode(R.string.episode3, R.string.enroll_phrases_3, R.string.phrase_dynamic_3));
+        mEpisodes = new LinkedList<>();
+        mEpisodes.add(new Episode(R.string.episode1, mBaseActivity.getApplicationContext().getString(R.string.enroll_phrases_1)));
+        mEpisodes.add(new Episode(R.string.episode2, mBaseActivity.getApplicationContext().getString(R.string.enroll_phrases_2)));
+        mEpisodes.add(new Episode(R.string.episode3));
     }
 
-    @Override
-    public void onStartRecording() {
-        if (recorder == null) {
-            recorder = new AudioRecorder();
-        }
-        super.onStartRecording();
+    public void startRecording(AudioListener mAudioListener) {
+        Log.i(TAG, "Recording is started.");
+        mAudioRecorder = new AudioRecorder(mAudioListener);
+        mAudioRecorder.start();
+    }
+
+    public void releaseRecorder(){
+        Log.i(TAG, "Recording is released.");
+        mAudioRecorder.release();
+    }
+
+    public void stopRecording() {
+        Log.i(TAG, "Recording is stopped.");
+        mAudioRecorder.stop();
+    }
+
+    public void removeAudioListener() {
+        Log.i(TAG, "AudioListener remove");
+        if (mAudioRecorder != null)
+            mAudioRecorder.removeAudioListener();
     }
 
     @Override
@@ -67,26 +83,31 @@ public class EnrollmentPresenter extends BasePresenter {
 
     @Override
     public String getPassphrase() {
-        if (currentEpisode != null) {
-            return context.getString(currentEpisode.getPhraseDynamic());
+        if (mCurrentEpisode != null) {
+            return mCurrentEpisode.getPhraseDynamic(mBaseActivity.getApplicationContext());
         }
         return null;
     }
 
     @Override
-    public boolean getResult() {
-        return getModel().isFullEnroll(userId);
+    public boolean getResult() throws CoreException {
+        return getModel().isFullEnroll(mUserId);
     }
 
     @Override
     protected void delete() throws CoreException {
-        getModel().deletePerson(userId);
+        getModel().deletePerson(mUserId);
+    }
+
+    @Override
+    public void restartSession() {
+//        getModel().startVerification(mUserId);
     }
 
     @Override
     public Episode getEpisode() {
-        currentEpisode = episodes.poll();
-        return currentEpisode;
+        mCurrentEpisode = mEpisodes.poll();
+        return mCurrentEpisode;
     }
 
     @Override
@@ -94,22 +115,35 @@ public class EnrollmentPresenter extends BasePresenter {
         return ENROLLMENT_TIMEOUT;
     }
 
-    public void processAudio() throws CoreException {
-        try {
-            byte[] pcmBytes = recorder.getMedia();
-            Util.logPcm(pcmBytes);
-            addVoiceSample(pcmBytes, getPassphrase());
-        } catch (RecorderException ex) {
-            toast(R.string.toast_unknown_error);
-        }
+
+    public void processAudio(byte[] pcmBytes) throws CoreException {
+        Util.logVoice(pcmBytes);
+        addVoiceSample(pcmBytes, getPassphrase());
     }
 
-    public void processPhoto() throws CoreException {
-        addFaceSample(previewCallback.getImage());
+    public void processPhoto(byte[] img, int degrees) throws CoreException {
+        Pair<Integer, Integer> resolution  = BitmapUtil.getPictureResolution(img);
+
+        ///this is bug samsung
+        if (resolution.first > resolution.second) {
+            degrees = (degrees + 270) % 360;
+        }
+
+        Log.d(TAG, "processPhoto: " + resolution.first + " " + resolution.second);
+
+        byte[]                 rotatedData = BitmapUtil.rotatePicture(img,
+                                                                      resolution.first,
+                                                                      resolution.second,
+                                                                      degrees);
+
+        byte[] resizedPicture = BitmapUtil.resizedPicture(rotatedData, 240, 320);
+
+        Util.logFaces(resizedPicture);
+        addFaceSample(resizedPicture);
     }
 
     private void initialize(String userId) {
-        this.userId = userId;
+        this.mUserId = userId;
         getModel().createPerson(userId);
     }
 

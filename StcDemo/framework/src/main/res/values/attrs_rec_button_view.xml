@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="RecButtonView">
+        <attr name="max" format="integer" />
+    </declare-styleable>
+</resources>

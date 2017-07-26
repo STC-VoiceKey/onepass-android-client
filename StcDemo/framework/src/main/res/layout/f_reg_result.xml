@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center_horizontal|center_vertical"
-              android:layout_centerInParent="true"
-              android:clickable="true"
-              android:focusable="true"
-              android:focusableInTouchMode="true"
-              android:background="@color/colorPrimary"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:background="@color/main"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-    <ImageView android:layout_width="32dp"
-               android:layout_height="27dp"
-               android:src="@drawable/logo"
-               android:layout_marginTop="30dp"
-               android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <TextView android:textAppearance="?android:attr/textAppearanceLarge"
-              android:text="@string/reg_complete_title"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="25dp"
-              android:textColor="@color/white"
-              android:layout_marginRight="25dp"
-              android:layout_marginTop="50dp"
-              android:layout_gravity="center_horizontal"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-              android:text="@string/reg_complete_text"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="25dp"
-              android:textColor="@color/white"
-              android:layout_marginRight="25dp"
-              android:layout_gravity="center_horizontal"
-              android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/sign_up_complete"
+                    android:textColor="@color/text_normal"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/you_can_now_signin"
+                    android:textColor="@color/text_normal"
+                    android:textSize="@dimen/text_medium_size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
-            android:id="@+id/reg_done"
-            android:layout_width="339dp"
-            android:layout_height="wrap_content"
-            android:text="@string/reg_complete_button"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="270dp"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+        android:id="@+id/complete"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/done" />
 
-</LinearLayout>
+</RelativeLayout>

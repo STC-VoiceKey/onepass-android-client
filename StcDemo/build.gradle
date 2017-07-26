@@ -1,32 +1,33 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+def coreVersion = "$System.env.CORE_VERSION"
 
 project.ext {
     //Android
-    androidBuildToolsVersion = "23.0.2"
+    androidBuildToolsVersion = "25.0.2"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 19
-    androidCompileSdkVersion = 23
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
 
     androidApplicationId = 'com.speechpro.onepass.framework'
-    androidVersionCode = 1
-    androidVersionName = "0.0.1"
+    androidVersionCode = 2
+    androidVersionName = "0.0.2"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     testApplicationId = 'com.speechpro.onepass.framework.test'
 
     //Libraries
     daggerVersion = '2.0.2'
     recyclerViewVersion = '21.0.3'
-    appcompat = '23.1.1'
+    appcompat = '23.2.0'
     javaxAnnotationVersion = '1.0'
     okHttpVersion = '2.5.0'
-    coreVersion = '0.0.3.5'
-    restVersion = '0.0.3.7'
     gifDrawableVersion = '1.1.+'
     jacksonVerxion = '2.0.+'
     retrofitVersion = '2.1.+'
     guavaVersion = '19.0-rc3'
     playServicesVersion = '7.8.+'
+    supportDesign = '23.2.0'
+    mobileVision = '9.4.0+'
 
     //Testing
     robolectricVersion = '3.0'
@@ -37,27 +38,36 @@ project.ext {
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
 
+    //Logging
+    loggingVersion = '3.2.0'
+
+
     dep = [
             daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger         : "com.google.dagger:dagger:${daggerVersion}",
             appcompat      : "com.android.support:appcompat-v7:${appcompat}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             core           : "com.speechpro.onepass:core:${coreVersion}@aar",
-            rest           : "com.speechpro.onepass:rest:${restVersion}@aar",
+            rest           : "com.speechpro.onepass:rest:${coreVersion}@aar",
             gifDrawable    : "pl.droidsonroids.gif:android-gif-drawable:${gifDrawableVersion}",
             jackson        : "com.squareup.retrofit2:converter-jackson:${jacksonVerxion}",
             retrofit       : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            okhttp         : "com.squareup.okhttp3:logging-interceptor:${loggingVersion}",
             guava          : "com.google.guava:guava:${guavaVersion}",
-            playServices   : "com.google.android.gms:play-services:${playServicesVersion}"
+            playServices   : "com.google.android.gms:play-services:${playServicesVersion}",
+            design         : "com.android.support:design:${supportDesign}",
+            vision         : "com.google.android.gms:play-services-vision:${mobileVision}"
     ]
 }
 
 buildscript {
     repositories {
+//        mavenLocal()
         jcenter()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -66,9 +76,10 @@ buildscript {
 
 allprojects {
     repositories {
+//        mavenLocal()
         jcenter()
         flatDir {
-            dirs '/Users/volart/Documents/Projects/onepass-android-client/StcDemo/libs'
+            dirs 'C://outputs/aar/'
         }
     }
 }

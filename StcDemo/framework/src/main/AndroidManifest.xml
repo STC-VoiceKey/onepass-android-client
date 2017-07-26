@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.speechpro.onepass.framework" >
-
-    <uses-sdk android:minSdkVersion="19"
-              android:targetSdkVersion="19"
-              android:maxSdkVersion="23" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.speechpro.onepass.framework">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!--<uses-feature android:name="android.hardware.camera.autofocus" />-->
 
     <application
-        android:allowBackup="true">
-        <activity android:name=".view.activity.EnrollmentActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|orientation|screenSize"
-                  android:theme="@style/FrameworkTheme"
-        />
-        <activity android:name=".view.activity.VerificationActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|orientation|screenSize"
-        />
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".ui.activity.EnrollmentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FrameworkTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.activity.VerificationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FrameworkTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

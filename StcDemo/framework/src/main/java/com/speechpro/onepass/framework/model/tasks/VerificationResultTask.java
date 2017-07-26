@@ -7,6 +7,7 @@ import com.speechpro.onepass.core.sessions.VerificationSession;
  * @since 26.04.16
  */
 public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Boolean>{
+
     private final VerificationSession verificationSession;
 
     public VerificationResultTask(VerificationSession verificationSession) {
@@ -16,6 +17,6 @@ public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Boole
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        return verificationSession.verify(true);
+            return verificationSession.verify(true);
     }
 }

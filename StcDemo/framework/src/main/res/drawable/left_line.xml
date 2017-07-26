@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/left_line"
+          android:left="20dp"
+          android:right="150dp">
+        <rotate android:fromDegrees="30">
+            <shape android:shape="line">
+                <stroke android:width="5dp" android:color="@color/check_color"/>
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

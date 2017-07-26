@@ -1,24 +1,41 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+def coreVersion ="$System.env.CORE_VERSION"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
 
     defaultConfig {
         applicationId "com.speechpro.stcdemo"
         minSdkVersion 19
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 25
+        versionCode 10
+        versionName "2.9.6"
     }
 
     signingConfigs {
         release {
-            storeFile file('/Users/volart/Documents/Projects/onepass-android-client/StcDemo/keystore/stcdemo.jks')
-            storePassword '12345678'
-            keyAlias 'StcDemo'
-            keyPassword '12345678'
+            storeFile file('keystore/stcdemo.jks')
+            storePassword '123456As'
+            keyAlias 'stcdemo'
+            keyPassword '123456As'
         }
     }
     buildTypes {
@@ -26,6 +43,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def file = output.packageApplication.outputFile
+                    def fileName = "stcdemo-" + coreVersion + ".apk"
+                    output.packageApplication.outputFile = new File(file.parent, fileName)
+                }
+            }
         }
         debug {
             signingConfig signingConfigs.release
@@ -53,6 +78,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:23.2.0'
     compile project(':framework')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
 }

@@ -1,5 +1,7 @@
 package com.speechpro.onepass.core.rest.api;
 
+import android.util.Log;
+
 import com.speechpro.onepass.core.exception.*;
 import com.speechpro.onepass.core.rest.OnePassService;
 import com.speechpro.onepass.core.rest.data.*;
@@ -7,13 +9,19 @@ import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.VerificationSession;
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.core.utils.Converter;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
+import okio.Buffer;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author volobuev
@@ -21,13 +29,45 @@ import java.io.IOException;
  */
 public class RetroRestAPI implements ITransport {
 
-
     private final OnePassService service;
 
     public RetroRestAPI(String url) {
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request();
+
+                        long t1 = System.nanoTime();
+                        Log.d("OkHttp", String.format("Sending request %s %s on %s%n%s",
+                                request.method(), request.url(), chain.connection(), request.headers()));
+
+                        Log.d("OkHttp", bodyToString(request));
+
+                        okhttp3.Response response = chain.proceed(request);
+
+                        long t2 = System.nanoTime();
+                        Log.d("OkHttp", String.format("Received response for %s in %.1fms%n%s",
+                                response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+                        String bodyString = response.body().string();
+                        Log.d("OkHttp", bodyString.toString());
+
+                        return response.newBuilder()
+                                .body(ResponseBody.create(response.body().contentType(), bodyString))
+                                .build();
+
+                    }
+                })
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
                 .addConverterFactory(JacksonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
 
         service = retrofit.create(OnePassService.class);
@@ -218,6 +258,19 @@ public class RetroRestAPI implements ITransport {
                 throw new InternalServerException(message, reason);
             case 503:
                 throw new ServiceUnavailableException(message, reason);
+        }
+    }
+
+    private String bodyToString(final Request request) {
+        try {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "parse error";
+        } catch (final NullPointerException npe) {
+            return "no body";
         }
     }
 

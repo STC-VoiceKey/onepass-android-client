@@ -3,8 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="left_margin">34dp</dimen>
-    <dimen name="up_margin">12dp</dimen>
+    <dimen name="app_toolbar_height">80dp</dimen>
+
+    <dimen name="left_margin">55dp</dimen>
+    <dimen name="up_margin">20dp</dimen>
     <dimen name="down_margin">85dp</dimen>
     <dimen name="down_margin_with_button">120dp</dimen>
 
@@ -19,4 +21,10 @@
     <dimen name="tips_height">200dp</dimen>
 
     <dimen name="animation_size">65dp</dimen>
+
+    <dimen name="app_toolbar_elevation">6dp</dimen>
+
+    <dimen name="text_medium_size">18sp</dimen>
+    <dimen name="text_large_size">28sp</dimen>
+
 </resources>

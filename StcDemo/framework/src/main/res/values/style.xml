@@ -1,55 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarStyle">@style/Theme.actionbar</item>
-        <item name="android:buttonStyle">@style/Widget.button</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorSecondary">@color/black</item>
-        <item name="android:textColorTertiary">@color/white</item>
-        <item name="android:dialogTheme">@style/Theme.Dialog</item>
+
+    <style name="FrameworkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorButtonNormal">@color/button_normal</item>
+
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="Theme.actionbar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:background">@drawable/stc_title</item>
-        <item name="android:logo">@android:color/transparent</item>
-        <item name="android:titleTextStyle">@style/Widget.ActionBar.Title</item>
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/text_normal</item>
+        <item name="colorControlActivated">@color/text_normal</item>
+        <item name="colorControlHighlight">@color/text_normal</item>
     </style>
 
-    <style name="Widget.ActionBar.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/transparent</item>
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColorPrimary">#000</item>
+        <item name="android:background">#f0f0e1</item>
     </style>
 
-    <style name="Widget.button" parent="android:Widget.Button">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:fontFamily">Arial</item>
-        <item name="android:height">40dp</item>
-        <item name="android:background">@drawable/stc_button</item>
-    </style>
-
-    <style name="Theme.Dialog">
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="HeaderWhiteFrame">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">20dp</item>
-        <item name="android:fontFamily">Arial</item>
-    </style>
-
-    <style name="EnrollText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">30dp</item>
-        <item name="android:fontFamily">Arial</item>
-    </style>
-
-    <style name="FrameworkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
-    </style>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FaceBorderView">
+        <attr name="xFace" format="integer"/>
+        <attr name="yFace" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="BaseCameraView">
+        <attr name="xFaceRequired" format="integer"/>
+        <attr name="yFaceRequired" format="integer"/>
+        <attr name="widthTolerance" format="integer"/>
+    </declare-styleable>
+</resources>

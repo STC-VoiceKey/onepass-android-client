@@ -16,9 +16,9 @@ import java.util.Date;
  */
 public final class Util {
 
-    private static final String TAG = "AudioRecorder";
-    private static final String APP_STORAGE = Environment.getExternalStorageDirectory() + "/stc_demo/";
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
+    private static final String           TAG         = Util.class.getName();
+    private static final String           APP_STORAGE = Environment.getExternalStorageDirectory() + "/stc_demo/";
+    private static final SimpleDateFormat SDF         = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
 
     public static boolean isNullOrEmpty(@Nullable String string) {
         return string == null || string.length() == 0;
@@ -30,22 +30,34 @@ public final class Util {
         Log.d(TAG, "Face was saved in " + facePath);
     }
 
-    public static void logPcm(byte[] value){
-        String pcmPath = "pcm/pcm_" + SDF.format(new Date()) + ".pcm";
+    public static void logVoice(byte[] value) {
+        String sdf = SDF.format(new Date());
+        String pcmPath = "pcm/pcm_" + sdf + ".pcm";
+        String wavPath = "pcm/wav_" + sdf + ".wav";
         writeFile(pcmPath, value);
-        Log.d(TAG,  "PCM was saved in " + pcmPath);
+
+        Log.d(TAG, "PCM was saved in " + pcmPath);
+
+        File pcmFile = new File(APP_STORAGE + pcmPath);
+        File wavFile = new File(APP_STORAGE + wavPath);
+        try {
+            AudioConverter.rawToWave(pcmFile, wavFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, "WAV was saved in " + wavFile);
     }
 
-    public static void logVideo(byte[] value){
+    public static void logVideo(byte[] value) {
         String videoPath = "video/video_" + SDF.format(new Date()) + ".3gp";
         writeFile(videoPath, value);
-        Log.d(TAG,  "Video was saved in " + videoPath);
+        Log.d(TAG, "Video was saved in " + videoPath);
     }
-
 
     public static void writeFile(String path, byte[] value) {
         try {
-            File file = new File(APP_STORAGE + path);
+            File file   = new File(APP_STORAGE + path);
             File folder = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('/')));
             folder.mkdirs();
             FileOutputStream fos = new FileOutputStream(file);
@@ -55,4 +67,5 @@ public final class Util {
             Log.e(TAG, "Cannot write to file: ", e);
         }
     }
+
 }

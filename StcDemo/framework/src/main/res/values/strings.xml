@@ -1,32 +1,5 @@
 <resources>
 
-    <string name="cancel_button">Cancel</string>
-    <string name="start_button">REC</string>
-    <string name="again_button">Try again</string>
-    <string name="stop_button">Stop</string>
-
-    <string name="failure">Failure</string>
-    <string name="success">Success</string>
-
-    <string name="enroll_failure_description">Please, try again to enroll</string>
-    <string name="enroll_success_description">Great, now you can verify yourself</string>
-    <string name="verify_failure_description">Oh, it is not you! Anyway try again</string>
-    <string name="verify_success_description">Awesome! Now we are sure, what it is you.</string>
-
-    <string name="voice_header">Record Your Voice</string>
-    <string name="voice_hint_intro_enroll">You are going to record three number sequences.</string>
-    <string name="voice_hint_intro_verify">You are going to record number sequence.</string>
-    <string name="voice_header_error">Recording Error</string>
-    <string name="enroll_voice_hint_error">Error during recording. Refer to message matrix.</string>
-    <string name="verify_voice_hint_error">Voice validation error. Refer to message matrix.</string>
-
-    <string name="face_header">Position Your Face</string>
-    <string name="face_hint_ears">Position your face so your ears touch the edges of the frame</string>
-    <string name="face_failed_header">Please, try again</string>
-    <string name="face_failed_hint_ears">Your previous image face was corrupted, try again carefully</string>
-    <string name="face_error">Error with scanned image. Refer to matrix.</string>
-    <string name="face_scanning">Scanning feedback. Refer to message matrix.</string>
-
     <string name="enroll_phrases_1" translatable="false">0123456789</string>
     <string name="enroll_phrases_2" translatable="false">9876543210</string>
     <string name="enroll_phrases_3" translatable="false">1740938256</string>
@@ -35,37 +8,61 @@
     <string name="phrase_dynamic_2">nine eight seven six five four three two one zero</string>
     <string name="phrase_dynamic_3">one seven four zero nine three eight two five six</string>
 
-    <string name="episode1" translatable="false">1/3</string>
-    <string name="episode2" translatable="false">2/3</string>
-    <string name="episode3" translatable="false">3/3</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="start_button">REC</string>
+    <string name="stop_button">Stop</string>
 
-    <string name="voice_text1">Press the REC button and pronounce</string>
-    <string name="voice_text2">following digits:</string>
+    <string name="failure">Failure</string>
+    <string name="success">Success</string>
 
 
-    <string name="analyzing_selfie">Analyzing your selfie…</string>
-    <string name="option_title_selfie">Give it another shot</string>
-    <string name="option_eyes_closed">Eyes closed. Look straight to the camera and give it another shot</string>
-    <string name="option_more">More than one face detected. Make sure you are the only one in the camera and give it another shot</string>
-    <string name="option_selfie3">Eyes not found</string>
-    <string name="option_selfie4">Poor image quality</string>
-    <string name="option_no_face">No face detected</string>
-    <string name="option_pose">Pose not frontal. Look straight to the camera and give it another shot</string>
-    <string name="retake_selfie">Retake the photo</string>
+    <!--Face fragments-->
+    <string name="poor_light">Poor\nlight</string>
+    <string name="other_faces">Other faces</string>
+    <string name="face_is_off_center">Face is off-center</string>
+    <string name="eyes_are_covered">Eyes are covered</string>
+    <string name="info_text">Make your resting face. App will remember it.</string>
 
-    <string name="analyzing_recording">Analyzing your recording…</string>
-    <string name="option_title_rec">Give it another recording</string>
-    <string name="option_record_quality">Poor record quality. Find a quiet place and try again.</string>
-    <string name="option_pronunciation">Wrong digits pronunciation. Try again to pronounce the digits on your screen</string>
-    <string name="option_short">The record is too short. Try again to pronounce the digits on your screen</string>
-    <string name="retake_rec">Retake the recording</string>
+    <!--Voice enrollment fragment-->
+    <string name="episode1" translatable="false">1</string>
+    <string name="episode2" translatable="false">2</string>
+    <string name="episode3" translatable="false">3</string>
+    <string name="voice_title">Press the button and pronounce following digits:</string>
+    <string name="quiet">Make sure it\'s quiet</string>
+    <string name="poor">Poor password pronunciation</string>
+    <string name="too_short">Too short</string>
+    <string name="again">Please try again</string>
+    <string name="again_button">TRY AGAIN</string>
 
-    <string name="reg_complete_title">Registration complete</string>
-    <string name="reg_complete_text">All set up and ready to go</string>
-    <string name="reg_complete_button">Done</string>
+    <!--Video verification fragment-->
+    <string name="pronounce">Pronounce the digits:</string>
+    <string name="volume">Sound problems</string>
+    <string name="please_position_your_face_into_the_mask">Please position your face into the mask</string>
+    <string name="retry">TRY AGAIN</string>
+    <string name="try_another">Try another %s</string>
+    <string name="internal_server_error">internal server error</string>
+    <string name="light">Poor light</string>
+    <string name="languages_do_not_match">Languages do not match</string>
+    <string name="give_it_another_shot">Give it another shot</string>
+    <string name="give_it_another_recording">Give it another recording</string>
+    <string name="give_it_another_video">Give it another video</string>
+    <string name="done">DONE</string>
+    <string name="sign_up_complete">Sign up complete</string>
+    <string name="you_can_now_signin">You can now sign in to your account</string>
+    <string name="camera_locked">Camera locked</string>
+    <string name="face_detection_is_unsupported">Face detection is not supported by the device.</string>
+    <string name="ok">ok</string>
 
-    <string name="video_text">Press the REC button and pronounce digits</string>
-    <string name="option_title_video">Give it another video</string>
-    <string name="retake_video">Retake the video</string>
+    <!--Agreement view-->
+    <string name="title_agreement1">By proceeding you agree to process your biometric data</string>
+    <string name="text_agreement_info1">We will take a photo and record three samples of your voice</string>
+    <string name="option_info1">Find a well lit place</string>
+    <string name="option_info2">Make sure it\'s quiet</string>
+    <string name="option_info3">Take off sunglasses</string>
+    <string name="option_info4">Make your ordinary face</string>
+    <string name="button_agree">Continue</string>
+    <string name="button_disagree">Disagree</string>
+    <string name="go_to_settings">Go to settings to allow necessary permissions.</string>
+    <string name="look_at_the_camera">Look at the camera and press the record button</string>
 
 </resources>

@@ -1,22 +1,33 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
-        <item name="colorButtonNormal">@color/colorControlHighlight</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorButtonNormal">@color/button_normal</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/text_normal</item>
+        <item name="colorControlActivated">@color/text_normal</item>
+        <item name="colorControlHighlight">@color/text_normal</item>
+        <item name="android:textColorHint">@color/text_normal</item>
+    </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--<item name="colorAccent">#FFCC00</item>-->
+        <!--<item name="android:textColorPrimary">#FFFFFF</item>-->
+        <!--<item name="android:background">@color/main</item>-->
+    </style>
+
+    <style name="ColoredButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textColor">@color/btn_text_color</item>
+    </style>
 
 </resources>

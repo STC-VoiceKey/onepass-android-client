@@ -5,8 +5,10 @@ import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.Model;
-import com.speechpro.onepass.framework.view.activity.EnrollmentActivity;
-import com.speechpro.onepass.framework.view.activity.VerificationActivity;
+import com.speechpro.onepass.framework.ui.activity.EnrollmentActivity;
+import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.speechpro.onepass.framework.util.Constants.ENROLL_REQUEST_CODE;
 import static com.speechpro.onepass.framework.util.Constants.VERIFY_REQUEST_CODE;
@@ -21,6 +23,8 @@ public final class Framework {
 
     private String url;
     private static Framework instance;
+
+    private final static Logger LOG = LoggerFactory.getLogger(Framework.class);
 
     private Framework(String url) {
         this.url = url;
@@ -39,10 +43,12 @@ public final class Framework {
     }
 
     public void startEnrollment(Activity activity, String userId){
+        LOG.debug("Enrollment is started");
         activity.startActivityForResult(EnrollmentActivity.getCallingIntent(activity, userId, url), ENROLL_REQUEST_CODE);
     }
 
     public void startVerification(Activity activity, String userId){
+        LOG.debug("Verification is started");
         activity.startActivityForResult(VerificationActivity.getCallingIntent(activity, userId, url), VERIFY_REQUEST_CODE);
     }
 
@@ -54,7 +60,7 @@ public final class Framework {
             } catch (CoreException e) {
                 throw new Exception(e);
             }
-            if (session != null){
+            if (session != null) {
                 if(!session.isFullEnroll()){
                     model.deletePerson(userId);
                     return false;
@@ -65,7 +71,7 @@ public final class Framework {
         return false;
     }
 
-    public  boolean delete(String userId) throws Exception {
+    public boolean delete(String userId) throws Exception {
         PersonSession session;
         try {
             session = model.readPerson(userId);

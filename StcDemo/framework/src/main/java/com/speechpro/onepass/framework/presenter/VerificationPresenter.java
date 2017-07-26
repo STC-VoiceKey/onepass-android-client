@@ -1,17 +1,16 @@
 package com.speechpro.onepass.framework.presenter;
 
-import android.content.Context;
-import android.os.AsyncTask;
+import android.util.Log;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.sessions.VerificationSession;
-import com.speechpro.onepass.framework.camera.PreviewCallback;
-import com.speechpro.onepass.framework.media.AudioRecorder;
-import com.speechpro.onepass.framework.media.VideoRecorder;
+import com.speechpro.onepass.framework.media.AudioHelper;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.Video;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 import com.speechpro.onepass.framework.presenter.episode.Episode;
+import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 import com.speechpro.onepass.framework.util.Constants;
 
 import static com.speechpro.onepass.framework.util.Constants.VERIFICATION_TIMEOUT;
@@ -22,19 +21,16 @@ import static com.speechpro.onepass.framework.util.Constants.VERIFICATION_TIMEOU
  */
 public class VerificationPresenter extends BasePresenter {
 
-    private VerificationSession session;
-    private String              userId;
+    private static final String TAG = VerificationPresenter.class.getSimpleName();
 
-    public VerificationPresenter(IModel model, PreviewCallback previewCallback, Context context, String userId) {
-        super(model, previewCallback, context);
-        this.userId = userId;
+    private Boolean             mResult;
+    private VerificationSession mSession;
+    private String              mUserId;
+
+    public VerificationPresenter(IModel model, BaseActivity activity, String userId) {
+        super(model, activity);
+        this.mUserId = userId;
         initialize(userId);
-    }
-
-    @Override
-    public void onStartRecording() {
-        recorder = new VideoRecorder(visionView.getCamera(), context);
-        super.onStartRecording();
     }
 
     @Override
@@ -49,17 +45,20 @@ public class VerificationPresenter extends BasePresenter {
 
     @Override
     protected void addVideo(byte[] video) throws CoreException {
-        getModel().addVerificationVideo(new Video(video, session.getPassphrase()));
+        getModel().addVerificationVideo(new Video(video, mSession.getPassphrase()));
     }
 
     @Override
-    public boolean getResult() {
-        return getModel().getVerificationResult();
+    public boolean getResult() throws CoreException {
+        if (mResult == null) {
+            mResult = getModel().getVerificationResult();
+        }
+        return mResult;
     }
 
     @Override
     public String getPassphrase() {
-        return session.getPassphrase();
+        return mSession.getPassphrase();
     }
 
     //It doesn't use in verification flow
@@ -68,12 +67,9 @@ public class VerificationPresenter extends BasePresenter {
         return null;
     }
 
+    @Override
     public void restartSession() {
-        this.session = getModel().startVerification(userId);
-    }
-
-    public boolean isRecPrepared(){
-        return recorder.isPrepared();
+        this.mSession = getModel().startVerification(mUserId);
     }
 
     @Override
@@ -87,16 +83,17 @@ public class VerificationPresenter extends BasePresenter {
     }
 
     public boolean processVideo() {
-        try {
-            addVideo(recorder.getMedia());
-        } catch (Exception e) {
-            return false;
-        }
         return true;
     }
 
+
+    public void processVideo(byte[] video) throws CoreException {
+        Log.d(TAG, "processVideo");
+        addVideo(video);
+    }
+
     private void initialize(String userId) {
-        this.session = getModel().startVerification(userId);
+        this.mSession = getModel().startVerification(userId);
     }
 
 }

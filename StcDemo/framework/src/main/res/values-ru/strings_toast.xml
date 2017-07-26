@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="toast_server_error">Что-то пошло не так</string>
-    <string name="toast_unknown_error">Неизвестная ошибка, попробуйте позже</string>
-    <string name="toast_incorrect_pronunciation">Неправильное произношение</string>
-
-    <string name="network_error">Не удалось установить соединение, повторите попытку позже</string>
-    <string name="delete_user">Пользователь удален</string>
-</resources>

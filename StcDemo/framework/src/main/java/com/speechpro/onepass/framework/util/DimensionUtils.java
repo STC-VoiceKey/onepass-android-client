@@ -1,11 +1,6 @@
 package com.speechpro.onepass.framework.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 /**

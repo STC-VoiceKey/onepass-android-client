@@ -1,7 +1,7 @@
 package com.speechpro.onepass.framework.model.tasks;
 
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.sessions.VerificationSession;
+import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 
 /**
@@ -9,18 +9,18 @@ import com.speechpro.onepass.framework.model.data.VoiceSample;
  * @since 26.04.16
  */
 public class VerificationVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, Void> {
-    private final VerificationSession verificationSession;
+    private final VerificationTransaction verificationtransaction;
 
-    public VerificationVoiceTask(VerificationSession verificationSession) {
+    public VerificationVoiceTask(VerificationTransaction verificationTransaction) {
         super();
-        this.verificationSession = verificationSession;
+        this.verificationtransaction = verificationTransaction;
     }
 
     @Override
     protected Void doInBackground(VoiceSample... params) {
         try {
             VoiceSample sample = params[0];
-            verificationSession.addVoiceSample(sample.getVoiceSample(), sample.getSamplingRate());
+            verificationtransaction.addVoiceSample(sample.getVoiceSample(), sample.getSamplingRate());
         } catch (CoreException e) {
             exception = e;
         }

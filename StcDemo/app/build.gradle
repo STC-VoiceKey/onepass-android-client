@@ -15,7 +15,9 @@ repositories {
 }
 
 
-def coreVersion ="$System.env.CORE_VERSION"
+//def coreVersion = "$System.env.CORE_VERSION"
+def coreVersion = "3.0.9"
+
 
 android {
     compileSdkVersion 25
@@ -26,8 +28,9 @@ android {
         applicationId "com.speechpro.stcdemo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 10
-        versionName "2.9.6"
+        versionCode 11
+        versionName coreVersion
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     signingConfigs {
@@ -73,13 +76,24 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    sourceSets {
+        androidTest.resources.srcDirs = ['src/res']
+    }
+
 }
 
 dependencies {
+    def dep = rootProject.ext.dep
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':framework')
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
+    }
+    androidTestCompile dep.uiautomator
+    androidTestCompile dep.espresso, {
+        exclude group: 'com.android.support', module: 'support-annotations'
     }
 }

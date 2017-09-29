@@ -17,20 +17,20 @@ public class VerificationSessionResponse {
 
     @JsonProperty("password")
     public String password;
-    @JsonProperty("verificationId")
-    public String verificationId;
+    @JsonProperty("transactionId")
+    public String transactionId;
 
     /**
      * Constructor.
      *
      * @param password       password which was said
-     * @param verificationId verification session id
+     * @param transactionId  verification transaction id
      */
     @JsonCreator
     public VerificationSessionResponse(@JsonProperty("password") String password,
-                                       @JsonProperty("verificationId") String verificationId) {
+                                       @JsonProperty("transactionId") String transactionId) {
         this.password = password;
-        this.verificationId = verificationId;
+        this.transactionId = transactionId;
     }
 
 
@@ -38,7 +38,7 @@ public class VerificationSessionResponse {
         return password;
     }
 
-    public String getVerificationId() {
-        return verificationId;
+    public String getTransactionId() {
+        return transactionId;
     }
 }

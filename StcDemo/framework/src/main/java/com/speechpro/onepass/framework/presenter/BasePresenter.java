@@ -16,7 +16,8 @@ import com.speechpro.onepass.framework.ui.activity.BaseActivity;
  */
 public abstract class BasePresenter {
 
-    private static final String TAG = "BasePresenter";
+    private static final String TAG = BasePresenter.class.getSimpleName();
+
     protected final BaseActivity mBaseActivity;
 
     private final IModel model;
@@ -67,7 +68,7 @@ public abstract class BasePresenter {
 
     public abstract int getRecordingTimeout();
 
-    public abstract void restartSession();
+    public abstract void restartTransaction();
 
     protected abstract void addVoiceSample(byte[] pcm, String passphrase) throws CoreException;
 

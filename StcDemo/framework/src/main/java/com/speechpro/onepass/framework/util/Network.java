@@ -19,7 +19,7 @@ public class Network {
     public static boolean isAvailable (Context ctx) {
         boolean status = false;
         try {
-            ConnectivityManager cm      = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getNetworkInfo(TYPE_MOBILE);
             if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
                 status = true;

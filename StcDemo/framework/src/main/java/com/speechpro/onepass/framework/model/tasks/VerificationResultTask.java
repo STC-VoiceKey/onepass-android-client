@@ -1,6 +1,6 @@
 package com.speechpro.onepass.framework.model.tasks;
 
-import com.speechpro.onepass.core.sessions.VerificationSession;
+import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 
 /**
  * @author volobuev
@@ -8,15 +8,15 @@ import com.speechpro.onepass.core.sessions.VerificationSession;
  */
 public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Boolean>{
 
-    private final VerificationSession verificationSession;
+    private final VerificationTransaction verificationtransaction;
 
-    public VerificationResultTask(VerificationSession verificationSession) {
+    public VerificationResultTask(VerificationTransaction verificationtransaction) {
         super();
-        this.verificationSession = verificationSession;
+        this.verificationtransaction = verificationtransaction;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
-            return verificationSession.verify(true);
+            return verificationtransaction.verify(true);
     }
 }

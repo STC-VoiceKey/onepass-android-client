@@ -30,4 +30,8 @@
     <string name="are_you_sure_you_want_to_remove_user">Вы действительно хотите удалить пользователя %s?</string>
     <string name="remove">Удалить</string>
     <string name="cancel">Отмена</string>
+    <string name="default_settings">Настройки по умолчанию</string>
+    <string name="restore_settings">Восстановить настройки по умолчанию?</string>
+    <string name="restore">Восстановить</string>
+    <string name="not_valid_url">Некорректный URL</string>
 </resources>

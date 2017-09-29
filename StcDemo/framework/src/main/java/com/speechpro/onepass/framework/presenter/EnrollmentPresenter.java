@@ -1,5 +1,6 @@
 package com.speechpro.onepass.framework.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
@@ -27,12 +28,12 @@ import static com.speechpro.onepass.framework.util.Constants.ENROLLMENT_TIMEOUT;
  */
 public class EnrollmentPresenter extends BasePresenter {
 
-    private static final String TAG = EnrollmentPresenter.class.getName();
+    private static final String TAG = EnrollmentPresenter.class.getSimpleName();
 
     private Queue<Episode> mEpisodes;
-    private Episode        mCurrentEpisode;
-    private String         mUserId;
-    private AudioRecorder  mAudioRecorder;
+    private Episode mCurrentEpisode;
+    private String mUserId;
+    private AudioRecorder mAudioRecorder;
 
     public EnrollmentPresenter(IModel model, BaseActivity activity, String userId) {
         super(model, activity);
@@ -49,7 +50,7 @@ public class EnrollmentPresenter extends BasePresenter {
         mAudioRecorder.start();
     }
 
-    public void releaseRecorder(){
+    public void releaseRecorder() {
         Log.i(TAG, "Recording is released.");
         mAudioRecorder.release();
     }
@@ -100,8 +101,8 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     @Override
-    public void restartSession() {
-//        getModel().startVerification(mUserId);
+    public void restartTransaction() {
+//        getModel().startVerificationTransaction(mUserId);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     public void processPhoto(byte[] img, int degrees) throws CoreException {
-        Pair<Integer, Integer> resolution  = BitmapUtil.getPictureResolution(img);
+        Pair<Integer, Integer> resolution = BitmapUtil.getPictureResolution(img);
 
         ///this is bug samsung
         if (resolution.first > resolution.second) {
@@ -131,10 +132,10 @@ public class EnrollmentPresenter extends BasePresenter {
 
         Log.d(TAG, "processPhoto: " + resolution.first + " " + resolution.second);
 
-        byte[]                 rotatedData = BitmapUtil.rotatePicture(img,
-                                                                      resolution.first,
-                                                                      resolution.second,
-                                                                      degrees);
+        byte[] rotatedData = BitmapUtil.rotatePicture(img,
+                resolution.first,
+                resolution.second,
+                degrees);
 
         byte[] resizedPicture = BitmapUtil.resizedPicture(rotatedData, 240, 320);
 
@@ -143,8 +144,13 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     private void initialize(String userId) {
+        try {
+            getModel().startSession();
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
         this.mUserId = userId;
-        getModel().createPerson(userId);
+        getModel().startRegistrationTransaction(userId);
     }
 
 }

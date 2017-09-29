@@ -10,54 +10,65 @@ import retrofit2.http.*;
  */
 public interface OnePassService {
 
-    @POST("person")
-    Call<Void> createPerson(@Body CreatePersonRequest person);
+    @POST("session")
+    Call<SessionIdResponse> startSession(@Body StartSessionRequest session);
+
+    @DELETE("session")
+    Call<Void> closeSession(@Header("X-Session-Id") String sessionId);
 
     @GET("person/{id}")
-    Call<Person> readPerson(@Path("id") String id);
+    Call<Person> readPerson(@Header("X-Session-Id") String sessionId,
+                            @Path("id") String id);
 
     @DELETE("person/{id}")
-    Call<Void> deletePerson(@Path("id") String id);
+    Call<Void> deletePerson(@Header("X-Session-Id") String sessionId,
+                            @Path("id") String id);
 
-    @POST("person/{id}/voice/dynamic/sample")
-    Call<Void> addVoiceSample(@Path("id") String id, @Body VoiceSample sample);
+    @GET("registration/person/{id}")
+    Call<RegistationSessionResponse> startRegistrationSession(@Header("X-Session-Id") String sessionId,
+                                                              @Path("id") String id);
 
-    @POST("person/{id}/voice/dynamic/feature")
-    Call<Void> addVoiceFeature(@Path("id") String id, @Body Data features);
+    @POST("registration/face/file")
+    Call<Void> addFaceFile(@Header("X-Session-Id") String sessionId,
+                           @Header("X-Transaction-Id") String transactionId,
+                           @Body Data data);
 
-    @DELETE("person/{id}/voice/dynamic")
-    Call<Void> deleteVoice(@Path("id") String id);
+    @POST("registration/voice/dynamic/file")
+    Call<Void> addVoiceDynamicFile(@Header("X-Session-Id") String sessionId,
+                                   @Header("X-Transaction-Id") String transactionId,
+                                   @Body VoiceFile voiceFile);
 
-    @POST("person/{id}/face/sample")
-    Call<Void> addFaceSample(@Path("id") String id, @Body FaceSample sample);
+    @POST("registration/voice/dynamic/sample")
+    Call<Void> addVoiceDynamicSample(@Header("X-Session-Id") String sessionId,
+                                     @Header("X-Transaction-Id") String transactionId,
+                                     @Body VoiceSample sample);
 
-    @POST("person/{id}/face/model")
-    Call<Void> addFaceModel(@Path("id") String id, @Body FaceModel model);
+    @GET("verification/person/{id}")
+    Call<VerificationSessionResponse> startVerificationTransaction(@Header("X-Session-Id") String sessionId,
+                                                                   @Path("id") String id);
 
-    @DELETE("person/{id}/face")
-    Call<Void> deleteFace(@Path("id") String id);
+    @POST("verification/voice/dynamic/sample")
+    Call<Void> addDynamicVerificationVoiceSample(@Header("X-Session-Id") String sessionId,
+                                                 @Header("X-Transaction-Id") String transactionId,
+                                                 @Body VoiceSample sample);
 
-    @GET("verification/start/{id}")
-    Call<VerificationSessionResponse> startVerificationSession(@Path("id") String id);
+    @POST("verification/video/dynamic/file")
+    Call<Void> addDynamicVerificationVideo(@Header("X-Session-Id") String sessionId,
+                                           @Header("X-Transaction-Id") String transactionId,
+                                           @Body Video video);
 
-    @POST("verification/{id}/voice/dynamic/sample")
-    Call<Void> addVerificationVoiceSample(@Path("id") String id, @Body VoiceSample sample);
+    @GET("verification/result")
+    Call<VerificationResponse> verify(@Header("X-Session-Id") String sessionId,
+                                      @Header("X-Transaction-Id") String transactionId,
+                                      @Query("closeSession") boolean closeFlag);
 
-    @POST("verification/{id}/voice/dynamic/feature")
-    Call<Void> addVerificationVoiceFeature(@Path("id") String id, @Body Data features);
+    @GET("verification/result")
+    Call<VerificationScoresResponse> scoreVerify(@Header("X-Session-Id") String sessionId,
+                                                 @Header("X-Transaction-Id") String transactionId,
+                                                 @Query("closeSession") boolean closeFlag);
 
-    @POST("verification/{id}/face/sample")
-    Call<Void> addVerificationFaceSample(@Path("id") String id, @Body FaceSample sample);
+    @DELETE("verification")
+    Call<Void> closeVerification(@Header("X-Session-Id") String sessionId,
+                                 @Header("X-Transaction-Id") String transactionId);
 
-    @POST("verification/{id}/face/model")
-    Call<Void> addVerificationFaceModel(@Path("id") String id, @Body FaceModel model);
-
-    @POST("verification/{id}/video/dynamic")
-    Call<Void> addVerificationVideo(@Path("id") String id, @Body Video video);
-
-    @GET("verification/{id}")
-    Call<VerificationResult> verify(@Path("id") String id, @Query("close_session") boolean closeFlag);
-
-    @DELETE("verification/{id}")
-    Call<Void> closeVerification(@Path("id") String id);
 }

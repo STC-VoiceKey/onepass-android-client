@@ -15,7 +15,6 @@
     <string name="failure">Failure</string>
     <string name="success">Success</string>
 
-
     <!--Face fragments-->
     <string name="poor_light">Poor\nlight</string>
     <string name="other_faces">Other faces</string>

@@ -1,11 +1,13 @@
 package com.speechpro.onepass.framework.model;
 
 import android.util.Log;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.ServiceUnavailableException;
 import com.speechpro.onepass.core.rest.api.RetroRestAPI;
 import com.speechpro.onepass.core.sessions.PersonSession;
-import com.speechpro.onepass.core.sessions.VerificationSession;
+import com.speechpro.onepass.core.sessions.transactions.RegistrationTransaction;
+import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.framework.injection.FrameworkInjection;
 import com.speechpro.onepass.framework.model.data.FaceSample;
@@ -22,35 +24,43 @@ public class Model implements IModel {
 
     private final static String TAG = "Model";
 
-    private final ITransport          transport;
+    private final ITransport transport;
 
-    private       PersonSession       personSession;
-    private       VerificationSession verificationSession;
+    private final String username = "admin";
+    private final String password = "QL0AFWMIX8NRZTKeof9cXsvbvu8=";
+    private final int domainId = 201;
+
+    private RegistrationTransaction registrationTransaction;
+    private VerificationTransaction verificationTransaction;
+
+    private String sessionId;
 
     public Model() {
         this.transport = FrameworkInjection.getTransport();
     }
 
-    public Model(String url){
+    public Model(String url) {
         transport = new RetroRestAPI(url);
     }
 
     @Override
-    public PersonSession createPerson(String personId) {
+    public String startSession() throws CoreException {
+        CreateSessionTask task = new CreateSessionTask(transport, username, password, domainId);
         try {
-            personSession = new CreatePersonTask(transport).execute(personId).get();
+            sessionId = task.execute().get();
         } catch (Exception e) {
-            Log.e(TAG,e.getMessage(), e);
+            Log.e(TAG, e.getMessage(), e);
         }
-        return personSession;
+        checkNetwork(task);
+        return sessionId;
     }
 
     @Override
     public PersonSession readPerson(String personId) throws CoreException {
-        ReadPersonTask task   = new ReadPersonTask(transport);
-        PersonSession  result = null;
+        ReadPersonTask task = new ReadPersonTask(transport, sessionId, personId);
+        PersonSession result = null;
         try {
-            result = task.execute(personId).get();
+            result = task.execute().get();
         } catch (Exception e) {
             Log.d(TAG, e.getMessage(), e);
         }
@@ -61,7 +71,7 @@ public class Model implements IModel {
     @Override
     public void deletePerson(String personId) {
         try {
-            new DeletePersonTask(transport).execute(personId).get();
+            new DeletePersonTask(transport).execute(sessionId, personId).get();
         } catch (Exception e) {
             Log.d(TAG, e.getMessage(), e);
         }
@@ -73,73 +83,92 @@ public class Model implements IModel {
         try {
             session = readPerson(personId);
         } catch (CoreException e) {
-            Log.e(TAG,  e.getMessage(), e);
+            Log.e(TAG, e.getMessage(), e);
         }
         return session != null && session.isFullEnroll();
+    }
+
+    @Override
+    public RegistrationTransaction startRegistrationTransaction(String personId) {
+        try {
+            registrationTransaction = new StartRegistrationTransactionTask(transport)
+                    .execute(sessionId, personId).get();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        return registrationTransaction;
     }
 
 
     @Override
     public void addEnrollmentVoice(VoiceSample voiceSample) throws CoreException {
-        EnrollmentVoiceTask task = new EnrollmentVoiceTask(personSession);
+        EnrollmentVoiceTask task = new EnrollmentVoiceTask(registrationTransaction);
         try {
             task.execute(voiceSample).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
         checkException(task);
     }
 
     @Override
     public void addEnrollmentFace(FaceSample faceSample) throws CoreException {
-        EnrollmentFaceTask task = new EnrollmentFaceTask(personSession);
+        EnrollmentFaceTask task = new EnrollmentFaceTask(registrationTransaction);
         try {
             task.execute(faceSample).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
         checkException(task);
     }
 
     @Override
-    public VerificationSession startVerification(String personId) {
+    public VerificationTransaction startVerificationTransaction(String personId) {
         try {
-            verificationSession = new StartVerificationTask(transport).execute(personId).get();
+            verificationTransaction = new StartVerificationTransactionTask(transport)
+                    .execute(sessionId, personId).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
-        return verificationSession;
+        return verificationTransaction;
+    }
+
+    @Override
+    public String getVerificationPassphrase() {
+        return verificationTransaction != null
+                ? verificationTransaction.getPassphrase()
+                : null;
     }
 
     @Override
     public void addVerificationVoice(VoiceSample voiceSample) throws CoreException {
-        VerificationVoiceTask task = new VerificationVoiceTask(verificationSession);
+        VerificationVoiceTask task = new VerificationVoiceTask(verificationTransaction);
         try {
             task.execute(voiceSample).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
         checkException(task);
     }
 
     @Override
     public void addVerificationFace(FaceSample faceSample) throws CoreException {
-        VerificationFaceTask task = new VerificationFaceTask(verificationSession);
+        VerificationFaceTask task = new VerificationFaceTask(verificationTransaction);
         try {
             task.execute(faceSample).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
         checkException(task);
     }
 
     @Override
     public void addVerificationVideo(Video video) throws CoreException {
-        VerificationVideoTask task = new VerificationVideoTask(verificationSession);
+        VerificationVideoTask task = new VerificationVideoTask(verificationTransaction);
         try {
             task.execute(video).get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
         checkException(task);
     }
@@ -147,7 +176,7 @@ public class Model implements IModel {
 
     @Override
     public Boolean getVerificationResult() throws CoreException {
-        VerificationResultTask task = new VerificationResultTask(verificationSession);
+        VerificationResultTask task = new VerificationResultTask(verificationTransaction);
         Boolean res = false;
         try {
             res = task.execute().get();
@@ -164,9 +193,9 @@ public class Model implements IModel {
     @Override
     public void deleteVerificationSession() {
         try {
-            new DeleteVerificationSessionTask(verificationSession).execute().get();
+            new DeleteVerificationTransactionTask(verificationTransaction).execute().get();
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage(),e);
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 

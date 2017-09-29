@@ -1,26 +1,26 @@
 package com.speechpro.onepass.framework.model.tasks;
 
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.sessions.VerificationSession;
+import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.core.transport.ITransport;
 
 /**
  * @author volobuev
  * @since 26.04.16
  */
-public class StartVerificationTask extends ExceptionAsyncTask<String, Void, VerificationSession> {
+public class StartVerificationTransactionTask extends ExceptionAsyncTask<String, Void, VerificationTransaction> {
 
     private final ITransport transport;
 
-    public StartVerificationTask(ITransport transport) {
+    public StartVerificationTransactionTask(ITransport transport) {
         super();
         this.transport = transport;
     }
 
     @Override
-    protected VerificationSession doInBackground(String... params) {
+    protected VerificationTransaction doInBackground(String... params) {
         try {
-            return transport.startVerificationSession(params[0]);
+            return transport.startVerificationTransaction(params[0], params[1]);
         } catch (CoreException e) {
             exception = e;
         }

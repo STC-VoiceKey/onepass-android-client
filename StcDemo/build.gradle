@@ -30,17 +30,18 @@ project.ext {
     mobileVision = '9.4.0+'
 
     //Testing
-    robolectricVersion = '3.0'
+    robolectricVersion = '3.4.2'
     jUnitVersion = '4.12'
-    assertJVersion = '1.7.1'
-    mockitoVersion = '1.9.5'
-    dexmakerVersion = '1.0'
-    espressoVersion = '2.0'
+    assertJVersion = '3.8.0'
+    mockitoVersion = '2.5.4'
+    powermockVersion = '1.6.4'
+    dexmakerVersion = '1.4'
+    espressoVersion = '2.2.2'
+    uiautomator = '2.1.1'
     testingSupportLibVersion = '0.1'
 
     //Logging
     loggingVersion = '3.2.0'
-
 
     dep = [
             daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -56,13 +57,23 @@ project.ext {
             guava          : "com.google.guava:guava:${guavaVersion}",
             playServices   : "com.google.android.gms:play-services:${playServicesVersion}",
             design         : "com.android.support:design:${supportDesign}",
-            vision         : "com.google.android.gms:play-services-vision:${mobileVision}"
+            vision         : "com.google.android.gms:play-services-vision:${mobileVision}",
+            robolectric    : "org.robolectric:robolectric:${robolectricVersion}",
+            junit          : "junit:junit:${jUnitVersion}",
+            assertj        : "org.assertj:assertj-core:${assertJVersion}",
+            mockito        : "org.mockito:mockito-core:${mockitoVersion}",
+            pmockJunit     : "org.powermock:powermock-module-junit4:${powermockVersion}",
+            pmockJunitRule : "org.powermock:powermock-module-junit4-rule:${powermockVersion}",
+            pmockApiMockito: "org.powermock:powermock-api-mockito:${powermockVersion}",
+            pmockClsloading: "org.powermock:powermock-classloading-xstream:${powermockVersion}",
+            espresso       : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            uiautomator    : "com.android.support.test.uiautomator:uiautomator-v18:${uiautomator}"
     ]
 }
 
 buildscript {
     repositories {
-//        mavenLocal()
+        mavenLocal()
         jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
@@ -76,10 +87,10 @@ buildscript {
 
 allprojects {
     repositories {
-//        mavenLocal()
+        mavenLocal()
         jcenter()
         flatDir {
-            dirs 'C://outputs/aar/'
+            dirs '/home/alexander/outputs/aar/newApi/'
         }
     }
 }

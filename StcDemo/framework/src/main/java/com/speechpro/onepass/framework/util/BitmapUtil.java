@@ -17,7 +17,7 @@ public class BitmapUtil {
 
 
     public static byte[] createJpeg(byte[] yuvData, int w, int h, int degree, int quality) throws IOException {
-        Bitmap                bmp = createBitmap(yuvData, w, h, degree);
+        Bitmap bmp = createBitmap(yuvData, w, h, degree);
         return createJpeg(bmp, quality);
     }
 
@@ -32,8 +32,8 @@ public class BitmapUtil {
 
 
     public static Bitmap createBitmap(byte[] yuvData, int w, int h, int degree) {
-        ByteArrayOutputStream out      = new ByteArrayOutputStream();
-        YuvImage              yuvImage = new YuvImage(yuvData, ImageFormat.NV21, w, h, null);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        YuvImage yuvImage = new YuvImage(yuvData, ImageFormat.NV21, w, h, null);
         yuvImage.compressToJpeg(new Rect(0, 0, w, h), 50, out);
         byte[] imageBytes = out.toByteArray();
         Bitmap bitmap     = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);

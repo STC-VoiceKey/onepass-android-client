@@ -19,7 +19,7 @@ public class DeletePersonTask extends ExceptionAsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         try {
-            transport.deletePerson(params[0]);
+            transport.deletePerson(params[0], params[1]);
         } catch (CoreException e) {
             exception = e;
         }

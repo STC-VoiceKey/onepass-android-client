@@ -72,6 +72,17 @@ dependencies {
     compile dep.design
     compile dep.vision
 
+    testCompile dep.robolectric
+    testCompile dep.junit
+    testCompile dep.assertj
+
+    testCompile dep.pmockJunit
+    testCompile dep.pmockJunitRule
+    testCompile dep.pmockApiMockito
+    testCompile dep.pmockClsloading
+
+    testCompile 'cglib:cglib-nodep:2.2'
+
     compile('com.github.tony19:logback-android-classic:1.1.1-5') {
         // workaround issue #73
         exclude group: 'com.google.android', module: 'android'

@@ -246,7 +246,7 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
     protected void setUpMediaRecorder(boolean isInternal, int width, int height, int degrees) throws IOException {
         if (getActivity() == null) { return; }
 
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mMediaRecorder.setOutputFormat(THREE_GPP);
         mMediaRecorder.setVideoEncodingBitRate(500000);
         mMediaRecorder.setVideoFrameRate(30);

@@ -25,7 +25,7 @@ public class VoiceSample {
     /**
      * Constructor.
      *
-     * @param data         sample data
+     * @param data         data
      * @param password     passphrase
      * @param gender       person gender
      * @param samplingRate sampling rate

@@ -1,7 +1,7 @@
 package com.speechpro.onepass.framework.model.tasks;
 
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.sessions.VerificationSession;
+import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.framework.model.data.Video;
 
 /**
@@ -10,18 +10,18 @@ import com.speechpro.onepass.framework.model.data.Video;
  */
 public class VerificationVideoTask extends ExceptionAsyncTask<Video, Void, Void> {
 
-    private final VerificationSession verificationSession;
+    private final VerificationTransaction verificationtransaction;
 
-    public VerificationVideoTask(VerificationSession verificationSession) {
+    public VerificationVideoTask(VerificationTransaction verificationtransaction) {
         super();
-        this.verificationSession = verificationSession;
+        this.verificationtransaction = verificationtransaction;
     }
 
     @Override
     protected Void doInBackground(Video... params) {
         try {
             Video video = params[0];
-            verificationSession.addVideo(video.getVideo());
+            verificationtransaction.addDynamicVerificationVideo(video.getVideo());
         } catch (CoreException e) {
             exception = e;
         }

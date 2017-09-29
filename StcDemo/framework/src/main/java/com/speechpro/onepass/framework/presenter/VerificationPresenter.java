@@ -1,10 +1,6 @@
 package com.speechpro.onepass.framework.presenter;
 
-import android.util.Log;
-
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.sessions.VerificationSession;
-import com.speechpro.onepass.framework.media.AudioHelper;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.Video;
@@ -23,13 +19,11 @@ public class VerificationPresenter extends BasePresenter {
 
     private static final String TAG = VerificationPresenter.class.getSimpleName();
 
-    private Boolean             mResult;
-    private VerificationSession mSession;
-    private String              mUserId;
+    private Boolean mResult;
+    private String mUserId;
 
     public VerificationPresenter(IModel model, BaseActivity activity, String userId) {
         super(model, activity);
-        this.mUserId = userId;
         initialize(userId);
     }
 
@@ -45,7 +39,7 @@ public class VerificationPresenter extends BasePresenter {
 
     @Override
     protected void addVideo(byte[] video) throws CoreException {
-        getModel().addVerificationVideo(new Video(video, mSession.getPassphrase()));
+        getModel().addVerificationVideo(new Video(video, getModel().getVerificationPassphrase()));
     }
 
     @Override
@@ -58,7 +52,7 @@ public class VerificationPresenter extends BasePresenter {
 
     @Override
     public String getPassphrase() {
-        return mSession.getPassphrase();
+        return getModel().getVerificationPassphrase();
     }
 
     //It doesn't use in verification flow
@@ -68,8 +62,8 @@ public class VerificationPresenter extends BasePresenter {
     }
 
     @Override
-    public void restartSession() {
-        this.mSession = getModel().startVerification(mUserId);
+    public void restartTransaction() {
+        getModel().startVerificationTransaction(mUserId);
     }
 
     @Override
@@ -88,12 +82,17 @@ public class VerificationPresenter extends BasePresenter {
 
 
     public void processVideo(byte[] video) throws CoreException {
-        Log.d(TAG, "processVideo");
         addVideo(video);
     }
 
     private void initialize(String userId) {
-        this.mSession = getModel().startVerification(userId);
+        try {
+            getModel().startSession();
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        this.mUserId = userId;
+        getModel().startVerificationTransaction(userId);
     }
 
 }

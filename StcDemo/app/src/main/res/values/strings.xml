@@ -22,8 +22,9 @@
 
     <string name="user_id_pref" translatable="false">com.speechpro.stcdemo.USER_ID</string>
     <string name="email_pref" translatable="false">com.speechpro.stcdemo.EMAIL</string>
-    <string name="url_pref" translatable="false">com.speechpro.stcdemo.URL</string>
-    <string name="url" translatable="false">https://onepass.tech/vkonepass/rest/v4/</string>
+    <string name="base_url_pref" translatable="false">com.speechpro.stcdemo.URL</string>
+    <string name="url" translatable="false">https://onepass.tech/vkop/rest/</string>
+
     <string name="title_signup">Sign up</string>
 
     <!--Settings view-->
@@ -36,6 +37,9 @@
     <string name="are_you_sure_you_want_to_remove_user">Are you sure you want to remove user %s?</string>
     <string name="remove">Remove</string>
     <string name="cancel">Cancel</string>
-
+    <string name="default_settings">Default settings</string>
+    <string name="restore_settings">Restore default settings?</string>
+    <string name="restore">Restore</string>
+    <string name="not_valid_url">Not valid URL</string>
 
 </resources>

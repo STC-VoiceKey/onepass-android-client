@@ -8,15 +8,6 @@ ext.lib = [
         junit          : 'junit:junit:4.12',
         playServices   : 'com.google.android.gms:play-services:7.8.+',
 
-        //face sdk and data
-        sdkFacesdk     : 'com.speechpro.biometry.android:lib_sdk_facesdk:1.5.8.6.6@jar',
-        dataFacesdk    : 'com.speechpro.biometry.android:lib_sdk_facesdk_data:1.5.8.6.13@aar',
-        //voice sdk and data
-        sdkVoicekey    : 'com.speechpro.biometry.android:lib_sdk_voicekey:2.1.7',
-        dataVoicekey   : 'com.speechpro.biometry.android:lib_sdk_voicekey_data:2.1.7@aar',
-        //cognitec sdk and data
-        sdkCognitec    : 'com.speechpro.biometry.android:lib_sdk_cognitec:9.0.0.0@aar',
-        dataCognitec   : 'com.speechpro.biometry.android:lib_sdk_cognitec_data_portrait:9.0.0.0@aar'
 ]
 
 buildscript {

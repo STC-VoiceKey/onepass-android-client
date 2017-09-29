@@ -50,6 +50,7 @@ public class VerifyFragment extends BaseFragment
     private final static String TAG = VerifyFragment.class.getName();
 
     private final static int FACE_DETECTED_TIME = 2000;
+    private final static int DELAY_TIME = 1500;
     private final static int VERIFY_TIME = 5000;
     private final static short THREAD_COUNT = 5;
 
@@ -268,11 +269,6 @@ public class VerifyFragment extends BaseFragment
 
     @Override
     public void onFaceDetected() {
-        Log.d(TAG, "onFaceDetected: \n" +
-                "mIsPoorLight " + mIsPoorLight + "\n" +
-                "mIsProgressFaceDetectedTimer " + mIsProgressFaceDetectedTimer + "\n" +
-                "isRecordingVideo " + mCameraView.isRecordingVideo());
-
         mIsFaceOff = false;
 
         mHandler.post(new Runnable() {
@@ -420,27 +416,34 @@ public class VerifyFragment extends BaseFragment
             mCameraView.removeListener();
             mSensorManager.unregisterListener(this);
 
-            mNumbersLayout.setVisibility(VISIBLE);
-            mWarningLayout.setVisibility(GONE);
-            mProgressBar.setProgress(0);
-            mProgressValue = 0;
-            mProgressBar.setVisibility(VISIBLE);
-            mProgressBar.setMax(VERIFY_TIME);
-            Log.d(TAG, "VIDEO RECORDING STARTED");
-            if (!mPassword.isEmpty()) {
-                mPassphraseText.setVisibility(GONE);
-                setNumbers(mPassword, mNum0, mNum1, mNum2, mNum3, mNum4);
-            } else {
-                mPassphraseText.setText(mPassphrase);
-                mPassphraseText.setVisibility(VISIBLE);
-                if (getView() != null)
-                    Snackbar.make(getView(), R.string.languages_do_not_match, Snackbar.LENGTH_SHORT).show();
-            }
-            Log.d(TAG, "startVerification password: " + mPassword + " passphrase: " + mPassphrase);
-            mIsRecording = true;
             mPresenter.pauseOtherActivePlayer();
             mCameraView.captureVideo(true);
-            mProgressTimer.start();
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mNumbersLayout.setVisibility(VISIBLE);
+                    mWarningLayout.setVisibility(GONE);
+                    mProgressBar.setProgress(0);
+                    mProgressValue = 0;
+                    mProgressBar.setVisibility(VISIBLE);
+                    mProgressBar.setMax(VERIFY_TIME);
+                    Log.d(TAG, "VIDEO RECORDING STARTED");
+                    if (!mPassword.isEmpty()) {
+                        mPassphraseText.setVisibility(GONE);
+                        setNumbers(mPassword, mNum0, mNum1, mNum2, mNum3, mNum4);
+                    } else {
+                        mPassphraseText.setText(mPassphrase);
+                        mPassphraseText.setVisibility(VISIBLE);
+                        if (getView() != null)
+                            Snackbar.make(getView(), R.string.languages_do_not_match, Snackbar.LENGTH_SHORT).show();
+                    }
+                    Log.d(TAG, "startVerificationTransaction password: " + mPassword + " passphrase: " + mPassphrase);
+                    mIsRecording = true;
+
+                    mProgressTimer.start();
+                }
+            }, DELAY_TIME);
         }
     }
 
@@ -514,7 +517,7 @@ public class VerifyFragment extends BaseFragment
                             mActivity.nextEpisode();
                         } catch (CoreException ex) {
                             Log.d(TAG, "CoreException");
-                            mPresenter.restartSession();
+                            mPresenter.restartTransaction();
                             loading(false);
                             final String descriptionError = ((RestException) ex).reason;
                             mHandler.post(new Runnable() {

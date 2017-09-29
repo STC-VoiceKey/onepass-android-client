@@ -56,6 +56,7 @@ public final class Framework {
         if (userId != null) {
             PersonSession session;
             try {
+                model.startSession();
                 session = model.readPerson(userId);
             } catch (CoreException e) {
                 throw new Exception(e);
@@ -74,6 +75,7 @@ public final class Framework {
     public boolean delete(String userId) throws Exception {
         PersonSession session;
         try {
+            model.startSession();
             session = model.readPerson(userId);
         } catch (CoreException e) {
             throw new Exception(e);

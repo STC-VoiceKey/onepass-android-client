@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.speechpro.onepass.framework.Framework;
 import com.speechpro.onepass.framework.permissions.IRequestPermissionListener;
@@ -169,7 +172,7 @@ public class LoginFragment extends EnterFragment {
             }
         });
 
-        url = ((MainActivity) getActivity()).getPref(getString(R.string.url_pref), getString(R.string.url));
+        url = ((MainActivity) getActivity()).getPref(getString(R.string.base_url_pref), getString(R.string.url));
         mMainActivity.setFramework(Framework.getFramework(url));
 
         mMainActivity.onTouchListener(view);

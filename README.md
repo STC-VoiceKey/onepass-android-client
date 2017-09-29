@@ -2,8 +2,8 @@
 Android client for OnePass server.
 
 ## REST API
-<p>URL: https://onepass.tech/vkonepass/rest/v4/</p>
-<p>HELP: https://onepass.tech/vkonepass/help/</p>
+<p>URL: https://onepass.tech/vkop/rest/</p>
+<p>HELP: https://onepass.tech/vkop/help/</p>
 
 ## Documentation
 _(Coming soon)_

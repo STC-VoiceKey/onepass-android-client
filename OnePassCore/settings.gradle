@@ -1,1 +1,1 @@
-include   ':core', ":rest"
+include   ':core', ':rest'

@@ -12,9 +12,7 @@ import android.view.TextureView;
 
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.ui.activity.BaseActivity;
-import com.speechpro.onepass.framework.ui.fragment.BaseFragment;
-import com.speechpro.onepass.framework.ui.listeners.CameraCallbackListener;
-import com.speechpro.onepass.framework.util.Util;
+import com.speechpro.onepass.framework.util.LogUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,7 +60,7 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
     protected Integer       mSensorOrientation;
     protected MediaRecorder mMediaRecorder;
 
-    private CameraCallbackListener mListener;
+//    private CameraCallbackListener mListener;
     private BaseActivity           mActivity;
     private String                 mVideoPath;
 
@@ -88,13 +86,13 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
         setAttributes(attrs);
     }
 
-    public synchronized void setListener(CameraCallbackListener mListener) {
-        this.mListener = mListener;
-    }
+//    public synchronized void setListener(CameraCallbackListener mListener) {
+//        this.mListener = mListener;
+//    }
 
-    public synchronized void removeListener() {
-        this.mListener = null;
-    }
+//    public synchronized void removeAllListeners() {
+//        this.mListener = null;
+//    }
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
@@ -146,10 +144,10 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
     }
 
     public byte[] getVideo() {
-        File   file  = new File(mVideoPath);
+        File file = new File(mVideoPath);
         byte[] video = new byte[(int) file.length()];
 
-        FileInputStream fileInputStream;
+        FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(video);
@@ -157,8 +155,16 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        Util.logVideo(video);
+        LogUtils.logVideo(video);
         return video;
     }
 
@@ -174,19 +180,19 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
     protected abstract void configureTransform(int width, int height);
 
     protected BaseActivity getActivity() {
-        if (mActivity != null) { return mActivity; }
-        if (mListener == null) { return null; }
-        if (mListener instanceof BaseActivity) { return mActivity = (BaseActivity) mListener; }
-        if (mListener instanceof BaseFragment) {
-            BaseFragment fragment = (BaseFragment) mListener;
-            return mActivity = (BaseActivity) fragment.getActivity();
-        }
+//        if (mActivity != null) { return mActivity; }
+//        if (mListener == null) { return null; }
+//        if (mListener instanceof BaseActivity) { return mActivity = (BaseActivity) mListener; }
+//        if (mListener instanceof BaseFragment) {
+//            BaseFragment fragment = (BaseFragment) mListener;
+//            return mActivity = (BaseActivity) fragment.getActivity();
+//        }
         return null;
     }
 
-    protected synchronized CameraCallbackListener getListener() {
-        return mListener;
-    }
+//    protected synchronized CameraCallbackListener getListener() {
+//        return mListener;
+//    }
 
     protected void updateTexturePreviewMatrix(int previewWidth, int previewHeight) {
         float ratio       = (float) getHeight() / (float) getWidth();
@@ -225,7 +231,7 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
 
     @NonNull
     protected String createVideoPath(boolean isInternal) {
-        String fileName   = String.valueOf(new Random(System.nanoTime()).nextInt());
+        String fileName = String.valueOf(new Random(System.nanoTime()).nextInt());
         File   folderName = null;
         if (!isInternal) { folderName = getContext().getExternalCacheDir(); }
         if (folderName == null) { folderName = getContext().getCacheDir(); }
@@ -268,15 +274,15 @@ public abstract class BaseCameraView extends AutoFitTextureView implements Textu
      * @param inArea
      */
     protected void checkFaceDetection(boolean inArea) {
-        if (inArea) {
-            if (getListener() != null) {
-                getListener().onFaceDetected();
-            }
-        } else {
-            if (getListener() != null) {
-                getListener().onFaceLost();
-            }
-        }
+//        if (inArea) {
+//            if (getListener() != null) {
+//                getListener().onFaceDetected();
+//            }
+//        } else {
+//            if (getListener() != null) {
+//                getListener().onFaceLost();
+//            }
+//        }
     }
 
     private void setAttributes(AttributeSet attrs) {

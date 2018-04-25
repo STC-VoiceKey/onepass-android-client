@@ -1,5 +1,7 @@
 package com.speechpro.onepass.core.sessions.transactions;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.transport.ITransport;
 
@@ -12,7 +14,6 @@ public class VerificationTransaction {
     private final String sessionId;
     private final String transactionId;
     private String passphrase;
-    private int gender = 0;
 
     public VerificationTransaction(ITransport transport,
                                    String sessionId,
@@ -47,24 +48,6 @@ public class VerificationTransaction {
     }
 
     /**
-     * Retrieves gender for current transaction
-     *
-     * @return person gender: 0 is men, 1 is women
-     */
-    public int getGender() {
-        return this.gender;
-    }
-
-    /**
-     * Set gender
-     *
-     * @param gender 0 is men, 1 is women
-     */
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    /**
      *
      * Set passphrase
      *
@@ -83,7 +66,7 @@ public class VerificationTransaction {
      * @throws CoreException is thrown when person is not exist.
      */
     public void addVoiceSample(byte[] voiceSample, int samplingRate) throws CoreException {
-        transport.addDynamicVerificationVoiceSample(sessionId, this, voiceSample, this.gender, samplingRate);
+        transport.addDynamicVerificationVoiceSample(sessionId, this, voiceSample, samplingRate);
     }
 
     /**
@@ -93,7 +76,7 @@ public class VerificationTransaction {
      * @throws CoreException is thrown when person is not exist.
      */
     public void addFaceFile(byte[] faceModel) throws CoreException {
-        transport.addFaceFile(sessionId, transactionId, faceModel);
+        transport.addVerivicationFaceFile(sessionId, transactionId, faceModel);
     }
 
     /**
@@ -119,6 +102,21 @@ public class VerificationTransaction {
             return transport.verify(sessionId, transactionId, closeFlag);
         } catch (CoreException e) {
             return false;
+        }
+    }
+
+    /**
+     *
+     * Verifies the person authenticity.
+     *
+     * @param closeFlag flag for closing session
+     * @return pair with first true if verification is success, false otherwise and second object message
+     */
+    public Pair<Boolean, String> verifyWithMessage(boolean closeFlag) {
+        try {
+            return transport.verifyWithMessage(sessionId, transactionId, closeFlag);
+        } catch (CoreException e) {
+            return new Pair<>(false, e.getMessage());
         }
     }
 

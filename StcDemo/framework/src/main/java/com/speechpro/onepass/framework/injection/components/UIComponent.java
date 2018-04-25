@@ -6,7 +6,7 @@ import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 import com.speechpro.onepass.framework.ui.activity.EnrollmentActivity;
 import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
-import com.speechpro.onepass.framework.ui.fragment.EnrollVoiceFragment;
+import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollVoiceFragment;
 import dagger.Component;
 
 import javax.inject.Singleton;

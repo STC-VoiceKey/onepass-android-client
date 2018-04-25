@@ -13,4 +13,10 @@
     <color name="button_text_normal">#dd000000</color>
     <color name="button_disabled">#19333333</color>
     <color name="button_pressed">#19ffffff</color>
+
+    <!--Item colors-->
+    <color name="item_normal">#419ead</color>
+    <color name="item_pressed">#1a333333</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

@@ -30,7 +30,9 @@ public class StartSessionRequest {
     public final int domainId;
 
     @JsonCreator
-    public StartSessionRequest(@JsonProperty(value = "username",required = true) String username, @JsonProperty(value = "password",required = true) String password, @JsonProperty(value = "domainId",required = true) int domainId) {
+    public StartSessionRequest(@JsonProperty(value = "username",required = true) String username,
+                               @JsonProperty(value = "password",required = true) String password,
+                               @JsonProperty(value = "domainId",required = true) int domainId) {
         this.username = username;
         this.password = password;
         this.domainId = domainId;
@@ -41,7 +43,9 @@ public class StartSessionRequest {
             return true;
         } else if (o != null && this.getClass() == o.getClass()) {
             StartSessionRequest that = (StartSessionRequest)o;
-            return this.domainId == that.domainId && Objects.equal(this.username, that.username) && Objects.equal(this.password, that.password);
+            return this.domainId == that.domainId
+                    && Objects.equal(this.username, that.username)
+                    && Objects.equal(this.password, that.password);
         } else {
             return false;
         }

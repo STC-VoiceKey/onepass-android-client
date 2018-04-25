@@ -13,7 +13,6 @@ public class RegistrationTransaction {
     private String transactionId;
     private final String personId;
     private final boolean isFullEnroll;
-    private int gender = 0;
 
     public RegistrationTransaction(ITransport transport,
                                    String sessionId,
@@ -74,24 +73,6 @@ public class RegistrationTransaction {
     }
 
     /**
-     * Retrieves gender for current transaction
-     *
-     * @return person gender: 0 is men, 1 is women
-     */
-    public int getGender() {
-        return this.gender;
-    }
-
-    /**
-     * Set gender
-     *
-     * @param gender 0 is men, 1 is women
-     */
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    /**
      * Retrieves flag isFullEnroll
      *
      * @return
@@ -124,7 +105,6 @@ public class RegistrationTransaction {
                 this.transactionId,
                 voiceSample,
                 passphrase,
-                this.gender,
                 samplingRate.intValue());
     }
 
@@ -143,7 +123,6 @@ public class RegistrationTransaction {
                 this.transactionId,
                 voiceFile,
                 passphrase,
-                this.gender,
                 0);
     }
 

@@ -24,6 +24,7 @@
 
     <dimen name="app_toolbar_elevation">6dp</dimen>
 
+    <dimen name="text_toolbar_size">20sp</dimen>
     <dimen name="text_medium_size">18sp</dimen>
     <dimen name="text_large_size">28sp</dimen>
 

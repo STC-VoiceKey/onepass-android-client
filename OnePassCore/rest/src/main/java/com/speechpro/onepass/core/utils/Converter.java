@@ -1,5 +1,7 @@
 package com.speechpro.onepass.core.utils;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.sessions.Model;
 import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
@@ -66,8 +68,21 @@ public class Converter {
      *
      * @param model response from server with verification result
      * @return verification result
+     * @throws NotFoundException
      */
     public static boolean convertVerificationResult(VerificationResponse model) throws NotFoundException {
         return model.compileResult();
+    }
+
+
+    /**
+     * Converts verification result to pair.
+     *
+     * @param model response from server with verification result
+     * @return pair with result and message
+     * @throws NotFoundException
+     */
+    public static Pair<Boolean, String> convertVerificationResultToPair(VerificationResponse model) throws NotFoundException {
+        return model.compileResultToPair();
     }
 }

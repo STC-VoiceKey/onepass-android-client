@@ -68,7 +68,7 @@ public class BitmapUtil {
         return data;
     }
 
-    public static byte[] resizedPicture(byte[] pictureBinary, int newWidth, int newHeight) {
+    public static byte[] resizePicture(byte[] pictureBinary, int newWidth, int newHeight) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bm = BitmapFactory.decodeByteArray(pictureBinary, 0, pictureBinary.length, options);
@@ -100,4 +100,39 @@ public class BitmapUtil {
         byte[] resizedData = os.toByteArray();
         return resizedData;
     }
+
+    public static byte[] proportionalResizePicture(byte[] pictureBinary, int newWidth) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bm = BitmapFactory.decodeByteArray(pictureBinary, 0, pictureBinary.length, options);
+
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+
+        if (newWidth == width) {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            byte[] data = os.toByteArray();
+            return data;
+        }
+
+        float scale = ((float) newWidth) / width;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scale, scale);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+        byte[] resizedData = os.toByteArray();
+        return resizedData;
+    }
+
+
+
 }

@@ -15,8 +15,7 @@ import android.view.KeyEvent;
 import android.view.Surface;
 
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.ui.listeners.EnrollCameraCallbackListener;
-import com.speechpro.onepass.framework.ui.listeners.VerifyCameraCallbackListener;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -261,9 +260,9 @@ public class KitKatCameraView extends BaseCameraView
         }
 
         mCameraOpenCloseLock.release();
-        if (getListener() != null) {
-            getListener().onCameraClose();
-        }
+//        if (getListener() != null) {
+//            getListener().onCameraClose();
+//        }
     }
 
     @Override
@@ -291,11 +290,11 @@ public class KitKatCameraView extends BaseCameraView
                 mCamera.startFaceDetection();
             } catch (IllegalArgumentException eae) {
                 Log.d(TAG, "Face detection is unsupported.");
-                if (getListener() != null) {
-                    if (getListener() instanceof VerifyCameraCallbackListener) {
-                        ((VerifyCameraCallbackListener) getListener()).onFaceDetectionNotSupported();
-                    }
-                }
+//                if (getListener() != null) {
+//                    if (getListener() instanceof VerifyCameraCallback) {
+//                        ((VerifyCameraCallback) getListener()).onFaceDetectionNotSupported();
+//                    }
+//                }
             }
             cameraReady();
         } catch (IOException ioe) {
@@ -308,9 +307,9 @@ public class KitKatCameraView extends BaseCameraView
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (getListener() != null) {
-                    getListener().onCameraReady(getMeasuredWidth(), getMeasuredHeight());
-                }
+//                if (getListener() != null) {
+//                    getListener().onCameraReady(getMeasuredWidth(), getMeasuredHeight());
+//                }
             }
         }, 200);
     }
@@ -365,11 +364,11 @@ public class KitKatCameraView extends BaseCameraView
     public void stopVideoCapturing() {
         Log.d(TAG, "Video capture stopped");
         if (mCamera != null && mMediaRecorder != null && isRecordingVideo()) {
-            if (getListener() != null) {
-                if (getListener() instanceof VerifyCameraCallbackListener) {
-                    ((VerifyCameraCallbackListener) getListener()).onVideoCaptured(getVideoPath());
-                }
-            }
+//            if (getListener() != null) {
+//                if (getListener() instanceof VerifyCameraCallback) {
+//                    ((VerifyCameraCallback) getListener()).onVideoCaptured(getVideoPath());
+//                }
+//            }
             try {
                 mMediaRecorder.stop();
             } catch (RuntimeException ex) {
@@ -392,17 +391,17 @@ public class KitKatCameraView extends BaseCameraView
     @Override
     public void onFaceDetection(Camera.Face[] faces, Camera camera) {
 
-        if (faces != null && getListener() != null) {
-            getListener().onFaceCount(faces.length);
+//        if (faces != null && getListener() != null) {
+//            getListener().onFaceCount(faces.length);
             Log.d(TAG, "faces detection: " + faces.length);
-        }
+//        }
 
         if (faces != null && faces.length == 0) {
             if (maxResolution >= 0.5f || (maxResolution < 0.5f && !mIsFaceDetection)) {
-                if (getListener() != null) {
-                    getListener().onFaceLost();
-                    Log.d(TAG, "face not detection");
-                }
+//                if (getListener() != null) {
+//                    getListener().onFaceLost();
+//                    Log.d(TAG, "face not detection");
+//                }
             }
         } else if (faces != null && faces.length == 1) {
             Camera.Face face = faces[0];
@@ -442,9 +441,9 @@ public class KitKatCameraView extends BaseCameraView
             mIsFaceDetection = confidence && distance;
             checkFaceDetection(mIsFaceDetection);
         } else {
-            if (getListener() != null) {
-                getListener().onFaceLost();
-            }
+//            if (getListener() != null) {
+////                getListener().onFaceLost();
+//            }
             Log.d(TAG, "face lost");
         }
     }
@@ -452,10 +451,10 @@ public class KitKatCameraView extends BaseCameraView
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
         Log.d(TAG, "PICTURE TAKEN FROM CAMERA");
-        if (getListener() != null && getListener() instanceof EnrollCameraCallbackListener && !mFaceTaken) {
-            mFaceTaken = true;
-            ((EnrollCameraCallbackListener) getListener()).onPictureCaptured(data, mSensorOrientation);
-        }
+//        if (getListener() != null && getListener() instanceof EnrollCameraListener && !mFaceTaken) {
+//            mFaceTaken = true;
+//            ((EnrollCameraListener) getListener()).onPictureCaptured(data, mSensorOrientation);
+//        }
 
         Log.d(TAG, "SDK version is " + mCurrentApiVersion);
         if (mCurrentApiVersion > android.os.Build.VERSION_CODES.LOLLIPOP) {

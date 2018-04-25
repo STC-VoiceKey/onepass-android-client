@@ -17,8 +17,6 @@ public class VoiceSample {
     public final byte[] data;
     @JsonProperty(value = "password", required = true)
     public final String password;
-    @JsonProperty(value = "gender", required = false)
-    public final int    gender;
     @JsonProperty(value = "sampling_rate", required = true)
     public final int    samplingRate;
 
@@ -27,22 +25,15 @@ public class VoiceSample {
      *
      * @param data         data
      * @param password     passphrase
-     * @param gender       person gender
      * @param samplingRate sampling rate
      */
     @JsonCreator
     public VoiceSample(@JsonProperty(value = "data", required = true) byte[] data,
                        @JsonProperty(value = "password", required = true) String password,
-                       @JsonProperty(value = "gender", required = false) int gender,
                        @JsonProperty(value = "sampling_rate", required = true) int samplingRate) {
         this.data = data;
         this.password = password;
-        this.gender = gender;
         this.samplingRate = samplingRate;
-    }
-
-    public VoiceSample(byte[] data, String password, int samplingRate) {
-        this(data, password, 0, samplingRate);
     }
 
 }

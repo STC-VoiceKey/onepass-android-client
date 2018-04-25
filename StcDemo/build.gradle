@@ -21,13 +21,16 @@ project.ext {
     appcompat = '23.2.0'
     javaxAnnotationVersion = '1.0'
     okHttpVersion = '2.5.0'
+    butterknifeVersion = '7.0.1'
     gifDrawableVersion = '1.1.+'
     jacksonVerxion = '2.0.+'
     retrofitVersion = '2.1.+'
     guavaVersion = '19.0-rc3'
     playServicesVersion = '7.8.+'
     supportDesign = '23.2.0'
-    mobileVision = '9.4.0+'
+    cardview = '23.2.0'
+
+    mobileVision = '10.2.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -54,9 +57,11 @@ project.ext {
             jackson        : "com.squareup.retrofit2:converter-jackson:${jacksonVerxion}",
             retrofit       : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             okhttp         : "com.squareup.okhttp3:logging-interceptor:${loggingVersion}",
+            butterknife    : "com.jakewharton:butterknife:${butterknifeVersion}",
             guava          : "com.google.guava:guava:${guavaVersion}",
             playServices   : "com.google.android.gms:play-services:${playServicesVersion}",
             design         : "com.android.support:design:${supportDesign}",
+            cardView       : "com.android.support:cardview-v7:${supportDesign}",
             vision         : "com.google.android.gms:play-services-vision:${mobileVision}",
             robolectric    : "org.robolectric:robolectric:${robolectricVersion}",
             junit          : "junit:junit:${jUnitVersion}",
@@ -76,6 +81,10 @@ buildscript {
         mavenLocal()
         jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'

@@ -1,6 +1,7 @@
 package com.speechpro.onepass.core.rest;
 
 import com.speechpro.onepass.core.rest.data.*;
+
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -46,6 +47,11 @@ public interface OnePassService {
     @GET("verification/person/{id}")
     Call<VerificationSessionResponse> startVerificationTransaction(@Header("X-Session-Id") String sessionId,
                                                                    @Path("id") String id);
+
+    @POST("verification/face/file")
+    Call<Void> addVerivicationFaceFile(@Header("X-Session-Id") String sessionId,
+                                       @Header("X-Transaction-Id") String transactionId,
+                                       @Body Data data);
 
     @POST("verification/voice/dynamic/sample")
     Call<Void> addDynamicVerificationVoiceSample(@Header("X-Session-Id") String sessionId,

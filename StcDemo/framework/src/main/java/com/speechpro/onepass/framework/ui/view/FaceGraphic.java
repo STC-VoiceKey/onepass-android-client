@@ -19,13 +19,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.vision.face.Face;
-import com.speechpro.onepass.framework.BuildConfig;
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.util.DimensionUtils;
+import com.speechpro.onepass.framework.util.Utils;
 
 /**
  * Graphic instance for rendering face position, orientation, and landmarks within an associated
@@ -66,12 +64,14 @@ public class FaceGraphic extends GraphicOverlayView.Graphic {
 
     private volatile Face mFace;
     private int mFaceId;
-    private float mFaceHappiness;
 
-    public FaceGraphic(GraphicOverlayView overlay, FaceCallback callback) {
+    private boolean mHasBorder;
+
+    public FaceGraphic(GraphicOverlayView overlay, FaceCallback callback, boolean hasBorder) {
         super(overlay);
         mOverlay = overlay;
         mCallback = callback;
+        mHasBorder = hasBorder;
         mApplicationContext = overlay.getContext().getApplicationContext();
 
         mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.length;
@@ -100,7 +100,7 @@ public class FaceGraphic extends GraphicOverlayView.Graphic {
         mBorderPaint.setStrokeWidth(BOX_STROKE_WIDTH);
 
         mToobarInPx = mApplicationContext.getResources().getDimensionPixelSize(R.dimen.app_toolbar_height);
-        mBorderInPx = DimensionUtils.convertDipToPixels(mApplicationContext, 56);
+        mBorderInPx = Utils.dpToPx(56);
     }
 
     public void setId(int id) {
@@ -115,6 +115,10 @@ public class FaceGraphic extends GraphicOverlayView.Graphic {
     public void updateFace(Face face) {
         mFace = face;
         postInvalidate();
+    }
+
+    public void goneFace() {
+        mFace = null;
     }
 
     /**
@@ -137,26 +141,30 @@ public class FaceGraphic extends GraphicOverlayView.Graphic {
         float topBorder = mToobarInPx * 1.5f;
         float rightBorder = mOverlay.getRootView().getWidth() - mBorderInPx + xDelta;
         float bottomBorder = mOverlay.getRootView().getHeight() - (mBorderInPx * 3.2f);
-//        canvas.drawRect(leftBorder, topBorder, rightBorder, bottomBorder, mBorderPaint);
+        if (mHasBorder)
+            canvas.drawRect(leftBorder, topBorder, rightBorder, bottomBorder, mBorderPaint);
 
         // Draws outer red border
         float leftOuterBorder = xDelta;
         float topOuterBorder = 0;
         float rightOuterBorder = mOverlay.getRootView().getWidth() + xDelta;
         float bottomOuterBorder = mOverlay.getRootView().getHeight();
-//        canvas.drawRect(leftOuterBorder, topOuterBorder, rightOuterBorder, bottomOuterBorder, mOuterBorderPaint);
+        if (mHasBorder)
+            canvas.drawRect(leftOuterBorder, topOuterBorder, rightOuterBorder, bottomOuterBorder, mOuterBorderPaint);
 
-        // Draws a circle at the position of the detected face, with the face's track id below.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
-//        canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
-//        canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
-//        canvas.drawText("happiness: " + String.format("%.2f", face.getIsSmilingProbability()),
-//                x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
-//        canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()),
-//                x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-//        canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()),
-//                x - ID_X_OFFSET * 2, y - ID_Y_OFFSET * 2, mIdPaint);
+
+        if (mHasBorder) {
+            canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
+            canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
+            canvas.drawText("happiness: " + String.format("%.2f", face.getIsSmilingProbability()),
+                    x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
+            canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()),
+                    x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
+            canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()),
+                    x - ID_X_OFFSET * 2, y - ID_Y_OFFSET * 2, mIdPaint);
+        }
 
         // Draws a bounding box around the face.
         float xOffset = scaleX(face.getWidth() / 2.0f);
@@ -165,7 +173,8 @@ public class FaceGraphic extends GraphicOverlayView.Graphic {
         float top = y - yOffset;
         float right = x + xOffset;
         float bottom = y + (yOffset * 1.2f);
-//        canvas.drawRect(left, top, right, bottom, mBoxPaint);
+        if (mHasBorder)
+            canvas.drawRect(left, top, right, bottom, mBoxPaint);
 
         boolean inArea = inArea(
                 leftBorder, topBorder, rightBorder, bottomBorder,

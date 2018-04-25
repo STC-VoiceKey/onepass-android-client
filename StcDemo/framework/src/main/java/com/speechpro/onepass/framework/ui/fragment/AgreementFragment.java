@@ -1,7 +1,6 @@
 package com.speechpro.onepass.framework.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.permissions.IRequestPermissionListener;
-import com.speechpro.onepass.framework.permissions.RequestPermissions;
 import com.speechpro.onepass.framework.ui.activity.BaseActivity;
-import com.speechpro.onepass.framework.util.AppUtils;
 import com.speechpro.onepass.framework.util.Network;
 
 /**

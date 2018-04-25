@@ -1,21 +1,15 @@
 package com.speechpro.onepass.framework.presenter;
 
-import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.media.AudioListener;
-import com.speechpro.onepass.framework.media.AudioRecorder;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 import com.speechpro.onepass.framework.presenter.episode.Episode;
 import com.speechpro.onepass.framework.ui.activity.BaseActivity;
-import com.speechpro.onepass.framework.util.BitmapUtil;
 import com.speechpro.onepass.framework.util.Constants;
-import com.speechpro.onepass.framework.util.Util;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -33,37 +27,14 @@ public class EnrollmentPresenter extends BasePresenter {
     private Queue<Episode> mEpisodes;
     private Episode mCurrentEpisode;
     private String mUserId;
-    private AudioRecorder mAudioRecorder;
 
     public EnrollmentPresenter(IModel model, BaseActivity activity, String userId) {
         super(model, activity);
-        initialize(userId);
+        mUserId = userId;
         mEpisodes = new LinkedList<>();
         mEpisodes.add(new Episode(R.string.episode1, mBaseActivity.getApplicationContext().getString(R.string.enroll_phrases_1)));
         mEpisodes.add(new Episode(R.string.episode2, mBaseActivity.getApplicationContext().getString(R.string.enroll_phrases_2)));
         mEpisodes.add(new Episode(R.string.episode3));
-    }
-
-    public void startRecording(AudioListener mAudioListener) {
-        Log.i(TAG, "Recording is started.");
-        mAudioRecorder = new AudioRecorder(mAudioListener);
-        mAudioRecorder.start();
-    }
-
-    public void releaseRecorder() {
-        Log.i(TAG, "Recording is released.");
-        mAudioRecorder.release();
-    }
-
-    public void stopRecording() {
-        Log.i(TAG, "Recording is stopped.");
-        mAudioRecorder.stop();
-    }
-
-    public void removeAudioListener() {
-        Log.i(TAG, "AudioListener remove");
-        if (mAudioRecorder != null)
-            mAudioRecorder.removeAudioListener();
     }
 
     @Override
@@ -81,6 +52,11 @@ public class EnrollmentPresenter extends BasePresenter {
         throw new RuntimeException("Method addVideo(byte[] video) is not available in enrollment process.");
     }
 
+    @Override
+    public void init() throws CoreException {
+        getModel().startSession();
+        getModel().startRegistrationTransaction(mUserId);
+    }
 
     @Override
     public String getPassphrase() {
@@ -91,8 +67,14 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     @Override
-    public boolean getResult() throws CoreException {
+    public Boolean getResult() throws CoreException {
         return getModel().isFullEnroll(mUserId);
+    }
+
+    //It doesn't use in enrollment flow
+    @Override
+    public Pair<Boolean, String> getResultWithMessage() throws CoreException {
+        return null;
     }
 
     @Override
@@ -114,43 +96,6 @@ public class EnrollmentPresenter extends BasePresenter {
     @Override
     public int getRecordingTimeout() {
         return ENROLLMENT_TIMEOUT;
-    }
-
-
-    public void processAudio(byte[] pcmBytes) throws CoreException {
-        Util.logVoice(pcmBytes);
-        addVoiceSample(pcmBytes, getPassphrase());
-    }
-
-    public void processPhoto(byte[] img, int degrees) throws CoreException {
-        Pair<Integer, Integer> resolution = BitmapUtil.getPictureResolution(img);
-
-        ///this is bug samsung
-        if (resolution.first > resolution.second) {
-            degrees = (degrees + 270) % 360;
-        }
-
-        Log.d(TAG, "processPhoto: " + resolution.first + " " + resolution.second);
-
-        byte[] rotatedData = BitmapUtil.rotatePicture(img,
-                resolution.first,
-                resolution.second,
-                degrees);
-
-        byte[] resizedPicture = BitmapUtil.resizedPicture(rotatedData, 240, 320);
-
-        Util.logFaces(resizedPicture);
-        addFaceSample(resizedPicture);
-    }
-
-    private void initialize(String userId) {
-        try {
-            getModel().startSession();
-        } catch (CoreException e) {
-            e.printStackTrace();
-        }
-        this.mUserId = userId;
-        getModel().startRegistrationTransaction(userId);
     }
 
 }

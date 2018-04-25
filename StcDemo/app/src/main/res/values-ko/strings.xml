@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">약</string>
+    <string name="action_settings">설정</string>
+    <string name="are_you_sure_you_want_to_remove_user">사용자를 삭제 하시겠습니까 %s?</string>
+    <string name="button_login">로그인</string>
+    <string name="button_signup">가입하기</string>
+    <string name="cancel">취소</string>
+    <string name="default_settings">태만</string>
+    <string name="deleting_user_registration">서버에서 사용자 등록 삭제</string>
+    <string name="more">더 알아보기</string>
+    <string name="not_valid_url">유효하지 않은 URL</string>
+    <string name="remove">풀다</string>
+    <string name="remove_user">사용자 삭제</string>
+    <string name="restore">복원</string>
+    <string name="restore_settings">기본 설정을 복원 하시겠습니까?</string>
+    <string name="save">구하다</string>
+    <string name="server_settings">서버 설정</string>
+    <string name="settings">설정</string>
+    <string name="text_account_exists">계정이 이미 있습니다.</string>
+    <string name="text_email_hint">이메일</string>
+    <string name="text_invalid_email">유효하지 않은 이메일</string>
+    <string name="text_no_account">해당 이메일 주소가없는 계정</string>
+    <string name="text_user_removed">사용자가 성공적으로 제거되었습니다.</string>
+    <string name="user">사용자</string>
+    <string name="version">응용 프로그램 버전</string>
+</resources>

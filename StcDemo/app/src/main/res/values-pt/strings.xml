@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">Sobre</string>
+    <string name="action_settings">Configurações</string>
+    <string name="are_you_sure_you_want_to_remove_user">Tem certeza de que deseja remover o usuário %s?</string>
+    <string name="button_login">ENTRAR</string>
+    <string name="button_signup">INSCREVER-SE</string>
+    <string name="cancel">Cancelar</string>
+    <string name="default_settings">Padrão</string>
+    <string name="deleting_user_registration">Excluindo o registro do usuário do servidor</string>
+    <string name="more">Saiba mais</string>
+    <string name="not_valid_url">URL não válido</string>
+    <string name="remove">Remover</string>
+    <string name="remove_user">Remover usuário</string>
+    <string name="restore">Restaurar</string>
+    <string name="restore_settings">Restaurar as configurações padrão?</string>
+    <string name="save">SALVE</string>
+    <string name="server_settings">Configurações do servidor</string>
+    <string name="settings">Configurações</string>
+    <string name="text_account_exists">essa conta já existe</string>
+    <string name="text_email_hint">Email</string>
+    <string name="text_invalid_email">E-mail não válido</string>
+    <string name="text_no_account">Nenhuma conta com esse endereço de e-mail</string>
+    <string name="text_user_removed">O usuário foi removido com sucesso</string>
+    <string name="user">Usuário</string>
+    <string name="version">Versão do aplicativo</string>
+</resources>

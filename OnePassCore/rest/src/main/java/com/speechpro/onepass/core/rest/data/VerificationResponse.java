@@ -1,5 +1,7 @@
 package com.speechpro.onepass.core.rest.data;
 
+import android.util.Pair;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,7 +41,18 @@ public class VerificationResponse {
         } else if (result.trim().equalsIgnoreCase("failure")) {
             return false;
         } else {
-            throw new NotFoundException("Failed to parse message {status:" + result + ", message:" + message + "}.", null);
+            throw new NotFoundException(message, null);
+        }
+
+    }
+
+    public Pair<Boolean, String> compileResultToPair() throws NotFoundException {
+        if (result.trim().equalsIgnoreCase("success")) {
+            return new Pair<>(true, message);
+        } else if (result.trim().equalsIgnoreCase("failure")) {
+            return new Pair<>(false, message);
+        } else {
+            throw new NotFoundException(message, null);
         }
 
     }

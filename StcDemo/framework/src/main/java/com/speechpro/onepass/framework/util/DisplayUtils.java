@@ -64,6 +64,7 @@ public class DisplayUtils {
             case DisplayMetrics.DENSITY_XHIGH:
                 return 2f;
             case DisplayMetrics.DENSITY_XXHIGH:
+            case DisplayMetrics.DENSITY_420:
                 return 3f;
             case DisplayMetrics.DENSITY_XXXHIGH:
             case DisplayMetrics.DENSITY_560:

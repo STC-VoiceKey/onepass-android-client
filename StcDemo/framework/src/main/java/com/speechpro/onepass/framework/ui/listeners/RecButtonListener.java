@@ -1,9 +1,10 @@
 package com.speechpro.onepass.framework.ui.listeners;
 
 /**
- * Created by grigal on 11.05.2017.
+ * Listener interface used to indicate when progress finished.
  */
-
 public interface RecButtonListener {
+
     void onProgressFinish();
+
 }

@@ -23,7 +23,7 @@ public class VerificationFaceTask extends ExceptionAsyncTask<FaceSample, Void, V
                 FaceSample sample = params[0];
                 verificationTransaction.addFaceFile(sample.getFaceSample());
             } catch (CoreException e) {
-                e.printStackTrace();
+                exception = e;
             }
         }
         return null;

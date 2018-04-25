@@ -38,6 +38,7 @@ public class AudioRecorder {
     private Handler mHandler = new Handler();
 
     private volatile boolean mIsRecording;
+    private volatile boolean mIsCanceled;
     private volatile boolean isReadyAudioListener;
 
     public AudioRecorder(AudioListener mAudioListener) {
@@ -65,6 +66,7 @@ public class AudioRecorder {
         });
 
         mIsRecording = true;
+        mIsCanceled = false;
     }
 
     public void removeAudioListener() {
@@ -84,6 +86,10 @@ public class AudioRecorder {
 
     public void stop() {
         mIsRecording = false;
+    }
+
+    public void cancel() {
+        mIsCanceled = true;
     }
 
     public void release() {
@@ -124,12 +130,13 @@ public class AudioRecorder {
             }
 
             mPcm.write(bData, 0, mBufferSize);
-        } while (mIsRecording);
+        } while (mIsRecording && !mIsCanceled);
 
         try {
             Log.d(TAG, "Audio processing....");
-            if (mAudioListener != null)
+            if (mAudioListener != null && !mIsCanceled) {
                 mAudioListener.stop(mPcm.toByteArray());
+            }
         } finally {
             Log.d(TAG, "Finalize...");
             mRecord.release();

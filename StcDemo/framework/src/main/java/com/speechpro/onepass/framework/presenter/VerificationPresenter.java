@@ -1,5 +1,7 @@
 package com.speechpro.onepass.framework.presenter;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.data.FaceSample;
@@ -19,12 +21,12 @@ public class VerificationPresenter extends BasePresenter {
 
     private static final String TAG = VerificationPresenter.class.getSimpleName();
 
-    private Boolean mResult;
+    private Pair<Boolean, String> mResultWithMsg;
     private String mUserId;
 
     public VerificationPresenter(IModel model, BaseActivity activity, String userId) {
         super(model, activity);
-        initialize(userId);
+        mUserId = userId;
     }
 
     @Override
@@ -43,11 +45,22 @@ public class VerificationPresenter extends BasePresenter {
     }
 
     @Override
-    public boolean getResult() throws CoreException {
-        if (mResult == null) {
-            mResult = getModel().getVerificationResult();
+    public Boolean getResult() throws CoreException {
+        return null;
+    }
+
+    @Override
+    public Pair<Boolean, String> getResultWithMessage() throws CoreException {
+        if (mResultWithMsg == null) {
+            mResultWithMsg = getModel().getVerificationResultWithMessage();
         }
-        return mResult;
+        return mResultWithMsg;
+    }
+
+    @Override
+    public void init() throws CoreException {
+        getModel().startSession();
+        getModel().startVerificationTransaction(mUserId);
     }
 
     @Override
@@ -83,16 +96,6 @@ public class VerificationPresenter extends BasePresenter {
 
     public void processVideo(byte[] video) throws CoreException {
         addVideo(video);
-    }
-
-    private void initialize(String userId) {
-        try {
-            getModel().startSession();
-        } catch (CoreException e) {
-            e.printStackTrace();
-        }
-        this.mUserId = userId;
-        getModel().startVerificationTransaction(userId);
     }
 
 }

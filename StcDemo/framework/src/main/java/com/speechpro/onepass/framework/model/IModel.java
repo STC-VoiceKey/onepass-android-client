@@ -1,5 +1,7 @@
 package com.speechpro.onepass.framework.model;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.sessions.transactions.RegistrationTransaction;
 import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
@@ -38,7 +40,7 @@ public interface IModel {
 
     void addVerificationVideo(Video video) throws CoreException;
 
-    Boolean getVerificationResult() throws CoreException;
+    Pair<Boolean, String> getVerificationResultWithMessage() throws CoreException;
 
     void deleteVerificationSession();
 

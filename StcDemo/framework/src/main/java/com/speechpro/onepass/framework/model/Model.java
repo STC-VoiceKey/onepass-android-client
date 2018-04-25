@@ -1,6 +1,7 @@
 package com.speechpro.onepass.framework.model;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.ServiceUnavailableException;
@@ -13,7 +14,19 @@ import com.speechpro.onepass.framework.injection.FrameworkInjection;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.Video;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
-import com.speechpro.onepass.framework.model.tasks.*;
+import com.speechpro.onepass.framework.model.tasks.CreateSessionTask;
+import com.speechpro.onepass.framework.model.tasks.DeletePersonTask;
+import com.speechpro.onepass.framework.model.tasks.DeleteVerificationTransactionTask;
+import com.speechpro.onepass.framework.model.tasks.EnrollmentFaceTask;
+import com.speechpro.onepass.framework.model.tasks.EnrollmentVoiceTask;
+import com.speechpro.onepass.framework.model.tasks.ExceptionAsyncTask;
+import com.speechpro.onepass.framework.model.tasks.ReadPersonTask;
+import com.speechpro.onepass.framework.model.tasks.StartRegistrationTransactionTask;
+import com.speechpro.onepass.framework.model.tasks.StartVerificationTransactionTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationFaceTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationResultTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationVideoTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationVoiceTask;
 
 
 /**
@@ -22,13 +35,13 @@ import com.speechpro.onepass.framework.model.tasks.*;
  */
 public class Model implements IModel {
 
-    private final static String TAG = "Model";
+    private final static String TAG = Model.class.getSimpleName();
 
     private final ITransport transport;
 
-    private final String username = "admin";
-    private final String password = "QL0AFWMIX8NRZTKeof9cXsvbvu8=";
-    private final int domainId = 201;
+    private String username;
+    private String password;
+    private int domainId;
 
     private RegistrationTransaction registrationTransaction;
     private VerificationTransaction verificationTransaction;
@@ -39,7 +52,10 @@ public class Model implements IModel {
         this.transport = FrameworkInjection.getTransport();
     }
 
-    public Model(String url) {
+    public Model(String url, String username, String password, int domainId) {
+        this.username = username;
+        this.password = password;
+        this.domainId = domainId;
         transport = new RetroRestAPI(url);
     }
 
@@ -51,7 +67,7 @@ public class Model implements IModel {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        checkNetwork(task);
+        checkException(task);
         return sessionId;
     }
 
@@ -173,11 +189,10 @@ public class Model implements IModel {
         checkException(task);
     }
 
-
     @Override
-    public Boolean getVerificationResult() throws CoreException {
+    public Pair<Boolean, String> getVerificationResultWithMessage() throws CoreException {
         VerificationResultTask task = new VerificationResultTask(verificationTransaction);
-        Boolean res = false;
+        Pair<Boolean, String> res = null;
         try {
             res = task.execute().get();
             checkNetwork(task);

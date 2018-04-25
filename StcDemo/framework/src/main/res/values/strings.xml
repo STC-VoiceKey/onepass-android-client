@@ -2,25 +2,6 @@
 
     <string name="enroll_phrases_1" translatable="false">0123456789</string>
     <string name="enroll_phrases_2" translatable="false">9876543210</string>
-    <string name="enroll_phrases_3" translatable="false">1740938256</string>
-
-    <string name="phrase_dynamic_1">zero one two three four five six seven eight nine</string>
-    <string name="phrase_dynamic_2">nine eight seven six five four three two one zero</string>
-    <string name="phrase_dynamic_3">one seven four zero nine three eight two five six</string>
-
-    <string name="cancel_button">Cancel</string>
-    <string name="start_button">REC</string>
-    <string name="stop_button">Stop</string>
-
-    <string name="failure">Failure</string>
-    <string name="success">Success</string>
-
-    <!--Face fragments-->
-    <string name="poor_light">Poor\nlight</string>
-    <string name="other_faces">Other faces</string>
-    <string name="face_is_off_center">Face is off-center</string>
-    <string name="eyes_are_covered">Eyes are covered</string>
-    <string name="info_text">Make your resting face. App will remember it.</string>
 
     <!--Voice enrollment fragment-->
     <string name="episode1" translatable="false">1</string>
@@ -28,19 +9,14 @@
     <string name="episode3" translatable="false">3</string>
     <string name="voice_title">Press the button and pronounce following digits:</string>
     <string name="quiet">Make sure it\'s quiet</string>
-    <string name="poor">Poor password pronunciation</string>
-    <string name="too_short">Too short</string>
     <string name="again">Please try again</string>
     <string name="again_button">TRY AGAIN</string>
 
     <!--Video verification fragment-->
     <string name="pronounce">Pronounce the digits:</string>
-    <string name="volume">Sound problems</string>
     <string name="please_position_your_face_into_the_mask">Please position your face into the mask</string>
     <string name="retry">TRY AGAIN</string>
-    <string name="try_another">Try another %s</string>
     <string name="internal_server_error">internal server error</string>
-    <string name="light">Poor light</string>
     <string name="languages_do_not_match">Languages do not match</string>
     <string name="give_it_another_shot">Give it another shot</string>
     <string name="give_it_another_recording">Give it another recording</string>
@@ -49,8 +25,7 @@
     <string name="sign_up_complete">Sign up complete</string>
     <string name="you_can_now_signin">You can now sign in to your account</string>
     <string name="camera_locked">Camera locked</string>
-    <string name="face_detection_is_unsupported">Face detection is not supported by the device.</string>
-    <string name="ok">ok</string>
+    <string name="ok" translatable="false">ok</string>
 
     <!--Agreement view-->
     <string name="title_agreement1">By proceeding you agree to process your biometric data</string>

@@ -1,8 +1,10 @@
 package com.speechpro.onepass.framework.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
+
 import com.speechpro.onepass.framework.ui.activity.EnrollmentActivity;
 
 import static com.speechpro.onepass.framework.util.Constants.CANCEL_TIMEOUT;
@@ -13,10 +15,12 @@ import static com.speechpro.onepass.framework.util.Constants.CANCEL_TIMEOUT;
  */
 public abstract class BaseFragment extends Fragment {
 
+    @SuppressLint("HandlerLeak")
     private final Handler cancelHandler = new Handler() {
         @Override
         public void handleMessage(final Message msg) {
-            getActivity().finish();
+            if (getActivity() != null)
+                getActivity().finish();
         }
     };
 

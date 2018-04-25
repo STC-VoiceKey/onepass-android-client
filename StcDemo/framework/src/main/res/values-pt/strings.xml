@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="network_error">Olhe para uma câmera e pressione o botão</string>
+    <string name="voice_title">Pressione o botão e pronuncie os seguintes dígitos:</string>
+    <string name="again">Por favor, tente novamente</string>
+    <string name="again_button">TENTE NOVAMENTE</string>
+    <string name="button_agree">Continuar</string>
+    <string name="button_disagree">Discordar</string>
+    <string name="camera_locked">Câmera bloqueada</string>
+    <string name="done">FEITO</string>
+    <string name="enrolled">O usuário já está cadastrado</string>
+    <string name="give_it_another_recording">Dê-lhe outra gravação</string>
+    <string name="give_it_another_shot">Dê outro tiro</string>
+    <string name="give_it_another_video">Give it another video</string>
+    <string name="go_to_settings">Vá para as configurações para permitir as permissões necessárias.</string>
+    <string name="internal_server_error">erro interno do servidor</string>
+    <string name="languages_do_not_match">Os idiomas não correspondem</string>
+    <string name="look_at_the_camera">Olhe para a câmera e pressione o botão</string>
+    <string name="not_enrolled">O usuário não está registrado</string>
+    <string name="option_info1">Encontre um lugar bem</string>
+    <string name="option_info2">Certifique-se de que está quieto</string>
+    <string name="option_info3">Tirar óculos de sol</string>
+    <string name="option_info4">Faça seu rosto comum</string>
+    <string name="pronounce">Pronuncie os dígitos:</string>
+    <string name="quiet">Certifique-se de que está quieto</string>
+    <string name="retry">TENTE NOVAMENTE</string>
+    <string name="sign_up_complete">Inscreva-se completo</string>
+    <string name="text_agreement_info1">Vamos tirar uma foto e gravar três amostras de sua voz</string>
+    <string name="title_agreement1">Ao proceder, você concorda em processar seus dados biométricos</string>
+    <string name="toast_incorrect_pronunciation">Pronúncia incorreta</string>
+    <string name="toast_incorrect_url">URL incorreto</string>
+    <string name="toast_server_error">Algo deu errado</string>
+    <string name="toast_unknown_error">Erro desconhecido, tente mais tarde</string>
+    <string name="you_can_now_signin">Agora você pode fazer login em sua conta</string>
+    <string name="please_position_your_face_into_the_mask">Coloque seu rosto na máscara</string>
+</resources>

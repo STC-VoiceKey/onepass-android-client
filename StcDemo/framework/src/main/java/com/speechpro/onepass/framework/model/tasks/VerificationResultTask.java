@@ -1,12 +1,11 @@
 package com.speechpro.onepass.framework.model.tasks;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 
-/**
- * @author volobuev
- * @since 26.04.16
- */
-public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Boolean>{
+
+public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Pair<Boolean, String>>{
 
     private final VerificationTransaction verificationtransaction;
 
@@ -16,7 +15,7 @@ public class VerificationResultTask extends ExceptionAsyncTask<Void, Void, Boole
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
-            return verificationtransaction.verify(true);
+    protected Pair<Boolean, String> doInBackground(Void... params) {
+            return verificationtransaction.verifyWithMessage(true);
     }
 }

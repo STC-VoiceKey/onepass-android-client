@@ -1,5 +1,7 @@
 package com.speechpro.onepass.core.transport;
 
+import android.util.Pair;
+
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.ScoreVerify;
@@ -16,7 +18,6 @@ import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 public interface ITransport {
 
     /**
-     *
      * Open session
      *
      * @param username
@@ -30,7 +31,6 @@ public interface ITransport {
                         int domainId) throws CoreException;
 
     /**
-     *
      * Close active session
      *
      * @param sessionId
@@ -39,7 +39,6 @@ public interface ITransport {
     void closeSession(String sessionId) throws CoreException;
 
     /**
-     *
      * Open registration transaction
      *
      * @param sessionId
@@ -54,7 +53,7 @@ public interface ITransport {
      * Retrieves person session with personId.
      *
      * @param sessionId session id
-     * @param personId person id.
+     * @param personId  person id.
      * @return person session
      * @throws CoreException is thrown when person is not exist.
      */
@@ -64,8 +63,8 @@ public interface ITransport {
     /**
      * Deletes person.
      *
-     * @param sessionId  session id for deleting
-     * @param personId person id for deleting
+     * @param sessionId session id for deleting
+     * @param personId  person id for deleting
      * @throws CoreException is thrown when person is not exist.
      */
     void deletePerson(String sessionId,
@@ -75,11 +74,10 @@ public interface ITransport {
     /**
      * Adds VoiceDynamicSample for the person.
      *
-     * @param sessionId   session id for adding the VoiceSample
+     * @param sessionId     session id for adding the VoiceSample
      * @param transactionId transaction id for adding the VoiceSample
-     * @param voiceFile byte array is containing the VoiceFile
-     * @param passphrase  passphrase which was spoken by person
-     * @param gender person gender: 0 is men, 1 is women
+     * @param voiceFile     byte array is containing the VoiceFile
+     * @param passphrase    passphrase which was spoken by person
      * @param channel
      * @throws CoreException is thrown when person is not exist.
      */
@@ -87,17 +85,15 @@ public interface ITransport {
                              String transactionId,
                              byte[] voiceFile,
                              String passphrase,
-                             int gender,
                              int channel) throws CoreException;
 
     /**
      * Adds VoiceDynamicSample for the person.
      *
-     * @param sessionId   session id for adding the VoiceSample
+     * @param sessionId     session id for adding the VoiceSample
      * @param transactionId transaction id for adding the VoiceSample
-     * @param voiceSample byte array is containing the VoiceSample
-     * @param passphrase  passphrase which was spoken by person
-     * @param gender person gender: 0 is men, 1 is women
+     * @param voiceSample   byte array is containing the VoiceSample
+     * @param passphrase    passphrase which was spoken by person
      * @param samplingRate
      * @throws CoreException is thrown when person is not exist.
      */
@@ -105,15 +101,14 @@ public interface ITransport {
                                String transactionId,
                                byte[] voiceSample,
                                String passphrase,
-                               int gender,
                                int samplingRate) throws CoreException;
 
     /**
      * Adds FaceFile for the person.
      *
-     * @param sessionId  session id for adding the FaceModel
+     * @param sessionId     session id for adding the FaceModel
      * @param transactionId transaction id for adding the FaceModel
-     * @param faceModel byte array is containing face model
+     * @param faceModel     byte array is containing face model
      * @throws CoreException is thrown when person is not exist.
      */
     void addFaceFile(String sessionId,
@@ -121,7 +116,6 @@ public interface ITransport {
                      byte[] faceModel) throws CoreException;
 
     /**
-     *
      * Start verification transaction
      *
      * @param sessionId
@@ -133,27 +127,37 @@ public interface ITransport {
                                                          String personId) throws CoreException;
 
     /**
-     * Adds VoiceSample for the verification with gender.
+     * Adds FaceFile for the verification.
      *
-     * @param sessionId    current verification session
-     * @param transaction  current virification transaction
-     * @param voiceSample  byte array is containing the VoiceSample
-     * @param gender       person gender: 0 is men, 1 is women
+     * @param sessionId      session id for adding the FaceModel
+     * @param transactionId  transaction id for adding the FaceModel
+     * @param faceModel      byte array is containing face model
+     * @throws CoreException is thrown when person is not exist.
+     */
+    void addVerivicationFaceFile(String sessionId,
+                                 String transactionId,
+                                 byte[] faceModel) throws CoreException;
+
+    /**
+     * Adds VoiceSample for the verification.
+     *
+     * @param sessionId   current verification session
+     * @param transaction current virification transaction
+     * @param voiceSample byte array is containing the VoiceSample
      * @throws CoreException is thrown when verification session is not exist.
      */
     void addDynamicVerificationVoiceSample(String sessionId,
                                            VerificationTransaction transaction,
                                            byte[] voiceSample,
-                                           int gender,
                                            int samplingRate) throws CoreException;
 
     /**
      * Adds Video to server.
      *
-     * @param sessionId current verification session
+     * @param sessionId     current verification session
      * @param transactionId
      * @param passphrase
-     * @param video byte array with video file
+     * @param video         byte array with video file
      * @throws CoreException
      */
     void addDynamicVerificationVideo(String sessionId,
@@ -164,9 +168,9 @@ public interface ITransport {
     /**
      * Verifies the person authenticity.
      *
-     * @param sessionId   current verification session
+     * @param sessionId     current verification session
      * @param transactionId current transaction id
-     * @param closeFlag flag for closing session
+     * @param closeFlag     flag for closing session
      * @return true if verification is success, false otherwise
      * @throws CoreException is thrown when verification session is not exist.
      */
@@ -175,15 +179,34 @@ public interface ITransport {
                    boolean closeFlag) throws CoreException;
 
     /**
-     *
-     *
-     *
-     * @param sessionId   current verification session
+     * @param sessionId     current verification session
      * @param transactionId current transaction id
-     * @param closeFlag flag for closing session
+     * @param closeFlag     flag for closing session
      * @return score verify
      * @throws CoreException is thrown when verification session is not exist.
      */
+
+    /**
+     * Verifies the person authenticity with message.
+     *
+     * @param sessionId     current verification session
+     * @param transactionId current transaction id
+     * @param closeFlag     flag for closing session
+     * @return pair with first object true if verification is success, false otherwise and second object description
+     * @throws CoreException is thrown when verification session is not exist.
+     */
+    Pair<Boolean, String> verifyWithMessage(String sessionId,
+                                            String transactionId,
+                                            boolean closeFlag) throws CoreException;
+
+    /**
+     * @param sessionId     current verification session
+     * @param transactionId current transaction id
+     * @param closeFlag     flag for closing session
+     * @return score verify
+     * @throws CoreException is thrown when verification session is not exist.
+     */
+
     ScoreVerify scoreVerify(String sessionId,
                             String transactionId,
                             boolean closeFlag) throws CoreException;
@@ -191,7 +214,7 @@ public interface ITransport {
     /**
      * Closes verification session.
      *
-     * @param sessionId current verification session
+     * @param sessionId     current verification session
      * @param transactionId current transaction id
      * @throws CoreException is thrown when verification session is not exist.
      */

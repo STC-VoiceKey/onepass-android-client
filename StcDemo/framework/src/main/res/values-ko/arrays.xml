@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="numbers">
+        <item>공</item>
+        <item>하나</item>
+        <item>둘</item>
+        <item>셋</item>
+        <item>넷</item>
+        <item>다섯</item>
+        <item>여섯</item>
+        <item>일곱</item>
+        <item>여덟</item>
+        <item>아홉</item>
+    </string-array>
+</resources>

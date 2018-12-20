@@ -1,13 +1,12 @@
 package com.speechpro.stcdemo.settings.server;
 
-import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.exception.NotFoundException;
-import com.speechpro.onepass.core.exception.RestException;
-import com.speechpro.onepass.core.exception.ServiceUnavailableException;
-import com.speechpro.onepass.framework.Framework;
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.NotFoundException;
+import com.speechpro.android.session.session_library.exception.RestException;
+import com.speechpro.android.session.session_library.exception.ServiceUnavailableException;
+import com.speechpro.onepass.framework.FrameworkFactory;
 import com.speechpro.stcdemo.R;
 import com.speechpro.stcdemo.app.STCDemoApp;
-import com.speechpro.stcdemo.common.Cryptographer;
 import com.speechpro.stcdemo.common.SharedPref;
 
 import javax.inject.Inject;
@@ -32,8 +31,12 @@ public class ServerSettingsPresenter {
         this.mActivity = activity;
     }
 
-    String getUrl() {
-        return mSharedPref.getServerCredentials().url;
+    String getURLServer() {
+        return mSharedPref.getServerCredentials().serverUrl;
+    }
+
+    String getURLServerSession() {
+        return mSharedPref.getServerCredentials().sessionUrl;
     }
 
     String getUsername() {
@@ -48,35 +51,28 @@ public class ServerSettingsPresenter {
         return String.valueOf(mSharedPref.getServerCredentials().domainId);
     }
 
-    void checkChangedCredentials(String url, String username, String password, String domainId) {
-        if (!mSharedPref.getServerCredentials().equals(new ServerSettingsCredentials(url, username, password, domainId))) {
+    void checkChangedCredentials(String serverUrl, String sessionUrl, String username, String password, String domainId) {
+        if (!mSharedPref.getServerCredentials().equals(new ServerSettingsCredentials(serverUrl, sessionUrl, username, password, domainId))) {
             mActivity.saveButtonEnabled();
         } else {
             mActivity.saveButtonDisabled();
         }
     }
 
-    void checkDefaultCredentials(String url, String username, String password, String domainId) {
-        ServerSettingsCredentials defaultCredentials = new ServerSettingsCredentials(mActivity.getString(R.string.url_vkopdm),
+    void checkDefaultCredentials(String serverUrl, String sessionUrl, String username, String password, String domainId) {
+        ServerSettingsCredentials defaultCredentials = new ServerSettingsCredentials(
+                mActivity.getString(R.string.url_server),
+                mActivity.getString(R.string.url_server_session),
                 mActivity.getString(R.string.username), mActivity.getString(R.string.password),
                 mActivity.getString(R.string.domain_id));
-        if (defaultCredentials.equals(new ServerSettingsCredentials(url, username, password, domainId))) {
+        if (defaultCredentials.equals(new ServerSettingsCredentials(serverUrl, sessionUrl, username, password, domainId))) {
             mActivity.defaultButtonDisabled();
         } else {
             mActivity.defaultButtonEnabled();
         }
     }
 
-    void checkValidCredentials(String url, String username, String password, int domainId) {
-
-        mActivity.showProgress();
-
-        boolean isValidCredentials = false;
-
-        if (!Cryptographer.isBase64(password)) {
-            password = Cryptographer.sha1binBase64(password);
-        }
-
+    private String checkURL(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
@@ -84,25 +80,34 @@ public class ServerSettingsPresenter {
         if (!url.endsWith("/")) {
             url += "/";
         }
+        return url;
+    }
 
-        Framework framework = Framework.getFramework(url, username, password, domainId,
-                mSharedPref.hasFace(), mSharedPref.hasVoice(), mSharedPref.hasLiveness(),
-                mSharedPref.isDebugMode(), mSharedPref.getCameraQuality());
+    void checkValidCredentials(String serverUrl, String sessionUrl,
+                               String username, String password, int domainId) {
 
+        mActivity.showProgress();
+
+        boolean isValidCredentials = false;
+
+        FrameworkFactory.Framework framework =
+                FrameworkFactory.get(checkURL(serverUrl), checkURL(sessionUrl),
+                        username, password, domainId, mSharedPref.hasDynamicVoice(),
+                        mSharedPref.hasStaticVoice(), mSharedPref.hasFace(),
+                        mSharedPref.hasLiveness(), mSharedPref.isDebugMode(),
+                        mSharedPref.getCameraQuality());
         try {
             isValidCredentials = framework.isValidCredentials();
-        } catch (CoreException e) {
+        } catch (RestException e) {
             mActivity.hideProgress();
-
             String reason;
-
             if (e instanceof ServiceUnavailableException) {
                 mActivity.showMessage(mActivity.getString(R.string.error_server_is_unavailable));
             } else if (e instanceof NotFoundException) {
                 mActivity.setErrorURL();
                 mActivity.saveButtonDisabled();
             } else {
-                reason = ((RestException) e).reason;
+                reason = e.getReason();
                 if (reason.contentEquals("INCORRECT_PASSWORD")) {
                     mActivity.setErrorPassword();
                     mActivity.saveButtonDisabled();
@@ -117,12 +122,15 @@ public class ServerSettingsPresenter {
                     mActivity.saveButtonDisabled();
                 }
             }
+        } catch (InternetConnectionException e) {
+            mActivity.hideProgress();
+            mActivity.showMessage(mActivity.getString(R.string.error_server_is_unavailable));
         }
 
         if (isValidCredentials) {
             mActivity.hideProgress();
             mActivity.saveButtonDisabled();
-            mSharedPref.setServerCredentials(new ServerSettingsCredentials(url, username, password, String.valueOf(domainId)));
+            mSharedPref.setServerCredentials(new ServerSettingsCredentials(serverUrl, sessionUrl, username, password, String.valueOf(domainId)));
             mActivity.finish();
         }
     }

@@ -19,27 +19,32 @@ import java.util.Set;
 public class Person {
 
     @JsonProperty("id")
-    public final String         id;
+    public final String id;
     @JsonProperty("models")
     public final Set<DataModel> models;
-    @JsonProperty("isFullEnroll")
-    public final boolean        isFullEnroll;
+    @JsonProperty("is_full_enroll")
+    public final boolean isFullEnroll;
+    @JsonProperty("is_deleted")
+    public final boolean isDeleted;
 
     @JsonCreator
     public Person(@JsonProperty("id") String id,
                   @JsonProperty("models") Set<DataModel> models,
-                  @JsonProperty("isFullEnroll") boolean isFullEnroll) {
+                  @JsonProperty("is_full_enroll") boolean isFullEnroll,
+                  @JsonProperty("is_deleted") boolean isDeleted) {
         this.id = id;
         this.models = models;
         this.isFullEnroll = isFullEnroll;
+        this.isDeleted = isDeleted;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).
                 add("id", id).
-                                  add("models", models).
-                                  add("isFullEnroll", isFullEnroll).
-                                  toString();
+                add("models", models).
+                add("is_full_enroll", isFullEnroll).
+                add("is_deleted", isDeleted).
+                toString();
     }
 }

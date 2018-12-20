@@ -17,8 +17,6 @@ import com.speechpro.onepass.core.rest.data.Data;
 import com.speechpro.onepass.core.rest.data.ErrorResponse;
 import com.speechpro.onepass.core.rest.data.Person;
 import com.speechpro.onepass.core.rest.data.RegistationSessionResponse;
-import com.speechpro.onepass.core.rest.data.SessionIdResponse;
-import com.speechpro.onepass.core.rest.data.StartSessionRequest;
 import com.speechpro.onepass.core.rest.data.VerificationResponse;
 import com.speechpro.onepass.core.rest.data.VerificationScoresResponse;
 import com.speechpro.onepass.core.rest.data.VerificationSessionResponse;
@@ -95,28 +93,6 @@ public class RetroRestAPI implements ITransport {
     }
 
     @Override
-    public String startSession(String username,
-                               String password,
-                               int domainId) throws CoreException {
-        retrofit2.Response response = null;
-        StartSessionRequest startSessionRequest = new StartSessionRequest(username, password, domainId);
-
-        try {
-            response = service.startSession(startSessionRequest).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        this.processCode(response);
-        return ((SessionIdResponse) response.body()).sessionId;
-    }
-
-    @Override
-    public void closeSession(String sessionId) throws CoreException {
-        processResponse(service.closeSession(sessionId));
-    }
-
-    @Override
     public RegistrationTransaction startRegistrationTransaction(String sessionId,
                                                                 String personId) throws CoreException {
         retrofit2.Response response = null;
@@ -177,6 +153,24 @@ public class RetroRestAPI implements ITransport {
     }
 
     @Override
+    public void addVoiceStaticFile(String sessionId,
+                                   String transactionId,
+                                   byte[] voiceFile,
+                                   int channel) throws CoreException {
+        processResponse(service.addVoiceStaticFile(sessionId, transactionId,
+                new VoiceFile(voiceFile, channel)));
+    }
+
+    @Override
+    public void addVoiceStaticSample(String sessionId,
+                                     String transactionId,
+                                     byte[] voiceSample,
+                                     int samplingRate) throws CoreException {
+        processResponse(service.addVoiceStaticSample(sessionId, transactionId,
+                new VoiceSample(voiceSample, samplingRate)));
+    }
+
+    @Override
     public void addFaceFile(String sessionId,
                             String transactionId,
                             byte[] faceModel) throws CoreException {
@@ -208,25 +202,40 @@ public class RetroRestAPI implements ITransport {
     }
 
     @Override
-    public void addDynamicVerificationVoiceSample(String sessionId,
-                                                  VerificationTransaction session,
+    public void addVerificationDynamicVoiceSample(String sessionId,
+                                                  VerificationTransaction transaction,
                                                   byte[] voiceSample,
                                                   int samplingRate) throws CoreException {
-        String transactionId = session.getTransactionId();
-        String passphrase = session.getPassphrase();
-        processResponse(service.addDynamicVerificationVoiceSample(sessionId,
+        String transactionId = transaction.getTransactionId();
+        String passphrase = transaction.getPassphrase();
+        processResponse(service.addVerificationDynamicVoiceSample(sessionId,
                 transactionId,
                 new VoiceSample(voiceSample, passphrase, samplingRate)));
     }
 
     @Override
-    public void addDynamicVerificationVideo(String sessionId,
+    public void addVerificationStaticVoiceSample(String sessionId,
+                                                 VerificationTransaction transaction,
+                                                 byte[] voiceSample, int samplingRate) throws CoreException {
+        String transactionId = transaction.getTransactionId();
+        processResponse(service.addVerificationStaticVoiceSample(sessionId,
+                transactionId,
+                new VoiceSample(voiceSample, samplingRate)));
+    }
+
+    @Override
+    public void addVerificationDynamicVideo(String sessionId,
                                             String transactionId,
                                             String passphrase,
                                             byte[] video) throws CoreException {
         processResponse(service.addDynamicVerificationVideo(sessionId,
                 transactionId,
                 new Video(video, passphrase)));
+    }
+
+    @Override
+    public void addVerificationStaticVideo(String sessionId, String transactionId, String passphrase, byte[] video) throws CoreException {
+
     }
 
     @Override
@@ -276,7 +285,7 @@ public class RetroRestAPI implements ITransport {
         VerificationScoresResponse scores = (VerificationScoresResponse) response.body();
 
         this.processCode(response);
-        return new ScoreVerify(scores.face, scores.dynamicVoice, scores.staticVoice, scores.fused, scores.liveness);
+        return new ScoreVerify(scores.face, scores.dynamicVoice, scores.staticVoice, scores.fused, scores.isAlive);
     }
 
     public void closeVerification(String sessionId,

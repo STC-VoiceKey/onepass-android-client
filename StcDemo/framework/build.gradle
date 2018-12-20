@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     def globalConfiguration = rootProject.ext
@@ -12,11 +11,9 @@ android {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
         targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
 
-        //applicationId globalConfiguration.getAt("androidApplicationId")
         versionCode globalConfiguration.getAt("androidVersionCode")
         versionName globalConfiguration.getAt("androidVersionName")
         testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
-        //testApplicationId globalConfiguration.getAt("testApplicationId")
     }
 
     compileOptions {
@@ -50,45 +47,49 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '28.0.3'
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
     def dep = rootProject.ext.dep
+    annotationProcessor dep.daggerCompiler
+    implementation dep.dagger
+    implementation dep.appcompat
+    implementation dep.core
+    implementation dep.javaxAnnotation
+    implementation dep.rest
+    implementation dep.gifDrawable
+    implementation dep.jackson
+    implementation dep.retrofit
+    implementation dep.okhttp
+    implementation dep.guava
+    implementation dep.design
+    implementation dep.vision
 
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation dep.robolectric
+    testImplementation dep.junit
+    testImplementation dep.assertj
 
-    apt dep.daggerCompiler
-    compile dep.dagger
-    compile dep.appcompat
-    compile dep.core
-    compile dep.javaxAnnotation
-    compile dep.rest
-    compile dep.gifDrawable
-    compile dep.jackson
-    compile dep.retrofit
-    compile dep.okhttp
-    compile dep.guava
-    compile dep.design
-    compile dep.vision
+    testImplementation dep.pmockJunit
+    testImplementation dep.pmockJunitRule
+    testImplementation dep.pmockApiMockito
+    testImplementation dep.pmockClsloading
 
-    testCompile dep.robolectric
-    testCompile dep.junit
-    testCompile dep.assertj
+    testImplementation 'cglib:cglib-nodep:2.2'
 
-    testCompile dep.pmockJunit
-    testCompile dep.pmockJunitRule
-    testCompile dep.pmockApiMockito
-    testCompile dep.pmockClsloading
-
-    testCompile 'cglib:cglib-nodep:2.2'
-
-    compile('com.github.tony19:logback-android-classic:1.1.1-5') {
+    implementation('com.github.tony19:logback-android-classic:1.1.1-5') {
         // workaround issue #73
         exclude group: 'com.google.android', module: 'android'
     }
 
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    compile 'com.github.tony19:logback-android-core:1.1.1-5'
+    implementation 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    implementation 'org.slf4j:slf4j-api:1.7.21'
+    implementation 'com.github.tony19:logback-android-core:1.1.1-5'
+    api 'com.speechpro.android:session-client:0.9.8-SNAPSHOT'
 }

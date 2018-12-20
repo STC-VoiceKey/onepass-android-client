@@ -10,14 +10,14 @@ public class ScoreVerify {
     private float dynamicVoice;
     private float staticVoice;
     private float fused;
-    private float liveness;
+    private boolean isAlive;
 
-    public ScoreVerify(float face, float dynamicVoice, float staticVoice, float fused, float liveness) {
+    public ScoreVerify(float face, float dynamicVoice, float staticVoice, float fused, boolean isAlive) {
         this.face = face;
         this.dynamicVoice = dynamicVoice;
         this.staticVoice = staticVoice;
         this.fused = fused;
-        this.liveness = liveness;
+        this.isAlive = isAlive;
     }
 
     public float getFace() {
@@ -36,8 +36,7 @@ public class ScoreVerify {
         return fused;
     }
 
-    public float getLiveness() {
-        return liveness;
+    public boolean isAlive() {
+        return isAlive;
     }
-
 }

@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.util.Pair;
 
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.framework.media.AudioHelper;
 import com.speechpro.onepass.framework.media.AudioListener;
@@ -92,9 +94,14 @@ public abstract class BasePresenter {
             mAudioRecorder.removeAudioListener();
     }
 
-    public void processAudio(byte[] pcmBytes) throws CoreException {
+    public void processDynamicAudio(byte[] pcmBytes) throws CoreException {
         LogUtils.logVoice(pcmBytes);
-        addVoiceSample(pcmBytes, getPassphrase());
+        addDynamicVoiceSample(pcmBytes, getPassphrase());
+    }
+
+    public void processStaticAudio(byte[] pcmBytes) throws CoreException {
+        LogUtils.logVoice(pcmBytes);
+        addStaticVoiceSample(pcmBytes);
     }
 
     public void processPhoto(byte[] img, int degrees) throws CoreException {
@@ -136,9 +143,9 @@ public abstract class BasePresenter {
     /**
      * Receiving session and transaction
      *
-     * @throws CoreException if there is a network error
+     * @throws InternetConnectionException if there is a network error
      */
-    public abstract void init() throws CoreException;
+    public abstract void init() throws InternetConnectionException, RestException;
 
     /**
      * Return session passphrase or current
@@ -157,7 +164,9 @@ public abstract class BasePresenter {
 
     public abstract void restartTransaction();
 
-    protected abstract void addVoiceSample(byte[] pcm, String passphrase) throws CoreException;
+    protected abstract void addDynamicVoiceSample(byte[] pcm, String passphrase) throws CoreException;
+
+    protected abstract void addStaticVoiceSample(byte[] pcm) throws CoreException;
 
     protected abstract void addFaceSample(byte[] face) throws CoreException;
 

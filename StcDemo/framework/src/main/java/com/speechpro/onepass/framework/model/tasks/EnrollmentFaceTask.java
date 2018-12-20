@@ -1,7 +1,6 @@
 package com.speechpro.onepass.framework.model.tasks;
 
 import com.speechpro.onepass.core.exception.CoreException;
-import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.transactions.RegistrationTransaction;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 

@@ -109,6 +109,21 @@ public class RegistrationTransaction {
     }
 
     /**
+     * Adds VoiceStaticSample for the person.
+     *
+     * @param voiceSample  byte array is containing the VoiceSample
+     * @param samplingRate sampling rate
+     * @throws CoreException is thrown when person is not exist.
+     */
+    public void addVoiceStaticSample(byte[] voiceSample,
+                                      Integer samplingRate) throws CoreException {
+        transport.addVoiceStaticSample(this.sessionId,
+                this.transactionId,
+                voiceSample,
+                samplingRate);
+    }
+
+    /**
      * Adds VoiceDynamicFile for the person.
      *
      * @param voiceFile  byte array is containing the VoiceFile

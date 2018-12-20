@@ -10,12 +10,17 @@ import com.google.common.base.Objects;
 public class VoiceSample {
 
     private final byte[] voiceSample;
-    private final String passphrase;
+    private String passphrase;
     private final int    samplingRate;
 
     public VoiceSample(byte[] voiceSample, String passphrase, int samplingRate) {
         this.voiceSample = voiceSample;
         this.passphrase = passphrase;
+        this.samplingRate = samplingRate;
+    }
+
+    public VoiceSample(byte[] voiceSample, int samplingRate) {
+        this.voiceSample = voiceSample;
         this.samplingRate = samplingRate;
     }
 
@@ -33,16 +38,12 @@ public class VoiceSample {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof VoiceSample)) {
-            return false;
-        }
-        VoiceSample sample = (VoiceSample) o;
-        return samplingRate == sample.samplingRate &&
-                Objects.equal(voiceSample, sample.voiceSample) &&
-                Objects.equal(passphrase, sample.passphrase);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VoiceSample that = (VoiceSample) o;
+        return samplingRate == that.samplingRate &&
+                Objects.equal(voiceSample, that.voiceSample) &&
+                Objects.equal(passphrase, that.passphrase);
     }
 
     @Override

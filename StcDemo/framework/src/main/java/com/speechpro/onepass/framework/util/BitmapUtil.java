@@ -1,13 +1,17 @@
 package com.speechpro.onepass.framework.util;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.util.Pair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.graphics.Bitmap.CompressFormat.JPEG;
-import static android.graphics.Bitmap.createBitmap;
 
 /**
  * @author volobuev

@@ -2,10 +2,12 @@ package com.speechpro.onepass.framework.model;
 
 import android.util.Pair;
 
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.core.exception.CoreException;
+import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.core.sessions.transactions.RegistrationTransaction;
 import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
-import com.speechpro.onepass.core.sessions.PersonSession;
 import com.speechpro.onepass.framework.model.data.FaceSample;
 import com.speechpro.onepass.framework.model.data.Video;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
@@ -16,7 +18,7 @@ import com.speechpro.onepass.framework.model.data.VoiceSample;
  */
 public interface IModel {
 
-    String startSession() throws CoreException;
+    String startSession() throws InternetConnectionException, RestException;
 
     PersonSession readPerson(String personId) throws CoreException;
 
@@ -26,7 +28,9 @@ public interface IModel {
 
     RegistrationTransaction startRegistrationTransaction(String personId);
 
-    void addEnrollmentVoice(VoiceSample voiceSample) throws CoreException;
+    void addEnrollmentDynamicVoice(VoiceSample voiceSample) throws CoreException;
+
+    void addEnrollmentStaticVoice(VoiceSample voiceSample) throws CoreException;
 
     void addEnrollmentFace(FaceSample faceSample) throws CoreException;
 
@@ -34,7 +38,9 @@ public interface IModel {
 
     String getVerificationPassphrase();
 
-    void addVerificationVoice(VoiceSample voiceSample) throws CoreException;
+    void addVerificationDynamicVoice(VoiceSample voiceSample) throws CoreException;
+
+    void addVerificationStaticVoice(VoiceSample voiceSample) throws CoreException;
 
     void addVerificationFace(FaceSample faceSample) throws CoreException;
 

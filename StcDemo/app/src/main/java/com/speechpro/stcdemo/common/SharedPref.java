@@ -22,7 +22,8 @@ public class SharedPref {
     private final String SERVER_CREDENTIALS = "server_credentials";
     private final String LOGIN = "login";
     private final String FACE = "face";
-    private final String VOICE = "voice";
+    private final String DYNAMIC_VOICE = "dynamic_voice";
+    private final String STATIC_VOICE = "static_voice";
     private final String LIVENESS = "liveness";
     private final String DEBUG_MODE = "debug_mode";
     private final String CAMERA_QUALITY = "camera_quality";
@@ -64,7 +65,8 @@ public class SharedPref {
                 e.printStackTrace();
             }
         } else {
-            return new ServerSettingsCredentials(mContext.getString(R.string.url_vkopdm),
+            return new ServerSettingsCredentials(mContext.getString(R.string.url_server),
+                    mContext.getString(R.string.url_server_session),
                     mContext.getString(R.string.username),
                     mContext.getString(R.string.password),
                     mContext.getString(R.string.domain_id));
@@ -95,15 +97,26 @@ public class SharedPref {
         return pref.getBoolean(FACE, true);
     }
 
-    public void setVoice(boolean hasVoice) {
+    public void setDynamicVoice(boolean hasVoice) {
         SharedPreferences pref = mContext.getSharedPreferences(APP_PREF_NAME, 0);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(VOICE, hasVoice).commit();
+        editor.putBoolean(DYNAMIC_VOICE, hasVoice).commit();
     }
 
-    public boolean hasVoice() {
+    public boolean hasDynamicVoice() {
         SharedPreferences pref = mContext.getSharedPreferences(APP_PREF_NAME, 0);
-        return pref.getBoolean(VOICE, true);
+        return pref.getBoolean(DYNAMIC_VOICE, true);
+    }
+
+    public void setStaticVoice(boolean hasVoice) {
+        SharedPreferences pref = mContext.getSharedPreferences(APP_PREF_NAME, 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(STATIC_VOICE, hasVoice).commit();
+    }
+
+    public boolean hasStaticVoice() {
+        SharedPreferences pref = mContext.getSharedPreferences(APP_PREF_NAME, 0);
+        return pref.getBoolean(STATIC_VOICE, false);
     }
 
     public void setLiveness(boolean hasLiveness) {

@@ -18,27 +18,6 @@ import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 public interface ITransport {
 
     /**
-     * Open session
-     *
-     * @param username
-     * @param password
-     * @param domainId
-     * @return person session
-     * @throws CoreException
-     */
-    String startSession(String username,
-                        String password,
-                        int domainId) throws CoreException;
-
-    /**
-     * Close active session
-     *
-     * @param sessionId
-     * @throws CoreException
-     */
-    void closeSession(String sessionId) throws CoreException;
-
-    /**
      * Open registration transaction
      *
      * @param sessionId
@@ -104,6 +83,34 @@ public interface ITransport {
                                int samplingRate) throws CoreException;
 
     /**
+     * Adds VoiceStaticSample for the person.
+     *
+     * @param sessionId     session id for adding the VoiceSample
+     * @param transactionId transaction id for adding the VoiceSample
+     * @param voiceFile     byte array is containing the VoiceFile
+     * @param channel
+     * @throws CoreException is thrown when person is not exist.
+     */
+    void addVoiceStaticFile(String sessionId,
+                             String transactionId,
+                             byte[] voiceFile,
+                             int channel) throws CoreException;
+
+    /**
+     * Adds VoiceStaticSample for the person.
+     *
+     * @param sessionId     session id for adding the VoiceSample
+     * @param transactionId transaction id for adding the VoiceSample
+     * @param voiceSample   byte array is containing the VoiceSample
+     * @param samplingRate
+     * @throws CoreException is thrown when person is not exist.
+     */
+    void addVoiceStaticSample(String sessionId,
+                               String transactionId,
+                               byte[] voiceSample,
+                               int samplingRate) throws CoreException;
+
+    /**
      * Adds FaceFile for the person.
      *
      * @param sessionId     session id for adding the FaceModel
@@ -146,7 +153,20 @@ public interface ITransport {
      * @param voiceSample byte array is containing the VoiceSample
      * @throws CoreException is thrown when verification session is not exist.
      */
-    void addDynamicVerificationVoiceSample(String sessionId,
+    void addVerificationDynamicVoiceSample(String sessionId,
+                                           VerificationTransaction transaction,
+                                           byte[] voiceSample,
+                                           int samplingRate) throws CoreException;
+
+    /**
+     * Adds VoiceSample for the verification.
+     *
+     * @param sessionId   current verification session
+     * @param transaction current virification transaction
+     * @param voiceSample byte array is containing the VoiceSample
+     * @throws CoreException is thrown when verification session is not exist.
+     */
+    void addVerificationStaticVoiceSample(String sessionId,
                                            VerificationTransaction transaction,
                                            byte[] voiceSample,
                                            int samplingRate) throws CoreException;
@@ -160,7 +180,21 @@ public interface ITransport {
      * @param video         byte array with video file
      * @throws CoreException
      */
-    void addDynamicVerificationVideo(String sessionId,
+    void addVerificationDynamicVideo(String sessionId,
+                                     String transactionId,
+                                     String passphrase,
+                                     byte[] video) throws CoreException;
+
+    /**
+     * Adds Video to server.
+     *
+     * @param sessionId     current verification session
+     * @param transactionId
+     * @param passphrase
+     * @param video         byte array with video file
+     * @throws CoreException
+     */
+    void addVerificationStaticVideo(String sessionId,
                                      String transactionId,
                                      String passphrase,
                                      byte[] video) throws CoreException;

@@ -5,13 +5,12 @@ import com.speechpro.onepass.core.sessions.transactions.RegistrationTransaction;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 
 /**
- * @author volobuev
- * @since 26.04.16
+ * @author Alexander Grigal
  */
-public class EnrollmentVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, Void> {
+public class EnrollmentStaticVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, Void> {
     private final RegistrationTransaction registrationTransaction;
 
-    public EnrollmentVoiceTask(RegistrationTransaction registrationTransaction) {
+    public EnrollmentStaticVoiceTask(RegistrationTransaction registrationTransaction) {
         super();
         this.registrationTransaction = registrationTransaction;
     }
@@ -21,8 +20,7 @@ public class EnrollmentVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, V
         if (registrationTransaction != null) {
             try {
                 VoiceSample sample = params[0];
-                registrationTransaction.addVoiceDynamicSample(sample.getVoiceSample(),
-                        sample.getPassphrase(),
+                registrationTransaction.addVoiceStaticSample(sample.getVoiceSample(),
                         sample.getSamplingRate());
             } catch (CoreException e) {
                 exception = e;

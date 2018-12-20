@@ -16,7 +16,6 @@ import android.view.Surface;
 
 import com.speechpro.onepass.framework.R;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

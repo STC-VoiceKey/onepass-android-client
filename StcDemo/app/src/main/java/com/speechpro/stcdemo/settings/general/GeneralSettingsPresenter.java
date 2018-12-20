@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.speechpro.onepass.framework.Framework;
+import com.speechpro.onepass.framework.FrameworkFactory;
 import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 import com.speechpro.stcdemo.R;
 import com.speechpro.stcdemo.app.STCDemoApp;
@@ -60,8 +60,12 @@ public class GeneralSettingsPresenter {
         return mSharedPref.hasFace();
     }
 
-    boolean hasVoice() {
-        return mSharedPref.hasVoice();
+    boolean hasDynamicVoice() {
+        return mSharedPref.hasDynamicVoice();
+    }
+
+    boolean hasStaticVoice() {
+        return mSharedPref.hasStaticVoice();
     }
 
     boolean hasLiveness() {
@@ -88,11 +92,19 @@ public class GeneralSettingsPresenter {
         }
     }
 
-    void onClickVoice(boolean hasVoice) {
+    void onClickDynamicVoice(boolean hasVoice) {
         if (checkModality()) {
-            mActivity.setVoice(hasVoice);
+            mActivity.setDynamicVoice(hasVoice);
         } else {
-            mActivity.setVoice(!hasVoice);
+            mActivity.setDynamicVoice(!hasVoice);
+        }
+    }
+
+    void onClickStaticVoice(boolean hasVoice) {
+        if (checkModality()) {
+            mActivity.setStaticVoice(hasVoice);
+        } else {
+            mActivity.setStaticVoice(!hasVoice);
         }
     }
 
@@ -127,9 +139,11 @@ public class GeneralSettingsPresenter {
         mCameraQuality = CameraQuality.MEDIUM;
     }
 
-    void saveModalityState(boolean hasFace, boolean hasVoice, boolean hasLiveness) {
+    void saveModalityState(boolean hasFace, boolean hasDynamicVoice, boolean hasStaticVoice,
+                           boolean hasLiveness) {
         mSharedPref.setFace(hasFace);
-        mSharedPref.setVoice(hasVoice);
+        mSharedPref.setDynamicVoice(hasDynamicVoice);
+        mSharedPref.setStaticVoice(hasStaticVoice);
         mSharedPref.setLiveness(hasLiveness);
     }
 
@@ -137,13 +151,15 @@ public class GeneralSettingsPresenter {
         mActivity.showProgress();
 
         mExecutorService.submit(new Runnable() {
-            Framework framework = Framework.getFramework(
-                    mSharedPref.getServerCredentials().url,
+            FrameworkFactory.Framework framework = FrameworkFactory.get(
+                    mSharedPref.getServerCredentials().serverUrl,
+                    mSharedPref.getServerCredentials().sessionUrl,
                     mSharedPref.getServerCredentials().username,
                     mSharedPref.getServerCredentials().password,
                     Integer.parseInt(mSharedPref.getServerCredentials().domainId),
+                    mSharedPref.hasDynamicVoice(),
+                    mSharedPref.hasStaticVoice(),
                     mSharedPref.hasFace(),
-                    mSharedPref.hasVoice(),
                     mSharedPref.hasLiveness(),
                     mSharedPref.isDebugMode(),
                     mSharedPref.getCameraQuality());
@@ -204,40 +220,29 @@ public class GeneralSettingsPresenter {
 
     private boolean checkModality() {
         boolean hasFace = mActivity.mFaceCheckbox.isChecked();
-        boolean hasVoice = mActivity.mVoiceCheckbox.isChecked();
+        boolean hasDynamicVoice = mActivity.mDynamicVoiceCheckbox.isChecked();
+        boolean hasStaticVoice = mActivity.mStaticVoiceCheckbox.isChecked();
         boolean hasLiveness = mActivity.mLivenessCheckbox.isChecked();
 
-        if (!hasFace && !hasVoice && !hasLiveness) {            //0
+        if (!hasFace && !hasDynamicVoice && !hasStaticVoice) {
             mActivity.livenessDisabled();
             mActivity.showSnackbarMessage(mActivity.getString(R.string.modality_must_be_enabled));
             return false;
-        } else if (!hasFace && !hasVoice && hasLiveness) {      //1
-            mActivity.livenessDisabled();
-            mActivity.showSnackbarMessage(mActivity.getString(R.string.modality_must_be_enabled));
-            return false;
-        } else if (!hasFace && hasVoice && !hasLiveness) {      //2
+        } else if (!hasFace && (hasDynamicVoice || hasStaticVoice()) && !hasLiveness) {
             mActivity.saveLivenessState();
             mActivity.livenessDisabled();
             return true;
-        } else if (!hasFace && hasVoice && hasLiveness) {       //3
+        } else if (!hasFace && (hasDynamicVoice || hasStaticVoice()) && hasLiveness) {
             mActivity.saveLivenessState();
             mActivity.livenessDisabled();
             mActivity.setLiveness(false);
             return true;
-        } else if (hasFace && !hasVoice && !hasLiveness) {      //4
+        } else if (hasFace && !hasDynamicVoice || hasStaticVoice) {
             mActivity.saveLivenessState();
             mActivity.livenessDisabled();
             mActivity.setLiveness(false);
             return true;
-        } else if (hasFace && !hasVoice && hasLiveness) {       //5
-            mActivity.saveLivenessState();
-            mActivity.livenessDisabled();
-            mActivity.setLiveness(false);
-            return true;
-        } else if (hasFace && hasVoice && !hasLiveness) {       //6
-            mActivity.livenessEnabled();
-            return true;
-        } else if (hasFace && hasVoice && hasLiveness) {        //7
+        } else if (hasFace) {
             mActivity.livenessEnabled();
             return true;
         }

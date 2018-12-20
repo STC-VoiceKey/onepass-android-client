@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main">
@@ -43,21 +42,42 @@
                 android:padding="8dp">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_url"
+                    android:id="@+id/input_layout_url_server"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/text_normal">
 
                     <EditText
-                        android:id="@+id/url"
+                        android:id="@+id/url_server"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/text_normal"
-                        android:hint="@string/url_hint"
+                        android:hint="@string/url_server_hint"
                         android:inputType="textUri"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="@string/url_vkopdm"
+                        android:text="@string/url_server"
+                        android:textColor="@color/text_normal" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_url_server_session"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/input_layout_url_server"
+                    android:textColorHint="@color/text_normal">
+
+                    <EditText
+                        android:id="@+id/url_server_session"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/text_normal"
+                        android:hint="@string/url_server_session_hint"
+                        android:inputType="textUri"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@string/url_server_session"
                         android:textColor="@color/text_normal" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -66,7 +86,7 @@
                     android:id="@+id/input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/input_layout_url"
+                    android:layout_below="@+id/input_layout_url_server_session"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout

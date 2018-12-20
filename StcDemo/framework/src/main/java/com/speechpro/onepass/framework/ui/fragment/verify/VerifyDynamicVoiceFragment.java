@@ -14,7 +14,6 @@ import com.speechpro.onepass.core.exception.RestException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.media.AudioListener;
 import com.speechpro.onepass.framework.presenter.VerificationPresenter;
-import com.speechpro.onepass.framework.presenter.episode.Episode;
 import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
 import com.speechpro.onepass.framework.ui.fragment.BaseFragment;
 import com.speechpro.onepass.framework.ui.listeners.RecButtonListener;
@@ -22,14 +21,12 @@ import com.speechpro.onepass.framework.ui.view.RecButtonView;
 import com.speechpro.onepass.framework.ui.view.soundwave.SoundwaveSurfaceView;
 import com.speechpro.onepass.framework.util.NumberMapper;
 
-import static android.view.View.VISIBLE;
-
 /**
  * Created by Alexander Grigal on 28.02.18.
  */
-public class VerifyVoiceFragment extends BaseFragment implements AudioListener, RecButtonListener {
+public class VerifyDynamicVoiceFragment extends BaseFragment implements AudioListener, RecButtonListener {
 
-    private final static String TAG = VerifyVoiceFragment.class.getSimpleName();
+    private final static String TAG = VerifyDynamicVoiceFragment.class.getSimpleName();
 
     private View mProgressBar;
     private LinearLayout mMain;
@@ -172,7 +169,7 @@ public class VerifyVoiceFragment extends BaseFragment implements AudioListener, 
             }
         });
         try {
-            mPresenter.processAudio(result);
+            mPresenter.processDynamicAudio(result);
             mActivity.nextEpisode();
         } catch (CoreException ex) {
             Log.d(TAG, ex.getMessage());

@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.crashlytics.android.Crashlytics;
 import com.speechpro.stcdemo.R;
 import com.speechpro.stcdemo.app.STCDemoApp;
 import com.speechpro.stcdemo.login.LoginActivity;
 
 import javax.inject.Inject;
-
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Alexander Grigal on 24.01.18.

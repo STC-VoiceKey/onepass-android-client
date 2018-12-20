@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.widget.Toast;
 
-import com.speechpro.onepass.framework.Framework;
+import com.speechpro.onepass.framework.FrameworkFactory;
 import com.speechpro.stcdemo.R;
 import com.speechpro.stcdemo.app.STCDemoApp;
 import com.speechpro.stcdemo.common.SharedPref;
@@ -49,13 +48,15 @@ public class LoginPresenter {
         mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                Framework framework = Framework.getFramework(
-                        mSharedPref.getServerCredentials().url,
+                FrameworkFactory.Framework framework = FrameworkFactory.get(
+                        mSharedPref.getServerCredentials().serverUrl,
+                        mSharedPref.getServerCredentials().sessionUrl,
                         mSharedPref.getServerCredentials().username,
                         mSharedPref.getServerCredentials().password,
                         Integer.parseInt(mSharedPref.getServerCredentials().domainId),
+                        mSharedPref.hasDynamicVoice(),
+                        mSharedPref.hasStaticVoice(),
                         mSharedPref.hasFace(),
-                        mSharedPref.hasVoice(),
                         mSharedPref.hasLiveness(),
                         mSharedPref.isDebugMode(),
                         mSharedPref.getCameraQuality());
@@ -85,17 +86,18 @@ public class LoginPresenter {
         mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                Framework framework = Framework.getFramework(
-                        mSharedPref.getServerCredentials().url,
+                FrameworkFactory.Framework framework = FrameworkFactory.get(
+                        mSharedPref.getServerCredentials().serverUrl,
+                        mSharedPref.getServerCredentials().sessionUrl,
                         mSharedPref.getServerCredentials().username,
                         mSharedPref.getServerCredentials().password,
                         Integer.parseInt(mSharedPref.getServerCredentials().domainId),
+                        mSharedPref.hasDynamicVoice(),
+                        mSharedPref.hasStaticVoice(),
                         mSharedPref.hasFace(),
-                        mSharedPref.hasVoice(),
                         mSharedPref.hasLiveness(),
                         mSharedPref.isDebugMode(),
                         mSharedPref.getCameraQuality());
-
                 framework.startVerification(mActivity, email);
             }
         });
@@ -122,13 +124,15 @@ public class LoginPresenter {
         mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                Framework framework = Framework.getFramework(
-                        mSharedPref.getServerCredentials().url,
+                FrameworkFactory.Framework framework = FrameworkFactory.get(
+                        mSharedPref.getServerCredentials().serverUrl,
+                        mSharedPref.getServerCredentials().sessionUrl,
                         mSharedPref.getServerCredentials().username,
                         mSharedPref.getServerCredentials().password,
                         Integer.parseInt(mSharedPref.getServerCredentials().domainId),
+                        mSharedPref.hasDynamicVoice(),
+                        mSharedPref.hasStaticVoice(),
                         mSharedPref.hasFace(),
-                        mSharedPref.hasVoice(),
                         mSharedPref.hasLiveness(),
                         mSharedPref.isDebugMode(),
                         mSharedPref.getCameraQuality());

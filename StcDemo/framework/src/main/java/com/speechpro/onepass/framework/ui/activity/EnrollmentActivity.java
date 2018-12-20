@@ -6,14 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 
-import com.speechpro.onepass.core.exception.CoreException;
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 import com.speechpro.onepass.framework.presenter.EnrollmentPresenter;
 import com.speechpro.onepass.framework.ui.fragment.AgreementFragment;
 import com.speechpro.onepass.framework.ui.fragment.PhotoFragment;
+import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollDynamicEnrollVoiceFragment;
 import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollResultFragment;
-import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollVoiceFragment;
+import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollStaticEnrollVoiceFragment;
+import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 
 /**
  * @author volobuev
@@ -25,12 +27,12 @@ public class EnrollmentActivity extends BaseActivity {
 
 //    private final static Logger LOG = LoggerFactory.getLogger(EnrollmentActivity.class);
 
-    public static Intent getCallingIntent(Context context, String userId, String url,
+    public static Intent getCallingIntent(Context context, String userId, String url, String sessionURL,
                                           String username, String password, int domainId,
-                                          boolean hasFace, boolean hasVoice, boolean hasLiveness,
-                                          boolean isDebugMode, CameraQuality cameraQuality) {
-        return getCallingIntent(context, EnrollmentActivity.class, userId, url, username, password,
-                domainId, hasFace, hasVoice, hasLiveness, isDebugMode, cameraQuality);
+                                          boolean hasFace, boolean hasDynamicVoice, boolean hasStaticVoice,
+                                          boolean hasLiveness, boolean isDebugMode, CameraQuality cameraQuality) {
+        return getCallingIntent(context, EnrollmentActivity.class, userId, url, sessionURL, username, password,
+                domainId, hasFace, hasDynamicVoice, hasStaticVoice, hasLiveness, isDebugMode, cameraQuality);
     }
 
     public void finishFaceAgainFragment() {
@@ -40,16 +42,17 @@ public class EnrollmentActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putString(INSTANCE_STATE_PARAM_USER_ID, this.userId);
-            outState.putString(INSTANCE_STATE_PARAM_URL, this.url);
-            outState.putString(INSTANCE_STATE_PARAM_USERNAME, this.username);
-            outState.putString(INSTANCE_STATE_PARAM_PASSWORD, this.password);
-            outState.putInt(INSTANCE_STATE_PARAM_DOMAIN_ID, this.domainId);
-            outState.putBoolean(INSTANCE_STATE_PARAM_FACE, this.hasFace);
-            outState.putBoolean(INSTANCE_STATE_PARAM_VOICE, this.hasVoice);
-            outState.putBoolean(INSTANCE_STATE_PARAM_LIVENESS, this.hasLiveness);
-            outState.putBoolean(INSTANCE_STATE_PARAM_DEBUG_MODE, this.isDebugMode);
-            outState.putSerializable(INSTANCE_STATE_PARAM_CAMERA_QUALITY, this.cameraQuality);
+            outState.putString(INSTANCE_STATE_PARAM_USER_ID, userId);
+            outState.putString(INSTANCE_STATE_PARAM_SERVER_URL, serverUrl);
+            outState.putString(INSTANCE_STATE_PARAM_USERNAME, username);
+            outState.putString(INSTANCE_STATE_PARAM_PASSWORD, password);
+            outState.putInt(INSTANCE_STATE_PARAM_DOMAIN_ID, domainId);
+            outState.putBoolean(INSTANCE_STATE_PARAM_FACE, hasFace);
+            outState.putBoolean(INSTANCE_STATE_PARAM_DYNAMIC_VOICE, hasDynamicVoice);
+            outState.putBoolean(INSTANCE_STATE_PARAM_STATIC_VOICE, hasStaticVoice);
+            outState.putBoolean(INSTANCE_STATE_PARAM_LIVENESS, hasLiveness);
+            outState.putBoolean(INSTANCE_STATE_PARAM_DEBUG_MODE, isDebugMode);
+            outState.putSerializable(INSTANCE_STATE_PARAM_CAMERA_QUALITY, cameraQuality);
         }
         super.onSaveInstanceState(outState);
     }
@@ -65,7 +68,7 @@ public class EnrollmentActivity extends BaseActivity {
 
         try {
             presenter.init();
-        } catch (CoreException e) {
+        } catch (InternetConnectionException | RestException e) {
             showErrorMessage(R.string.network_error);
             finish();
             return;
@@ -97,10 +100,14 @@ public class EnrollmentActivity extends BaseActivity {
         if (this.hasFace) {
             addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new PhotoFragment()));
         }
-        if (this.hasVoice) {
-            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollVoiceFragment()));
-            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollVoiceFragment()));
-            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollVoiceFragment()));
+        if (this.hasDynamicVoice) {
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollDynamicEnrollVoiceFragment()));
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollDynamicEnrollVoiceFragment()));
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollDynamicEnrollVoiceFragment()));
+        } else if (this.hasStaticVoice) {
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollStaticEnrollVoiceFragment()));
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollStaticEnrollVoiceFragment()));
+            addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollStaticEnrollVoiceFragment()));
         }
         addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new EnrollResultFragment()));
     }

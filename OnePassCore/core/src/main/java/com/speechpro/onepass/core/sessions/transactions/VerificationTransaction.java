@@ -65,8 +65,20 @@ public class VerificationTransaction {
      * @param samplingRate person gender: 0 is men, 1 is women
      * @throws CoreException is thrown when person is not exist.
      */
-    public void addVoiceSample(byte[] voiceSample, int samplingRate) throws CoreException {
-        transport.addDynamicVerificationVoiceSample(sessionId, this, voiceSample, samplingRate);
+    public void addDynamicVoiceSample(byte[] voiceSample, int samplingRate) throws CoreException {
+        transport.addVerificationDynamicVoiceSample(sessionId, this, voiceSample, samplingRate);
+    }
+
+    /**
+     *
+     * Adds VoiceSample for the person.
+     *
+     * @param voiceSample byte array is containing the VoiceSample
+     * @param samplingRate person gender: 0 is men, 1 is women
+     * @throws CoreException is thrown when person is not exist.
+     */
+    public void addStaticVoiceSample(byte[] voiceSample, int samplingRate) throws CoreException {
+        transport.addVerificationStaticVoiceSample(sessionId, this, voiceSample, samplingRate);
     }
 
     /**
@@ -87,7 +99,7 @@ public class VerificationTransaction {
      * @throws CoreException is thrown when person is not exist.
      */
     public void addDynamicVerificationVideo(byte[] video) throws CoreException {
-        transport.addDynamicVerificationVideo(sessionId, this.transactionId, this.getPassphrase(), video);
+        transport.addVerificationDynamicVideo(sessionId, this.transactionId, this.getPassphrase(), video);
     }
 
     /**

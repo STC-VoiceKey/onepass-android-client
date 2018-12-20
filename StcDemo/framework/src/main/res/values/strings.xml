@@ -14,6 +14,7 @@
 
     <!--Video verification fragment-->
     <string name="pronounce">Pronounce the digits:</string>
+    <string name="pronounce_password_phrase">Click the button and pronounce the password phrase.</string>
     <string name="please_position_your_face_into_the_mask">Please position your face into the mask</string>
     <string name="retry">TRY AGAIN</string>
     <string name="internal_server_error">internal server error</string>

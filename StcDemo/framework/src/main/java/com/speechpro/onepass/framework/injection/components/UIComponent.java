@@ -1,15 +1,17 @@
 package com.speechpro.onepass.framework.injection.components;
 
 import android.content.Context;
+
 import com.speechpro.onepass.framework.injection.modules.UIModule;
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 import com.speechpro.onepass.framework.ui.activity.EnrollmentActivity;
 import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
-import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollVoiceFragment;
-import dagger.Component;
+import com.speechpro.onepass.framework.ui.fragment.enroll.EnrollDynamicEnrollVoiceFragment;
 
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
  * @author volobuev
@@ -23,7 +25,7 @@ public interface UIComponent {
     void inject(EnrollmentActivity enrollmentActivity);
     void inject(VerificationActivity verificationActivity);
 
-    void inject(EnrollVoiceFragment fragment);
+    void inject(EnrollDynamicEnrollVoiceFragment fragment);
 
     Context context();
     IModel model();

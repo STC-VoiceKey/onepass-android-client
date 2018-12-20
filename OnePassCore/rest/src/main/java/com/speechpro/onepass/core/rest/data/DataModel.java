@@ -18,13 +18,13 @@ public class DataModel {
     public final Long   id;
     @JsonProperty("type")
     public final String type;
-    @JsonProperty("samplesCount")
+    @JsonProperty("samples_count")
     public final int    samplesCount;
 
     @JsonCreator
     public DataModel(@JsonProperty("id") Long id,
                      @JsonProperty("type") String type,
-                     @JsonProperty("samplesCount") int samplesCount) {
+                     @JsonProperty("samples_count") int samplesCount) {
         this.id = id;
         this.type = type;
         this.samplesCount = samplesCount;
@@ -35,7 +35,7 @@ public class DataModel {
         return MoreObjects.toStringHelper(this)
                           .add("id", id)
                           .add("type", type)
-                          .add("samplesCount", samplesCount)
+                          .add("samples_count", samplesCount)
                           .toString();
     }
 }

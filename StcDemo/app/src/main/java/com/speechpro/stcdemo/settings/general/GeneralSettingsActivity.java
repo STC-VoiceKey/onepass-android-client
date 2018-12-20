@@ -17,7 +17,7 @@ import com.speechpro.stcdemo.app.STCDemoApp;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -37,13 +37,14 @@ public class GeneralSettingsActivity extends AppCompatActivity {
         mGeneralSettingsPresenter.setActivity(this);
     }
 
-    @Bind(R.id.progressbar) View mProgress;
-    @Bind(R.id.main) View mLinearLayout;
-    @Bind(R.id.tv_version) TextView mVersion;
-    @Bind(R.id.face_checkbox) CheckBox mFaceCheckbox;
-    @Bind(R.id.voice_checkbox) CheckBox mVoiceCheckbox;
-    @Bind(R.id.liveness_checkbox) CheckBox mLivenessCheckbox;
-    @Bind(R.id.debug_mode) CheckBox mDebugMode;
+    @BindView(R.id.progressbar) View mProgress;
+    @BindView(R.id.main) View mLinearLayout;
+    @BindView(R.id.tv_version) TextView mVersion;
+    @BindView(R.id.face_checkbox) CheckBox mFaceCheckbox;
+    @BindView(R.id.dynamic_voice_checkbox) CheckBox mDynamicVoiceCheckbox;
+    @BindView(R.id.static_voice_checkbox) CheckBox mStaticVoiceCheckbox;
+    @BindView(R.id.liveness_checkbox) CheckBox mLivenessCheckbox;
+    @BindView(R.id.debug_mode) CheckBox mDebugMode;
 
     private boolean mhasLiveness;
 
@@ -60,8 +61,10 @@ public class GeneralSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        mGeneralSettingsPresenter.saveModalityState(mFaceCheckbox.isChecked(),
-                mVoiceCheckbox.isChecked(),
+        mGeneralSettingsPresenter.saveModalityState(
+                mFaceCheckbox.isChecked(),
+                mDynamicVoiceCheckbox.isChecked(),
+                mStaticVoiceCheckbox.isChecked(),
                 mLivenessCheckbox.isChecked());
 
         super.onPause();
@@ -74,10 +77,11 @@ public class GeneralSettingsActivity extends AppCompatActivity {
 
     private void initCheckBoxState() {
         mFaceCheckbox.setChecked(mGeneralSettingsPresenter.hasFace());
-        mVoiceCheckbox.setChecked(mGeneralSettingsPresenter.hasVoice());
+        mDynamicVoiceCheckbox.setChecked(mGeneralSettingsPresenter.hasDynamicVoice());
+        mStaticVoiceCheckbox.setChecked(mGeneralSettingsPresenter.hasStaticVoice());
         mLivenessCheckbox.setChecked(mGeneralSettingsPresenter.hasLiveness());
-        if ((!mFaceCheckbox.isChecked() && mVoiceCheckbox.isChecked())
-                || (mFaceCheckbox.isChecked() && !mVoiceCheckbox.isChecked())) {
+        if ((!mFaceCheckbox.isChecked() && mDynamicVoiceCheckbox.isChecked())
+                || (mFaceCheckbox.isChecked() && !mDynamicVoiceCheckbox.isChecked())) {
             mLivenessCheckbox.setEnabled(false);
         }
         mDebugMode.setChecked(mGeneralSettingsPresenter.isDebugMode());
@@ -104,9 +108,20 @@ public class GeneralSettingsActivity extends AppCompatActivity {
         mGeneralSettingsPresenter.onClickFace(mFaceCheckbox.isChecked());
     }
 
-    @OnClick(R.id.voice_checkbox)
-    public void onClickVoiceCheckbox(View view) {
-        mGeneralSettingsPresenter.onClickVoice(mVoiceCheckbox.isChecked());
+    @OnClick(R.id.dynamic_voice_checkbox)
+    public void onClickDynamicVoiceCheckbox(View view) {
+        if (mStaticVoiceCheckbox.isChecked()) {
+            mStaticVoiceCheckbox.setChecked(false);
+        }
+        mGeneralSettingsPresenter.onClickDynamicVoice(mDynamicVoiceCheckbox.isChecked());
+    }
+
+    @OnClick(R.id.static_voice_checkbox)
+    public void onClickStaticVoiceCheckbox(View view) {
+        if (mDynamicVoiceCheckbox.isChecked()) {
+            mDynamicVoiceCheckbox.setChecked(false);
+        }
+        mGeneralSettingsPresenter.onClickStaticVoice(mStaticVoiceCheckbox.isChecked());
     }
 
     @OnClick(R.id.liveness_checkbox)
@@ -175,8 +190,12 @@ public class GeneralSettingsActivity extends AppCompatActivity {
         mFaceCheckbox.setChecked(hasFace);
     }
 
-    void setVoice(boolean hasVoice) {
-        mVoiceCheckbox.setChecked(hasVoice);
+    void setDynamicVoice(boolean hasVoice) {
+        mDynamicVoiceCheckbox.setChecked(hasVoice);
+    }
+
+    void setStaticVoice(boolean hasVoice) {
+        mStaticVoiceCheckbox.setChecked(hasVoice);
     }
 
     void setLiveness(boolean hasLiveness) {

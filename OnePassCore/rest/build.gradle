@@ -1,17 +1,4 @@
-buildscript {
-    repositories {
-        jcenter {
-            url "http://jcenter.bintray.com/"
-        }
-    }
-    dependencies {
-        classpath System.properties['gradlePlugin']
-        classpath System.properties['androidApt']
-    }
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
@@ -35,6 +22,17 @@ android {
         minSdkVersion Integer.parseInt(project.minSdkVersion)
         targetSdkVersion Integer.parseInt(project.targetSdkVersion)
         versionName project.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        'androidManifestFile': '$project.projectDir/src/main/AndroidManifest.xml',
+                        'resourcePackageName': 'com.speechpro.onepass.core.rest',
+                        'trace'              : 'true',
+                        'logLevel'           : 'TRACE',
+                        'logAppenderConsole' : 'true'
+                ]
+            }
+        }
     }
 
     lintOptions {
@@ -47,19 +45,20 @@ android {
     }
 
     android.libraryVariants.all { variant ->
-        variant.outputs.each { output ->
+        variant.outputs.all { output ->
             def outputFile = output.outputFile
-            def fileName
-            if (outputFile != null && (fileName = outputFile.name).endsWith('.aar')) {
+            def fileName = outputFile.name
+            if (outputFile != null && fileName.endsWith('.aar')) {
                 if (fileName.contains('-debug.aar')) {
                     fileName = outputFile.name.replace('-debug.aar', "_debug-${buildVersion}.aar")
-                    output.outputFile = new File(outputFile.parent, fileName)
-                } else if(fileName.contains('-release.aar')){
+                    outputFileName = fileName
+                } else if (fileName.contains('-release.aar')) {
                     fileName = outputFile.name.replace('-release.aar', "-${buildVersion}.aar")
-                    output.outputFile  = new File(outputFile.parent, fileName)
+                    outputFileName = fileName
                 }
             }
         }
+
     }
 }
 
@@ -67,28 +66,17 @@ publishing {
     publications {
         maven(MavenPublication) {
             pom.packaging = 'aar'
-
             artifact "build/outputs/aar/rest-${buildVersion}.aar"
         }
     }
 }
 
 dependencies {
-    compile lib.guava
-    compile lib.core
-    compile lib.retrofit
-    compile lib.okhttp
-    compile lib.jackson
+    implementation lib.guava
+    implementation lib.core
+    implementation lib.retrofit
+    implementation lib.okhttp
+    implementation lib.jackson
 
-    testCompile lib.junit
-}
-
-apt {
-    arguments {
-        androidManifestFile "$project.projectDir/src/main/AndroidManifest.xml"
-        resourcePackageName 'com.speechpro.onepass.core.rest'
-        trace true
-        logLevel 'TRACE'
-        logAppenderConsole true
-    }
+    testImplementation lib.junit
 }

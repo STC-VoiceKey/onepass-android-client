@@ -17,11 +17,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
         fieldVisibility = Visibility.NONE
 )
 public class RegistationSessionResponse {
-    @JsonProperty("transactionId")
+    @JsonProperty("transaction_id")
     public String transactionId;
 
     @JsonCreator
-    public RegistationSessionResponse(@JsonProperty("transactionId") String transactionId) {
+    public RegistationSessionResponse(@JsonProperty("transaction_id") String transactionId) {
         this.transactionId = transactionId;
     }
 }

@@ -1,7 +1,9 @@
-package com.speechpro.onepass.framework.ui.fragment.enroll;
+package com.speechpro.onepass.framework.ui.fragment.verify;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,8 @@ import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.RestException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.media.AudioListener;
-import com.speechpro.onepass.framework.presenter.BasePresenter;
-import com.speechpro.onepass.framework.presenter.episode.Episode;
-import com.speechpro.onepass.framework.ui.activity.EnrollmentActivity;
+import com.speechpro.onepass.framework.presenter.VerificationPresenter;
+import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
 import com.speechpro.onepass.framework.ui.fragment.BaseFragment;
 import com.speechpro.onepass.framework.ui.listeners.RecButtonListener;
 import com.speechpro.onepass.framework.ui.view.RecButtonView;
@@ -23,31 +24,31 @@ import com.speechpro.onepass.framework.ui.view.soundwave.SoundwaveSurfaceView;
 /**
  * @author Alexander Grigal
  */
-public abstract class EnrollVoiceFragment extends BaseFragment implements AudioListener, RecButtonListener {
+public class VerifyStaticVoiceFragment extends BaseFragment implements AudioListener, RecButtonListener {
 
-    View mProgressBar;
-    LinearLayout mMain;
+    private final static String TAG = VerifyStaticVoiceFragment.class.getSimpleName();
 
-    Episode mEpisode;
-    TextView mEpisodeText;
-
-    RecButtonView mRecButton;
-
-    EnrollmentActivity mActivity;
-    BasePresenter mPresenter;
-
-    Handler mHandler = new Handler();
+    private View mProgressBar;
+    private LinearLayout mMain;
 
     private SoundwaveSurfaceView mSoundwaveSurfaceView;
+
+    private RecButtonView mRecButton;
+
+    private VerificationActivity mActivity;
+    private VerificationPresenter mPresenter;
+
+    private Handler mHandler = new Handler();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.f_enroll_voice, container, false);
+        Log.d(TAG, "onCreateView");
+        View view = inflater.inflate(R.layout.f_verify_voice, container, false);
 
-        mActivity = (EnrollmentActivity) getActivity();
-        mPresenter = mActivity.getPresenter();
-        mEpisode = mPresenter.getEpisode();
+
+        mActivity = (VerificationActivity) getActivity();
+        mPresenter = (VerificationPresenter) mActivity.getPresenter();
 
         setupUI(view);
 
@@ -56,6 +57,7 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
         mMain.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -66,6 +68,7 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
 
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
         mPresenter.cancelRecording();
         mSoundwaveSurfaceView.clear();
@@ -73,21 +76,26 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
 
     @Override
     public void onStop() {
+        Log.d(TAG, "onStop");
         super.onStop();
         mPresenter.removeAudioListener();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
     }
 
     private void setupUI(View view) {
-        mEpisodeText = (TextView) view.findViewById(R.id.episode_text);
+        Log.d(TAG, "setupUI");
 
         mProgressBar = view.findViewById(R.id.progressbar);
         mProgressBar.setVisibility(View.GONE);
         mMain = (LinearLayout) view.findViewById(R.id.main_layout);
+
+        TextView titleText = (TextView) view.findViewById(R.id.title_text);
+        titleText.setText(R.string.pronounce_password_phrase);
 
         mSoundwaveSurfaceView = (SoundwaveSurfaceView) view.findViewById(R.id.sound_view);
 
@@ -108,11 +116,12 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
 
     @Override
     public void start() {
-
+        Log.d(TAG, "start");
     }
 
     @Override
     public void stop(byte[] result) {
+        Log.d(TAG, "stop");
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -122,15 +131,37 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
                 mSoundwaveSurfaceView.setVisibility(View.GONE);
             }
         });
+        try {
+            mPresenter.processStaticAudio(result);
+            mActivity.nextEpisode();
+        } catch (CoreException ex) {
+            Log.d(TAG, ex.getMessage());
+            mPresenter.releaseRecorder();
+            Log.e(TAG, ex.toString());
+            final String descriptionError = ((RestException) ex).reason;
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showErrorDialogFragment(descriptionError);
+                    mProgressBar.setVisibility(View.GONE);
+                    mMain.setVisibility(View.VISIBLE);
+                    mRecButton.setVisibility(View.VISIBLE);
+
+                    mPresenter.restartTransaction();
+                }
+            });
+        }
     }
 
-    protected void showErrorDialogFragment(String descriptionError) {
+    private void showErrorDialogFragment(String descriptionError) {
         if (!mActivity.isFinishing())
             mActivity.showErrorFragment(this, getString(R.string.give_it_another_recording), descriptionError);
     }
 
     @Override
     public void onProcess(final short amplitude) {
+//        Log.d(TAG, "onProcess: " + amplitude);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -143,8 +174,16 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
 
     @Override
     public void onProgressFinish() {
+        Log.d(TAG, "onProgressFinish: ");
         mPresenter.stopRecording();
         mPresenter.playOtherActivePlayer();
+    }
+
+    private void setNumbers(String mPassphrase, TextView... mTextViews) {
+        char[] mPass = mPassphrase.toCharArray();
+        for (int i = 0; i < mTextViews.length; i++) {
+            mTextViews[i].setText("" + mPass[i]);
+        }
     }
 
     private void startRecording() {
@@ -154,3 +193,4 @@ public abstract class EnrollVoiceFragment extends BaseFragment implements AudioL
     }
 
 }
+

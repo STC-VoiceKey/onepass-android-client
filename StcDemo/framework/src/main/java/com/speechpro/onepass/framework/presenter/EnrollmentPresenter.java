@@ -2,6 +2,8 @@ package com.speechpro.onepass.framework.presenter;
 
 import android.util.Pair;
 
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.model.IModel;
@@ -38,8 +40,13 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     @Override
-    protected void addVoiceSample(byte[] pcmBytes, String passphrase) throws CoreException {
-        getModel().addEnrollmentVoice(new VoiceSample(pcmBytes, passphrase, Constants.SAMPLE_RATE));
+    protected void addDynamicVoiceSample(byte[] pcmBytes, String passphrase) throws CoreException {
+        getModel().addEnrollmentDynamicVoice(new VoiceSample(pcmBytes, passphrase, Constants.SAMPLE_RATE));
+    }
+
+    @Override
+    protected void addStaticVoiceSample(byte[] pcmBytes) throws CoreException {
+        getModel().addEnrollmentStaticVoice(new VoiceSample(pcmBytes, Constants.SAMPLE_RATE));
     }
 
     @Override
@@ -53,7 +60,7 @@ public class EnrollmentPresenter extends BasePresenter {
     }
 
     @Override
-    public void init() throws CoreException {
+    public void init() throws InternetConnectionException, RestException {
         getModel().startSession();
         getModel().startRegistrationTransaction(mUserId);
     }

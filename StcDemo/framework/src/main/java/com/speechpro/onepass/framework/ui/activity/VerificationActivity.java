@@ -6,15 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 
-import com.speechpro.onepass.core.exception.CoreException;
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.framework.R;
-import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 import com.speechpro.onepass.framework.presenter.VerificationPresenter;
 import com.speechpro.onepass.framework.ui.fragment.PhotoFragment;
-import com.speechpro.onepass.framework.ui.fragment.verify.VerifyVoiceWithPhotoFragment;
 import com.speechpro.onepass.framework.ui.fragment.verify.VerifyResultFragment;
-import com.speechpro.onepass.framework.ui.fragment.verify.VerifyVoiceFragment;
+import com.speechpro.onepass.framework.ui.fragment.verify.VerifyStaticVoiceFragment;
 import com.speechpro.onepass.framework.ui.fragment.verify.VerifyVideoFragment;
+import com.speechpro.onepass.framework.ui.fragment.verify.VerifyDynamicVoiceFragment;
+import com.speechpro.onepass.framework.ui.fragment.verify.VerifyVoiceWithPhotoFragment;
+import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 
 /**
  * @author volobuev
@@ -22,27 +24,28 @@ import com.speechpro.onepass.framework.ui.fragment.verify.VerifyVideoFragment;
  */
 public class VerificationActivity extends BaseActivity {
 
-    public static Intent getCallingIntent(Context context, String userId, String url,
+    public static Intent getCallingIntent(Context context, String userId, String url, String sessionURL,
                                           String username, String password, int domainId,
-                                          boolean hasFace, boolean hasVoice, boolean hasLiveness,
-                                          boolean isDebugMode, CameraQuality cameraQuality) {
-        return getCallingIntent(context, VerificationActivity.class, userId, url, username, password,
-                domainId, hasFace, hasVoice, hasLiveness, isDebugMode, cameraQuality);
+                                          boolean hasFace, boolean hasDynamicVoice, boolean hasStaticVoice,
+                                          boolean hasLiveness, boolean isDebugMode, CameraQuality cameraQuality) {
+        return getCallingIntent(context, VerificationActivity.class, userId, url, sessionURL, username, password,
+                domainId, hasFace, hasDynamicVoice, hasStaticVoice, hasLiveness, isDebugMode, cameraQuality);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putString(INSTANCE_STATE_PARAM_USER_ID, this.userId);
-            outState.putString(INSTANCE_STATE_PARAM_URL, this.url);
-            outState.putString(INSTANCE_STATE_PARAM_USERNAME, this.username);
-            outState.putString(INSTANCE_STATE_PARAM_PASSWORD, this.password);
-            outState.putInt(INSTANCE_STATE_PARAM_DOMAIN_ID, this.domainId);
-            outState.putBoolean(INSTANCE_STATE_PARAM_FACE, this.hasFace);
-            outState.putBoolean(INSTANCE_STATE_PARAM_VOICE, this.hasVoice);
-            outState.putBoolean(INSTANCE_STATE_PARAM_LIVENESS, this.hasLiveness);
-            outState.putBoolean(INSTANCE_STATE_PARAM_DEBUG_MODE, this.isDebugMode);
-            outState.putSerializable(INSTANCE_STATE_PARAM_CAMERA_QUALITY, this.cameraQuality);
+            outState.putString(INSTANCE_STATE_PARAM_USER_ID, userId);
+            outState.putString(INSTANCE_STATE_PARAM_SERVER_URL, serverUrl);
+            outState.putString(INSTANCE_STATE_PARAM_USERNAME, username);
+            outState.putString(INSTANCE_STATE_PARAM_PASSWORD, password);
+            outState.putInt(INSTANCE_STATE_PARAM_DOMAIN_ID, domainId);
+            outState.putBoolean(INSTANCE_STATE_PARAM_FACE, hasFace);
+            outState.putBoolean(INSTANCE_STATE_PARAM_DYNAMIC_VOICE, hasDynamicVoice);
+            outState.putBoolean(INSTANCE_STATE_PARAM_STATIC_VOICE, hasStaticVoice);
+            outState.putBoolean(INSTANCE_STATE_PARAM_LIVENESS, hasLiveness);
+            outState.putBoolean(INSTANCE_STATE_PARAM_DEBUG_MODE, isDebugMode);
+            outState.putSerializable(INSTANCE_STATE_PARAM_CAMERA_QUALITY, cameraQuality);
         }
         super.onSaveInstanceState(outState);
     }
@@ -57,7 +60,7 @@ public class VerificationActivity extends BaseActivity {
 
         try {
             presenter.init();
-        } catch (CoreException e) {
+        } catch (InternetConnectionException | RestException e) {
             showErrorMessage(R.string.network_error);
             finish();
             return;
@@ -69,15 +72,20 @@ public class VerificationActivity extends BaseActivity {
     private void initializeActivity() {
         getComponent().inject(this);
 
-        if (this.hasLiveness) {
+        if (hasLiveness) {
             addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyVideoFragment())); //only video
         } else {
-            if (this.hasFace && this.hasVoice) {
+            if (hasFace && hasDynamicVoice) {
                 addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyVoiceWithPhotoFragment())); //photo with voice
-            } else if (this.hasFace) {
+            } else if (hasFace && hasStaticVoice) {
                 addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new PhotoFragment()));
-            } else if (this.hasVoice) {
-                addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyVoiceFragment()));
+                addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyStaticVoiceFragment()));
+            } else if (hasFace) {
+                addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new PhotoFragment()));
+            } else if (hasDynamicVoice) {
+                addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyDynamicVoiceFragment()));
+            } else if (hasStaticVoice) {
+                addFragmentToQueue(new Pair<Integer, Fragment>(R.id.fragment_layout, new VerifyStaticVoiceFragment()));
             }
         }
 

@@ -17,10 +17,10 @@ import android.widget.TextView;
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.framework.R;
 import com.speechpro.onepass.framework.presenter.BasePresenter;
+import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 import com.speechpro.onepass.framework.ui.activity.VerificationActivity;
 import com.speechpro.onepass.framework.ui.fragment.BaseFragment;
 import com.speechpro.onepass.framework.util.Constants;
-import com.speechpro.onepass.framework.ui.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

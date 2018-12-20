@@ -28,7 +28,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -53,10 +54,10 @@ public class LoginActivity extends AppCompatActivity
 
     private TypeTransition typeTransition;
 
-    @Bind(R.id.layout_warning) View mWarning;
-    @Bind(R.id.email) EditText mEmailEditText;
-    @Bind(R.id.login) View mLogin;
-    @Bind(R.id.signup) View mSignup;
+    @BindView(R.id.layout_warning) View mWarning;
+    @BindView(R.id.email) EditText mEmailEditText;
+    @BindView(R.id.login) View mLogin;
+    @BindView(R.id.signup) View mSignup;
 
     @Inject
     LoginPresenter mLoginPresenter;

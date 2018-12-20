@@ -1,6 +1,7 @@
 package com.speechpro.onepass.framework.model.tasks;
 
 import android.os.AsyncTask;
+
 import com.speechpro.onepass.core.exception.CoreException;
 
 /**

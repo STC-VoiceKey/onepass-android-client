@@ -78,7 +78,7 @@ public class AudioRecorder {
         mService.execute(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "Acoustostart is running...");
+                Log.d(TAG, "AudioRecorder is running...");
                 write();
             }
         });

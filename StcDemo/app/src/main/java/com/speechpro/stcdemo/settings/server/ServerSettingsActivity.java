@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -39,14 +38,15 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
                     + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-    @Bind(R.id.progressbar) View mProgressbar;
-    @Bind(R.id.main) View mLinearLayout;
-    @Bind(R.id.url) EditText mURLEditText;
-    @Bind(R.id.username) EditText mUsernameEditText;
-    @Bind(R.id.password) EditText mPasswordEditText;
-    @Bind(R.id.domain_id) EditText mDomainIdEditText;
-    @Bind(R.id.save) Button mSaveButton;
-    @Bind(R.id.default_settings) Button mDefaultSettingsButton;
+    @BindView(R.id.progressbar) View mProgressbar;
+    @BindView(R.id.main) View mLinearLayout;
+    @BindView(R.id.url_server) EditText mURLServerEditText;
+    @BindView(R.id.url_server_session) EditText mURLServerSessionEditText;
+    @BindView(R.id.username) EditText mUsernameEditText;
+    @BindView(R.id.password) EditText mPasswordEditText;
+    @BindView(R.id.domain_id) EditText mDomainIdEditText;
+    @BindView(R.id.save) Button mSaveButton;
+    @BindView(R.id.default_settings) Button mDefaultSettingsButton;
 
     @Inject
     ServerSettingsPresenter mServerSettingsPresenter;
@@ -65,8 +65,10 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
 
         mPasswordEditText.setOnTouchListener(this);
 
-        mURLEditText.addTextChangedListener(this);
-        mURLEditText.setText(mServerSettingsPresenter.getUrl());
+        mURLServerEditText.addTextChangedListener(this);
+        mURLServerEditText.setText(mServerSettingsPresenter.getURLServer());
+        mURLServerSessionEditText.addTextChangedListener(this);
+        mURLServerSessionEditText.setText(mServerSettingsPresenter.getURLServerSession());
         mUsernameEditText.addTextChangedListener(this);
         mUsernameEditText.setText(mServerSettingsPresenter.getUsername());
         mPasswordEditText.addTextChangedListener(this);
@@ -84,7 +86,8 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
     protected void onDestroy() {
         super.onDestroy();
 
-        mURLEditText.removeTextChangedListener(this);
+        mURLServerEditText.removeTextChangedListener(this);
+        mURLServerSessionEditText.removeTextChangedListener(this);
         mUsernameEditText.removeTextChangedListener(this);
         mPasswordEditText.removeTextChangedListener(this);
         mDomainIdEditText.removeTextChangedListener(this);
@@ -109,12 +112,18 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
 
     @Override
     public void afterTextChanged(Editable editable) {
-        mServerSettingsPresenter.checkChangedCredentials(mURLEditText.getText().toString(),
-                mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString(),
+        mServerSettingsPresenter.checkChangedCredentials(
+                mURLServerEditText.getText().toString(),
+                mURLServerSessionEditText.getText().toString(),
+                mUsernameEditText.getText().toString(),
+                mPasswordEditText.getText().toString(),
                 mDomainIdEditText.getText().toString());
 
-        mServerSettingsPresenter.checkDefaultCredentials(mURLEditText.getText().toString(),
-                mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString(),
+        mServerSettingsPresenter.checkDefaultCredentials(
+                mURLServerEditText.getText().toString(),
+                mURLServerSessionEditText.getText().toString(),
+                mUsernameEditText.getText().toString(),
+                mPasswordEditText.getText().toString(),
                 mDomainIdEditText.getText().toString());
     }
 
@@ -128,7 +137,8 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
     public void onClickDefaultSettings(View view) {
         resetErrors();
 
-        mURLEditText.setText(R.string.url_vkopdm);
+        mURLServerEditText.setText(R.string.url_server);
+        mURLServerSessionEditText.setText(R.string.url_server_session);
         mUsernameEditText.setText(R.string.username);
         mPasswordEditText.setText(R.string.password);
         mDomainIdEditText.setText(R.string.domain_id);
@@ -165,8 +175,8 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
     }
 
     void setErrorURL() {
-        mURLEditText.setError(getString(R.string.error_incorrect_url));
-        mURLEditText.requestFocus();
+        mURLServerEditText.setError(getString(R.string.error_incorrect_url));
+        mURLServerEditText.requestFocus();
     }
 
     void setErrorUsername(boolean isBlocked) {
@@ -187,7 +197,8 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
     }
 
     private void attemtSave() {
-        String url = mURLEditText.getText().toString();
+        String serverUrl = mURLServerEditText.getText().toString();
+        String sessionUrl = mURLServerSessionEditText.getText().toString();
         String username = mUsernameEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         String domainId = mDomainIdEditText.getText().toString();
@@ -195,14 +206,22 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(url)) {
-            mURLEditText.setError(getString(R.string.error_field_required));
-            focusView = mURLEditText;
+        if (TextUtils.isEmpty(serverUrl)) {
+            mURLServerEditText.setError(getString(R.string.error_field_required));
+            focusView = mURLServerEditText;
             cancel = true;
-//        } else if (!Patterns.WEB_URL.matcher(url).matches()) {
-        } else if (!isValidURL(url)) {
-            mURLEditText.setError(getString(R.string.error_not_valid_url));
-            focusView = mURLEditText;
+//        } else if (!Patterns.WEB_URL.matcher(sessionUrl).matches()) {
+        } else if (!isValidURL(serverUrl)) {
+            mURLServerEditText.setError(getString(R.string.error_not_valid_url));
+            focusView = mURLServerEditText;
+            cancel = true;
+        } else if (TextUtils.isEmpty(sessionUrl)) {
+            mURLServerEditText.setError(getString(R.string.error_field_required));
+            focusView = mURLServerEditText;
+            cancel = true;
+        } else if (!isValidURL(sessionUrl)) {
+            mURLServerEditText.setError(getString(R.string.error_not_valid_url));
+            focusView = mURLServerEditText;
             cancel = true;
         } else if (TextUtils.isEmpty(username)) {
             mUsernameEditText.setError(getString(R.string.error_field_required));
@@ -221,21 +240,19 @@ public class ServerSettingsActivity extends AppCompatActivity implements TextWat
         if (cancel) {
             focusView.requestFocus();
         } else {
-            mServerSettingsPresenter.checkValidCredentials(url, username, password, Integer.parseInt(domainId));
+            mServerSettingsPresenter.checkValidCredentials(serverUrl, sessionUrl, username, password, Integer.parseInt(domainId));
         }
     }
 
     private void resetErrors() {
-        mURLEditText.setError(null);
+        mURLServerEditText.setError(null);
+        mURLServerSessionEditText.setError(null);
         mUsernameEditText.setError(null);
         mPasswordEditText.setError(null);
         mDomainIdEditText.setError(null);
     }
 
     boolean isValidURL(String url) {
-        if (urlPattern.matcher(url).matches()) {
-            return true;
-        }
-        return false;
+        return urlPattern.matcher(url).matches();
     }
 }

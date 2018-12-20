@@ -15,13 +15,15 @@
     <string name="user_id_pref" translatable="false">com.speechpro.stcdemo.USER_ID</string>
     <string name="email_pref" translatable="false">com.speechpro.stcdemo.EMAIL</string>
     <string name="base_url_pref" translatable="false">com.speechpro.stcdemo.URL</string>
-    <string name="url_vkopdm" translatable="false">https://onepass.tech/devvkop/rest/</string>
+
+    <string name="url_server_session" translatable="false">https://onepass.tech/vksession/rest/</string>
+    <string name="url_server" translatable="false">https://onepass.tech/vkop/rest/</string>
 
     <!--Credential-->
     <string name="username_pref" translatable="false">com.speechpro.stcdemo.USERNAME</string>
-    <string name="username" translatable="false">admin</string>
+    <string name="username" translatable="false">vk_user</string>
     <string name="password_pref" translatable="false">com.speechpro.stcdemo.PASSWORD</string>
-    <string name="password" translatable="false">QL0AFWMIX8NRZTKeof9cXsvbvu8=</string>
+    <string name="password" translatable="false">123</string>
     <string name="domain_id_pref" translatable="false">com.speechpro.stcdemo.DOMAIN_ID</string>
     <string name="domain_id" translatable="false">201</string>
 
@@ -33,7 +35,8 @@
     <!--Settings view-->
     <string name="online_version" translatable="false">Online version with design %s(%d)</string>
     <string name="save">SAVE</string>
-    <string name="url_hint" translatable="false">URL</string>
+    <string name="url_server_hint" translatable="false">URL server</string>
+    <string name="url_server_session_hint" translatable="false">URL server session</string>
     <string name="remove_user">Remove user</string>
     <string name="are_you_sure_you_want_to_remove_user">Are you sure you want to remove user %s?</string>
     <string name="remove">Remove</string>

@@ -3,10 +3,11 @@ package com.speechpro.onepass.framework.injection.modules;
 import com.speechpro.onepass.core.rest.api.RetroRestAPI;
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.framework.util.Constants;
-import dagger.Module;
-import dagger.Provides;
 
 import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * @author volobuev

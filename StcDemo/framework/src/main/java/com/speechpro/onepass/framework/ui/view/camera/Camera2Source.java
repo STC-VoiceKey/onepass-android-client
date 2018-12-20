@@ -50,6 +50,7 @@ import com.speechpro.onepass.framework.ui.view.camera.callbacks.AutoFocusCallbac
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.PictureCallback;
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.ShutterCallback;
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.VideoCallback;
+import com.speechpro.onepass.framework.util.Constants;
 import com.speechpro.onepass.framework.util.Utils;
 
 import java.io.IOException;
@@ -674,7 +675,9 @@ public class Camera2Source {
             mMediaRecorder.setVideoFrameRate(30);
             mMediaRecorder.setVideoSize(width, height);
             mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
+            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            mMediaRecorder.setAudioChannels(1);
+            mMediaRecorder.setAudioSamplingRate(Constants.SAMPLE_RATE);
             int adjustment = 0;
             if (Build.MODEL.equals("Nexus 5x") || Build.MODEL.equals("Nexus 6P")){
                 // rotate camera 180°

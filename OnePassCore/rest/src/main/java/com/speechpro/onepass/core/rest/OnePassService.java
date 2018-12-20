@@ -11,12 +11,6 @@ import retrofit2.http.*;
  */
 public interface OnePassService {
 
-    @POST("session")
-    Call<SessionIdResponse> startSession(@Body StartSessionRequest session);
-
-    @DELETE("session")
-    Call<Void> closeSession(@Header("X-Session-Id") String sessionId);
-
     @GET("person/{id}")
     Call<Person> readPerson(@Header("X-Session-Id") String sessionId,
                             @Path("id") String id);
@@ -44,6 +38,16 @@ public interface OnePassService {
                                      @Header("X-Transaction-Id") String transactionId,
                                      @Body VoiceSample sample);
 
+    @POST("registration/voice/static/file")
+    Call<Void> addVoiceStaticFile(@Header("X-Session-Id") String sessionId,
+                                   @Header("X-Transaction-Id") String transactionId,
+                                   @Body VoiceFile voiceFile);
+
+    @POST("registration/voice/static/sample")
+    Call<Void> addVoiceStaticSample(@Header("X-Session-Id") String sessionId,
+                                     @Header("X-Transaction-Id") String transactionId,
+                                     @Body VoiceSample sample);
+
     @GET("verification/person/{id}")
     Call<VerificationSessionResponse> startVerificationTransaction(@Header("X-Session-Id") String sessionId,
                                                                    @Path("id") String id);
@@ -54,9 +58,14 @@ public interface OnePassService {
                                        @Body Data data);
 
     @POST("verification/voice/dynamic/sample")
-    Call<Void> addDynamicVerificationVoiceSample(@Header("X-Session-Id") String sessionId,
+    Call<Void> addVerificationDynamicVoiceSample(@Header("X-Session-Id") String sessionId,
                                                  @Header("X-Transaction-Id") String transactionId,
                                                  @Body VoiceSample sample);
+
+    @POST("verification/voice/static/sample")
+    Call<Void> addVerificationStaticVoiceSample(@Header("X-Session-Id") String sessionId,
+                                                @Header("X-Transaction-Id") String transactionId,
+                                                @Body VoiceSample sample);
 
     @POST("verification/video/dynamic/file")
     Call<Void> addDynamicVerificationVideo(@Header("X-Session-Id") String sessionId,

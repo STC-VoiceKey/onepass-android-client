@@ -19,7 +19,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP_MR1, packageName = "com.speechpro.onepass.framework")
+@Config(sdk = Build.VERSION_CODES.P, packageName = "com.speechpro.onepass.framework")
 public class ResourceTest {
 
     private Context context;

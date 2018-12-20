@@ -1,12 +1,14 @@
 package com.speechpro.onepass.framework.injection.modules;
 
 import android.content.Context;
+
 import com.speechpro.onepass.framework.model.IModel;
 import com.speechpro.onepass.framework.model.Model;
-import dagger.Module;
-import dagger.Provides;
 
 import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * @author volobuev

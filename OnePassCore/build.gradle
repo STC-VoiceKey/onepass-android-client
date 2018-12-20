@@ -6,11 +6,12 @@ ext.lib = [
         okhttp         : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
         guava          : 'com.google.guava:guava:19.0-rc3',
         junit          : 'junit:junit:4.12',
-        playServices   : 'com.google.android.gms:play-services:7.8.+',
+        playServices   : 'com.google.android.gms:play-services:7.8.+'
 ]
 
 buildscript {
     repositories {
+        google()
         jcenter {
             url "http://jcenter.bintray.com/"
         }
@@ -23,6 +24,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter {
             url "http://jcenter.bintray.com/"
         }

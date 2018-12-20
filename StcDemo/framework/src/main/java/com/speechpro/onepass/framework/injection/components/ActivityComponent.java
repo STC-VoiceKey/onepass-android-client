@@ -1,8 +1,10 @@
 package com.speechpro.onepass.framework.injection.components;
 
 import android.app.Activity;
+
 import com.speechpro.onepass.framework.injection.PerActivity;
 import com.speechpro.onepass.framework.injection.modules.ActivityModule;
+
 import dagger.Component;
 
 /**

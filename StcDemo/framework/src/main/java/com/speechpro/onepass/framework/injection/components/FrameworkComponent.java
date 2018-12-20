@@ -2,9 +2,10 @@ package com.speechpro.onepass.framework.injection.components;
 
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.framework.injection.modules.FrameworkModule;
-import dagger.Component;
 
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
  * @author volobuev

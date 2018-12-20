@@ -48,6 +48,7 @@ import com.speechpro.onepass.framework.ui.view.camera.callbacks.AutoFocusMoveCal
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.PictureCallback;
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.ShutterCallback;
 import com.speechpro.onepass.framework.ui.view.camera.callbacks.VideoCallback;
+import com.speechpro.onepass.framework.util.Constants;
 import com.speechpro.onepass.framework.util.Utils;
 
 import java.io.IOException;
@@ -63,7 +64,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static android.media.CamcorderProfile.*;
+import static android.media.CamcorderProfile.QUALITY_1080P;
+import static android.media.CamcorderProfile.QUALITY_2160P;
 import static android.media.CamcorderProfile.QUALITY_480P;
 import static android.media.CamcorderProfile.QUALITY_720P;
 import static android.media.CamcorderProfile.QUALITY_CIF;
@@ -71,6 +73,8 @@ import static android.media.CamcorderProfile.QUALITY_HIGH;
 import static android.media.CamcorderProfile.QUALITY_LOW;
 import static android.media.CamcorderProfile.QUALITY_QCIF;
 import static android.media.CamcorderProfile.QUALITY_QVGA;
+import static android.media.CamcorderProfile.get;
+import static android.media.CamcorderProfile.hasProfile;
 
 // Note: This requires Google Play Services 8.1 or higher, due to using indirect byte buffers for
 // storing images.
@@ -550,8 +554,9 @@ public class CameraSource {
         mMediaRecorder.setVideoEncodingBitRate(500000);
         mMediaRecorder.setVideoFrameRate(profile.videoFrameRate);
         mMediaRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
-        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
-
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mMediaRecorder.setAudioChannels(1);
+        mMediaRecorder.setAudioSamplingRate(Constants.SAMPLE_RATE);
         //Step 4. Set output file
         mMediaRecorder.setOutputFile(videoFile);
 

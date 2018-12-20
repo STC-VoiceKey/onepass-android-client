@@ -1,21 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-apply plugin: 'com.neenbedankt.android-apt'
 
-def coreVersion = "$System.env.CORE_VERSION"
-
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven {
         url 'https://maven.google.com/'
         name 'Google'
@@ -23,16 +10,18 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    def globalConfiguration = rootProject.ext
 
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
     defaultConfig {
         applicationId "com.speechpro.stcdemo"
-        minSdkVersion 19
-        targetSdkVersion 25
-        versionCode 19
-        versionName coreVersion
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+        multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
@@ -50,11 +39,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def file = output.packageApplication.outputFile
-                    def fileName = "stcdemo-" + coreVersion + ".apk"
-                    output.packageApplication.outputFile = new File(file.parent, fileName)
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def separator = "-"
+                    def name = "stcdemo"
+                    def coreVersion = "$System.env.CORE_VERSION"
+                    def fileName = "${name}${separator}${coreVersion}.apk"
+                    outputFileName = new File("./../", fileName)
                 }
             }
         }
@@ -88,22 +79,25 @@ android {
 dependencies {
     def dep = rootProject.ext.dep
 
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':framework')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-        transitive = true;
-    }
-    compile dep.cardView
-    compile dep.butterknife
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':framework')
+    implementation dep.multidex
+    implementation dep.appcompat
+    implementation dep.supportV4
+    implementation dep.design
+    implementation dep.cardView
+    implementation dep.jackson
+    implementation dep.javaxAnnotation
 
-    compile 'com.android.support:support-v4:25.4.0'
-    apt dep.daggerCompiler
-    compile dep.dagger
+    annotationProcessor dep.daggerCompiler
+    implementation dep.dagger
 
-    testCompile 'junit:junit:4.12'
-    androidTestCompile dep.uiautomator
-    androidTestCompile dep.espresso, {
+    implementation dep.butterknife
+    annotationProcessor dep.butterknifeCompiler
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation dep.uiautomator
+    androidTestImplementation dep.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

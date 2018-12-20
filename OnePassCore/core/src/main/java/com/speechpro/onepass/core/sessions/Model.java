@@ -7,10 +7,10 @@ package com.speechpro.onepass.core.sessions;
 public class Model {
 
     private final Long id;
-    private final String type;
+    private final TypeModel type;
     private final int samplesCount;
 
-    public Model(Long id, String type, int samplesCount) {
+    public Model(Long id, TypeModel type, int samplesCount) {
         this.id = id;
         this.type = type;
         this.samplesCount = samplesCount;
@@ -20,11 +20,12 @@ public class Model {
         return id;
     }
 
-    public String getType() {
+    public TypeModel getType() {
         return type;
     }
 
     public int getSamplesCount() {
         return samplesCount;
     }
+
 }

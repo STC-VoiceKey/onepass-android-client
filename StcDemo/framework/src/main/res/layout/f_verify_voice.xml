@@ -46,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="0"
                 android:textColor="@color/text_disabled"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_large_size" />
@@ -57,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:fontFamily="sans-serif"
-                android:text="1"
                 android:textColor="@color/text_disabled"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_large_size" />
@@ -68,7 +66,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:fontFamily="sans-serif"
-                android:text="2"
                 android:textColor="@color/text_disabled"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_large_size" />
@@ -79,7 +76,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:fontFamily="sans-serif"
-                android:text="3"
                 android:textColor="@color/text_disabled"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_large_size" />
@@ -90,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:fontFamily="sans-serif"
-                android:text="4"
                 android:textColor="@color/text_disabled"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_large_size" />

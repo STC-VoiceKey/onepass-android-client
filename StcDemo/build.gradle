@@ -4,36 +4,33 @@ def coreVersion = "$System.env.CORE_VERSION"
 
 project.ext {
     //Android
-    androidBuildToolsVersion = "25.0.2"
+    androidBuildToolsVersion = "28.0.3"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 25
-    androidCompileSdkVersion = 25
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
 
     androidApplicationId = 'com.speechpro.onepass.framework'
-    androidVersionCode = 2
-    androidVersionName = "0.0.2"
+    androidVersionCode = 21
+    androidVersionName = "3.2.1"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     testApplicationId = 'com.speechpro.onepass.framework.test'
 
     //Libraries
+    multidexVersion = '1.0.3'
     daggerVersion = '2.0.2'
-    recyclerViewVersion = '21.0.3'
-    appcompat = '23.2.0'
     javaxAnnotationVersion = '1.0'
     okHttpVersion = '2.5.0'
-    butterknifeVersion = '7.0.1'
+    butterknifeVersion = '8.8.1'
     gifDrawableVersion = '1.1.+'
-    jacksonVerxion = '2.0.+'
+    jacksonVersion = '2.4.+'
     retrofitVersion = '2.1.+'
     guavaVersion = '19.0-rc3'
     playServicesVersion = '7.8.+'
-    supportDesign = '23.2.0'
-    cardview = '23.2.0'
-
+    supportDesign = '28.0.0'
     mobileVision = '10.2.0'
 
     //Testing
-    robolectricVersion = '3.4.2'
+    robolectricVersion = '4.0-beta-1'
     jUnitVersion = '4.12'
     assertJVersion = '3.8.0'
     mockitoVersion = '2.5.4'
@@ -47,48 +44,53 @@ project.ext {
     loggingVersion = '3.2.0'
 
     dep = [
-            daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger         : "com.google.dagger:dagger:${daggerVersion}",
-            appcompat      : "com.android.support:appcompat-v7:${appcompat}",
-            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            core           : "com.speechpro.onepass:core:${coreVersion}@aar",
-            rest           : "com.speechpro.onepass:rest:${coreVersion}@aar",
-            gifDrawable    : "pl.droidsonroids.gif:android-gif-drawable:${gifDrawableVersion}",
-            jackson        : "com.squareup.retrofit2:converter-jackson:${jacksonVerxion}",
-            retrofit       : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            okhttp         : "com.squareup.okhttp3:logging-interceptor:${loggingVersion}",
-            butterknife    : "com.jakewharton:butterknife:${butterknifeVersion}",
-            guava          : "com.google.guava:guava:${guavaVersion}",
-            playServices   : "com.google.android.gms:play-services:${playServicesVersion}",
-            design         : "com.android.support:design:${supportDesign}",
-            cardView       : "com.android.support:cardview-v7:${supportDesign}",
-            vision         : "com.google.android.gms:play-services-vision:${mobileVision}",
-            robolectric    : "org.robolectric:robolectric:${robolectricVersion}",
-            junit          : "junit:junit:${jUnitVersion}",
-            assertj        : "org.assertj:assertj-core:${assertJVersion}",
-            mockito        : "org.mockito:mockito-core:${mockitoVersion}",
-            pmockJunit     : "org.powermock:powermock-module-junit4:${powermockVersion}",
-            pmockJunitRule : "org.powermock:powermock-module-junit4-rule:${powermockVersion}",
-            pmockApiMockito: "org.powermock:powermock-api-mockito:${powermockVersion}",
-            pmockClsloading: "org.powermock:powermock-classloading-xstream:${powermockVersion}",
-            espresso       : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
-            uiautomator    : "com.android.support.test.uiautomator:uiautomator-v18:${uiautomator}"
+            multidex             : "com.android.support:multidex:${multidexVersion}",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger               : "com.google.dagger:dagger:${daggerVersion}",
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            core                 : "com.speechpro.onepass:core:${coreVersion}@aar",
+            rest                 : "com.speechpro.onepass:rest:${coreVersion}@aar",
+            gifDrawable          : "pl.droidsonroids.gif:android-gif-drawable:${gifDrawableVersion}",
+            jackson              : "com.squareup.retrofit2:converter-jackson:${jacksonVersion}",
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            okhttp               : "com.squareup.okhttp3:logging-interceptor:${loggingVersion}",
+            butterknifeCompiler  : "com.jakewharton:butterknife-compiler:${butterknifeVersion}",
+            butterknife          : "com.jakewharton:butterknife:${butterknifeVersion}",
+            guava                : "com.google.guava:guava:${guavaVersion}",
+            playServices         : "com.google.android.gms:play-services:${playServicesVersion}",
+            appcompat            : "com.android.support:appcompat-v7:${supportDesign}",
+            supportV4            : "com.android.support:support-v4:${supportDesign}",
+            design               : "com.android.support:design:${supportDesign}",
+            cardView             : "com.android.support:cardview-v7:${supportDesign}",
+            vision               : "com.google.android.gms:play-services-vision:${mobileVision}",
+            robolectric          : "org.robolectric:robolectric:${robolectricVersion}",
+            junit                : "junit:junit:${jUnitVersion}",
+            assertj              : "org.assertj:assertj-core:${assertJVersion}",
+            mockito              : "org.mockito:mockito-core:${mockitoVersion}",
+            pmockJunit           : "org.powermock:powermock-module-junit4:${powermockVersion}",
+            pmockJunitRule       : "org.powermock:powermock-module-junit4-rule:${powermockVersion}",
+            pmockApiMockito      : "org.powermock:powermock-api-mockito:${powermockVersion}",
+            pmockClsloading      : "org.powermock:powermock-classloading-xstream:${powermockVersion}",
+            espresso             : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            uiautomator          : "com.android.support.test.uiautomator:uiautomator-v18:${uiautomator}",
     ]
 }
 
 buildscript {
     repositories {
         mavenLocal()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
         jcenter()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        google()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -97,6 +99,10 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+        google()
         jcenter()
         flatDir {
             dirs '/home/alexander/outputs/aar/newApi/'

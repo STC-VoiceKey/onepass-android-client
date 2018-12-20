@@ -49,7 +49,7 @@ public class VerifyVoiceWithPhotoFragment extends FaceFragment
             public void run() {
                 try {
                     mPresenter.processPhoto(picture, degrees);
-                    mPresenter.processAudio(voice);
+                    mPresenter.processDynamicAudio(voice);
                     mPresenter.getResultWithMessage();
                     mActivity.nextEpisode();
                 } catch (CoreException ex) {

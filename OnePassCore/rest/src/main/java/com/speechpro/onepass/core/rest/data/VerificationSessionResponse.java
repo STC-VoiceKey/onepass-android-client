@@ -17,7 +17,7 @@ public class VerificationSessionResponse {
 
     @JsonProperty("password")
     public String password;
-    @JsonProperty("transactionId")
+    @JsonProperty("transaction_id")
     public String transactionId;
 
     /**
@@ -28,7 +28,7 @@ public class VerificationSessionResponse {
      */
     @JsonCreator
     public VerificationSessionResponse(@JsonProperty("password") String password,
-                                       @JsonProperty("transactionId") String transactionId) {
+                                       @JsonProperty("transaction_id") String transactionId) {
         this.password = password;
         this.transactionId = transactionId;
     }

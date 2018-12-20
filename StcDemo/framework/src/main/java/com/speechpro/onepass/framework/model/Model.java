@@ -3,6 +3,9 @@ package com.speechpro.onepass.framework.model;
 import android.util.Log;
 import android.util.Pair;
 
+import com.speechpro.android.session.session_library.SessionClientFactory;
+import com.speechpro.android.session.session_library.exception.InternetConnectionException;
+import com.speechpro.android.session.session_library.exception.RestException;
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.ServiceUnavailableException;
 import com.speechpro.onepass.core.rest.api.RetroRestAPI;
@@ -18,15 +21,17 @@ import com.speechpro.onepass.framework.model.tasks.CreateSessionTask;
 import com.speechpro.onepass.framework.model.tasks.DeletePersonTask;
 import com.speechpro.onepass.framework.model.tasks.DeleteVerificationTransactionTask;
 import com.speechpro.onepass.framework.model.tasks.EnrollmentFaceTask;
-import com.speechpro.onepass.framework.model.tasks.EnrollmentVoiceTask;
+import com.speechpro.onepass.framework.model.tasks.EnrollmentDynamicVoiceTask;
+import com.speechpro.onepass.framework.model.tasks.EnrollmentStaticVoiceTask;
 import com.speechpro.onepass.framework.model.tasks.ExceptionAsyncTask;
 import com.speechpro.onepass.framework.model.tasks.ReadPersonTask;
 import com.speechpro.onepass.framework.model.tasks.StartRegistrationTransactionTask;
 import com.speechpro.onepass.framework.model.tasks.StartVerificationTransactionTask;
 import com.speechpro.onepass.framework.model.tasks.VerificationFaceTask;
 import com.speechpro.onepass.framework.model.tasks.VerificationResultTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationStaticVoiceTask;
 import com.speechpro.onepass.framework.model.tasks.VerificationVideoTask;
-import com.speechpro.onepass.framework.model.tasks.VerificationVoiceTask;
+import com.speechpro.onepass.framework.model.tasks.VerificationDynamicVoiceTask;
 
 
 /**
@@ -38,6 +43,7 @@ public class Model implements IModel {
     private final static String TAG = Model.class.getSimpleName();
 
     private final ITransport transport;
+    private SessionClientFactory.SessionClient sessionClient;
 
     private String username;
     private String password;
@@ -52,22 +58,23 @@ public class Model implements IModel {
         this.transport = FrameworkInjection.getTransport();
     }
 
-    public Model(String url, String username, String password, int domainId) {
+    public Model(String serverUrl, String sessionUrl, String username, String password, int domainId) {
         this.username = username;
         this.password = password;
         this.domainId = domainId;
-        transport = new RetroRestAPI(url);
+        this.transport = new RetroRestAPI(serverUrl);
+        this.sessionClient = SessionClientFactory.get(sessionUrl, true);
     }
 
     @Override
-    public String startSession() throws CoreException {
-        CreateSessionTask task = new CreateSessionTask(transport, username, password, domainId);
+    public String startSession() throws InternetConnectionException, RestException {
+        CreateSessionTask task = new CreateSessionTask(sessionClient, username, password, domainId);
         try {
             sessionId = task.execute().get();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        checkException(task);
+        checkRestExceptionException(task);
         return sessionId;
     }
 
@@ -117,8 +124,19 @@ public class Model implements IModel {
 
 
     @Override
-    public void addEnrollmentVoice(VoiceSample voiceSample) throws CoreException {
-        EnrollmentVoiceTask task = new EnrollmentVoiceTask(registrationTransaction);
+    public void addEnrollmentDynamicVoice(VoiceSample voiceSample) throws CoreException {
+        EnrollmentDynamicVoiceTask task = new EnrollmentDynamicVoiceTask(registrationTransaction);
+        try {
+            task.execute(voiceSample).get();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        checkException(task);
+    }
+
+    @Override
+    public void addEnrollmentStaticVoice(VoiceSample voiceSample) throws CoreException {
+        EnrollmentStaticVoiceTask task = new EnrollmentStaticVoiceTask(registrationTransaction);
         try {
             task.execute(voiceSample).get();
         } catch (Exception e) {
@@ -157,8 +175,19 @@ public class Model implements IModel {
     }
 
     @Override
-    public void addVerificationVoice(VoiceSample voiceSample) throws CoreException {
-        VerificationVoiceTask task = new VerificationVoiceTask(verificationTransaction);
+    public void addVerificationDynamicVoice(VoiceSample voiceSample) throws CoreException {
+        VerificationDynamicVoiceTask task = new VerificationDynamicVoiceTask(verificationTransaction);
+        try {
+            task.execute(voiceSample).get();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        checkException(task);
+    }
+
+    @Override
+    public void addVerificationStaticVoice(VoiceSample voiceSample) throws CoreException {
+        VerificationStaticVoiceTask task = new VerificationStaticVoiceTask(verificationTransaction);
         try {
             task.execute(voiceSample).get();
         } catch (Exception e) {
@@ -223,8 +252,17 @@ public class Model implements IModel {
 
     private void checkNetwork(ExceptionAsyncTask task) throws CoreException {
         CoreException exception = task.getException();
-        if (exception != null && exception instanceof ServiceUnavailableException) {
+        if (exception instanceof ServiceUnavailableException) {
             throw exception;
+        }
+    }
+
+    private void checkRestExceptionException(CreateSessionTask task) throws InternetConnectionException, RestException {
+        Exception exception = task.getException();
+        if (exception instanceof InternetConnectionException) {
+            throw (InternetConnectionException) exception;
+        } else if (exception instanceof RestException) {
+            throw (RestException) exception;
         }
     }
 

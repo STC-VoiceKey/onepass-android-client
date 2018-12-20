@@ -5,13 +5,12 @@ import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.framework.model.data.VoiceSample;
 
 /**
- * @author volobuev
- * @since 26.04.16
+ * @author Alexander Grigal
  */
-public class VerificationVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, Void> {
+public class VerificationStaticVoiceTask extends ExceptionAsyncTask<VoiceSample, Void, Void> {
     private final VerificationTransaction verificationtransaction;
 
-    public VerificationVoiceTask(VerificationTransaction verificationTransaction) {
+    public VerificationStaticVoiceTask(VerificationTransaction verificationTransaction) {
         super();
         this.verificationtransaction = verificationTransaction;
     }
@@ -20,10 +19,11 @@ public class VerificationVoiceTask extends ExceptionAsyncTask<VoiceSample, Void,
     protected Void doInBackground(VoiceSample... params) {
         try {
             VoiceSample sample = params[0];
-            verificationtransaction.addVoiceSample(sample.getVoiceSample(), sample.getSamplingRate());
+            verificationtransaction.addStaticVoiceSample(sample.getVoiceSample(), sample.getSamplingRate());
         } catch (CoreException e) {
             exception = e;
         }
         return null;
     }
 }
+

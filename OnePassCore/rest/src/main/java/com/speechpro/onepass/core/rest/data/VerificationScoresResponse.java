@@ -15,26 +15,26 @@ public class VerificationScoresResponse {
 
     @JsonProperty("face")
     public float face;
-    @JsonProperty("dynamicVoice")
+    @JsonProperty("dynamic_voice")
     public float dynamicVoice;
-    @JsonProperty("staticVoice")
+    @JsonProperty("static_voice")
     public float staticVoice;
     @JsonProperty("fused")
     public float fused;
-    @JsonProperty("liveness")
-    public float liveness;
+    @JsonProperty("is_alive")
+    public boolean isAlive;
 
     @JsonCreator
     public VerificationScoresResponse(@JsonProperty("face") float face,
-                                      @JsonProperty("dynamicVoice") float dynamicVoice,
-                                      @JsonProperty("staticVoice") float staticVoice,
+                                      @JsonProperty("dynamic_voice") float dynamicVoice,
+                                      @JsonProperty("static_voice") float staticVoice,
                                       @JsonProperty("fused") float fused,
-                                      @JsonProperty("liveness") float liveness) {
+                                      @JsonProperty("is_alive") boolean isAlive) {
         this.face = face;
         this.dynamicVoice = dynamicVoice;
         this.staticVoice = staticVoice;
         this.fused = fused;
-        this.liveness = liveness;
+        this.isAlive = isAlive;
     }
 
     public float getFace() {
@@ -53,7 +53,7 @@ public class VerificationScoresResponse {
         return fused;
     }
 
-    public float getLiveness() {
-        return liveness;
+    public boolean isAlive() {
+        return isAlive;
     }
 }

@@ -1,13 +1,11 @@
 package com.speechpro.onepass.framework.ui.fragment.verify;
 
 import android.os.FileObserver;
-import android.os.Handler;
 import android.util.Log;
 
 import com.speechpro.onepass.core.exception.CoreException;
 import com.speechpro.onepass.core.exception.RestException;
 import com.speechpro.onepass.framework.ui.listeners.VideoCapturedListener;
-import com.speechpro.onepass.framework.ui.view.camera.CameraQuality;
 
 import java.io.File;
 

@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import com.speechpro.onepass.core.sessions.Model;
 import com.speechpro.onepass.core.sessions.PersonSession;
+import com.speechpro.onepass.core.sessions.TypeModel;
 import com.speechpro.onepass.core.sessions.transactions.VerificationTransaction;
 import com.speechpro.onepass.core.transport.ITransport;
 import com.speechpro.onepass.core.exception.NotFoundException;
@@ -34,7 +35,7 @@ public class Converter {
         Set<Model> models = new HashSet<>();
         Set<DataModel> m = person.models;
         for (DataModel dataModel : m) {
-            Model model = new Model(dataModel.id, dataModel.type, dataModel.samplesCount);
+            Model model = new Model(dataModel.id,TypeModel.valueOf(dataModel.type), dataModel.samplesCount);
             models.add(model);
         }
 

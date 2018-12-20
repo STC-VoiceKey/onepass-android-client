@@ -47,23 +47,27 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     static final String INSTANCE_STATE_PARAM_USER_ID = "com.speechpro.onepass.INSTANCE_STATE_PARAM_USER_ID";
-    static final String INSTANCE_STATE_PARAM_URL = "com.speechpro.onepass.INSTANCE_STATE_PARAM_URL";
+    static final String INSTANCE_STATE_PARAM_SERVER_URL = "com.speechpro.onepass.INSTANCE_STATE_PARAM_SERVER_URL";
+    static final String INSTANCE_STATE_PARAM_SESSION_URL = "com.speechpro.onepass.INSTANCE_STATE_PARAM_SESSION_URL";
     static final String INSTANCE_STATE_PARAM_USERNAME = "com.speechpro.onepass.INSTANCE_STATE_PARAM_USERNAME";
     static final String INSTANCE_STATE_PARAM_PASSWORD = "com.speechpro.onepass.INSTANCE_STATE_PARAM_PASSWORD";
     static final String INSTANCE_STATE_PARAM_DOMAIN_ID = "com.speechpro.onepass.INSTANCE_STATE_PARAM_DOMAIN_ID";
     static final String INSTANCE_STATE_PARAM_FACE = "com.speechpro.onepass.INSTANCE_STATE_PARAM_FACE";
-    static final String INSTANCE_STATE_PARAM_VOICE = "com.speechpro.onepass.INSTANCE_STATE_PARAM_VOICE";
+    static final String INSTANCE_STATE_PARAM_DYNAMIC_VOICE = "com.speechpro.onepass.INSTANCE_STATE_PARAM_DYNAMIC_VOICE";
+    static final String INSTANCE_STATE_PARAM_STATIC_VOICE = "com.speechpro.onepass.INSTANCE_STATE_PARAM_STATIC_VOICE";
     static final String INSTANCE_STATE_PARAM_LIVENESS = "com.speechpro.onepass.INSTANCE_STATE_PARAM_LIVENESS";
     static final String INSTANCE_STATE_PARAM_DEBUG_MODE = "com.speechpro.onepass.INSTANCE_STATE_PARAM_DEBUG_MODE";
     static final String INSTANCE_STATE_PARAM_CAMERA_QUALITY = "com.speechpro.onepass.INSTANCE_STATE_PARAM_DEBUG_MODE";
 
     private static final String INTENT_PARAM_USER_ID = "com.speechpro.onepass.PARAM_USER_ID";
-    private static final String INTENT_PARAM_URL = "com.speechpro.onepass.PARAM_URL";
+    private static final String INTENT_PARAM_SERVER_URL = "com.speechpro.onepass.PARAM_SERVER_URL";
+    private static final String INTENT_PARAM_SESSION_URL = "com.speechpro.onepass.PARAM_SESSION_URL";
     private static final String INTENT_PARAM_USERNAME = "com.speechpro.onepass.PARAM_USERNAME";
     private static final String INTENT_PARAM_PASSWORD = "com.speechpro.onepass.PARAM_PASSWORD";
     private static final String INTENT_PARAM_DOMAIN_ID = "com.speechpro.onepass.PARAM_DOMAIN_ID";
     private static final String INTENT_PARAM_FACE = "com.speechpro.onepass.PARAM_FACE";
-    private static final String INTENT_PARAM_VOICE = "com.speechpro.onepass.PARAM_VOICE";
+    private static final String INTENT_PARAM_DYNAMIC_VOICE = "com.speechpro.onepass.PARAM_DYNAMIC_VOICE";
+    private static final String INTENT_PARAM_STATIC_VOICE = "com.speechpro.onepass.PARAM_STATIC_VOICE";
     private static final String INTENT_PARAM_LIVENESS = "com.speechpro.onepass.PARAM_LIVENESS";
     private static final String INTENT_PARAM_DEBUG_MODE = "com.speechpro.onepass.PARAM_DEBUG_MODE";
     private static final String INTENT_PARAM_CAMERA_QUALITY = "com.speechpro.onepass.PARAM_CAMERA_QUALITY";
@@ -72,13 +76,15 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
     Pair<Integer, Fragment> currentFragment;
 
     protected IModel model;
-    protected String url;
+    protected String serverUrl;
+    protected String sessionUrl;
     protected String username;
     protected String password;
     protected int domainId;
 
     protected boolean hasFace;
-    protected boolean hasVoice;
+    protected boolean hasDynamicVoice;
+    protected boolean hasStaticVoice;
     protected boolean hasLiveness;
     protected boolean isDebugMode;
 
@@ -95,17 +101,20 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
     private ExecutorService mService = Executors.newSingleThreadExecutor();
 
     public static Intent getCallingIntent(Context context, Class clazz, String userId, String url,
-                                          String username, String password, int domainId,
-                                          boolean hasFace, boolean hasVoice, boolean hasLiveness,
-                                          boolean isDebugMode, CameraQuality cameraQuality) {
+                                          String sessionUrl, String username, String password,
+                                          int domainId, boolean hasFace, boolean hasDynamicVoice,
+                                          boolean hasStaticVoice, boolean hasLiveness, boolean isDebugMode,
+                                          CameraQuality cameraQuality) {
         Intent callingIntent = new Intent(context, clazz);
         callingIntent.putExtra(INTENT_PARAM_USER_ID, userId);
-        callingIntent.putExtra(INTENT_PARAM_URL, url);
+        callingIntent.putExtra(INTENT_PARAM_SERVER_URL, url);
+        callingIntent.putExtra(INTENT_PARAM_SESSION_URL, sessionUrl);
         callingIntent.putExtra(INTENT_PARAM_USERNAME, username);
         callingIntent.putExtra(INTENT_PARAM_PASSWORD, password);
         callingIntent.putExtra(INTENT_PARAM_DOMAIN_ID, domainId);
         callingIntent.putExtra(INTENT_PARAM_FACE, hasFace);
-        callingIntent.putExtra(INTENT_PARAM_VOICE, hasVoice);
+        callingIntent.putExtra(INTENT_PARAM_DYNAMIC_VOICE, hasDynamicVoice);
+        callingIntent.putExtra(INTENT_PARAM_STATIC_VOICE, hasStaticVoice);
         callingIntent.putExtra(INTENT_PARAM_LIVENESS, hasLiveness);
         callingIntent.putExtra(INTENT_PARAM_DEBUG_MODE, isDebugMode);
         callingIntent.putExtra(INTENT_PARAM_CAMERA_QUALITY, cameraQuality);
@@ -174,23 +183,27 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
 
         if (savedInstanceState == null) {
             this.userId = getIntent().getStringExtra(INTENT_PARAM_USER_ID);
-            this.url = getIntent().getStringExtra(INTENT_PARAM_URL);
+            this.serverUrl = getIntent().getStringExtra(INTENT_PARAM_SERVER_URL);
+            this.sessionUrl = getIntent().getStringExtra(INTENT_PARAM_SESSION_URL);
             this.username = getIntent().getStringExtra(INTENT_PARAM_USERNAME);
             this.password = getIntent().getStringExtra(INTENT_PARAM_PASSWORD);
             this.domainId = getIntent().getIntExtra(INTENT_PARAM_DOMAIN_ID, 0);
             this.hasFace = getIntent().getBooleanExtra(INTENT_PARAM_FACE, false);
-            this.hasVoice = getIntent().getBooleanExtra(INTENT_PARAM_VOICE, false);
+            this.hasDynamicVoice = getIntent().getBooleanExtra(INTENT_PARAM_DYNAMIC_VOICE, false);
+            this.hasStaticVoice = getIntent().getBooleanExtra(INTENT_PARAM_STATIC_VOICE, false);
             this.hasLiveness = getIntent().getBooleanExtra(INTENT_PARAM_LIVENESS, false);
             this.isDebugMode = getIntent().getBooleanExtra(INTENT_PARAM_DEBUG_MODE, false);
             this.cameraQuality = (CameraQuality) getIntent().getSerializableExtra(INTENT_PARAM_CAMERA_QUALITY);
         } else {
             this.userId = savedInstanceState.getString(INSTANCE_STATE_PARAM_USER_ID);
-            this.url = savedInstanceState.getString(INSTANCE_STATE_PARAM_URL);
+            this.serverUrl = savedInstanceState.getString(INSTANCE_STATE_PARAM_SERVER_URL);
+            this.sessionUrl = savedInstanceState.getString(INSTANCE_STATE_PARAM_SESSION_URL);
             this.username = savedInstanceState.getString(INSTANCE_STATE_PARAM_USERNAME);
             this.password = savedInstanceState.getString(INSTANCE_STATE_PARAM_PASSWORD);
             this.domainId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_DOMAIN_ID);
             this.hasFace = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_FACE);
-            this.hasVoice = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_VOICE);
+            this.hasDynamicVoice = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_DYNAMIC_VOICE);
+            this.hasStaticVoice = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_STATIC_VOICE);
             this.hasLiveness = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_LIVENESS);
             this.isDebugMode = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_DEBUG_MODE);
             this.cameraQuality = (CameraQuality) savedInstanceState.getSerializable(INTENT_PARAM_CAMERA_QUALITY);
@@ -198,7 +211,7 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
 
         LogUtils.setWriteToLogFile(this.isDebugMode);
 
-        model = new Model(url, username, password, domainId);
+        model = new Model(serverUrl, sessionUrl, username, password, domainId);
         initializeInjector();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -288,15 +301,19 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
         }
     }
 
-    public boolean isHasFace() {
+    public boolean hasFace() {
         return hasFace;
     }
 
-    public boolean isHasVoice() {
-        return hasVoice;
+    public boolean hasDynamicVoice() {
+        return hasDynamicVoice;
     }
 
-    public boolean isHasLiveness() {
+    public boolean hasStaticVoice() {
+        return hasStaticVoice;
+    }
+
+    public boolean hasLiveness() {
         return hasLiveness;
     }
 

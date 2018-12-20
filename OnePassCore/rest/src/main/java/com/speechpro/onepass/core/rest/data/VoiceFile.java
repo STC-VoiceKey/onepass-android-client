@@ -13,8 +13,8 @@ public class VoiceFile {
 
     @JsonProperty(value = "data", required = true)
     public final byte[] data;
-    @JsonProperty(value = "password", required = true)
-    public final String password;
+    @JsonProperty(value = "password")
+    public String password;
     @JsonProperty(value = "channel", required = true)
     public final int    channel;
 
@@ -32,6 +32,20 @@ public class VoiceFile {
 
         this.data = data;
         this.password = password;
+        this.channel = channel;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param data         sample data
+     * @param channel      chanel
+     */
+    @JsonCreator
+    public VoiceFile(@JsonProperty(value = "data", required = true) byte[] data,
+                     @JsonProperty(value = "channel", required = true) int channel) {
+
+        this.data = data;
         this.channel = channel;
     }
 

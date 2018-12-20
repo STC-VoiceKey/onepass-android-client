@@ -9,6 +9,7 @@
     <string name="not_enrolled">Пользователь не зарегистрирован</string>
     <string name="please_position_your_face_into_the_mask">Пожалуйста, совместите лицо с маской</string>
     <string name="pronounce">Произнесите цифры:</string>
+    <string name="pronounce_password_phrase">Нажмите кнопку и произнесите парольную фразу</string>
     <string name="quiet">Удостоверьтесь в тишине</string>
     <string name="retry">ПОВТОРИТЬ</string>
     <string name="toast_incorrect_pronunciation">Неверное произношение</string>
